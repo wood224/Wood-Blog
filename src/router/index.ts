@@ -40,7 +40,7 @@ const routes = [
         name:'archive',
         meta:{
           title:'归档',
-          icon:'fa-file-text-o'
+          icon:'fa-camera-retro'
         },
         component:()=>import('@/view/Blog/Archive/Archive.vue')
       },
