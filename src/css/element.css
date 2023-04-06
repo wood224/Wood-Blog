@@ -1,0 +1,25 @@
+.el-menu {
+  background-color: transparent !important;
+}
+
+.el-menu .el-sub-menu__title {
+  padding: 0;
+  color: var(--menu-text-color);
+}
+
+.el-menu .el-sub-menu__title:hover {
+  background-color: #337ecc;
+}
+
+.el-menu .el-menu-item {
+  padding: 0;
+  color: var(--menu-text-color);
+}
+
+.el-menu .el-menu-item:hover {
+  background-color: #337ecc;
+}
+
+.el-menu .el-menu-item.is-active {
+  color: var(--menu-text-color);
+}
