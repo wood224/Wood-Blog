@@ -1,8 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Index from '../layout/Index.vue'
 
-import { MenuList } from '../types/MenuType'
-
 const routes = [
   {
     path: '/',
