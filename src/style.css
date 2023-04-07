@@ -1,4 +1,6 @@
 :root {
+  --animate-duration: 0.8s !important;
+  --animate-delay: 5s !important;
   --ty-color: #66ccff;
 }
 
@@ -16,4 +18,27 @@ a {
 
 li {
   list-style: none;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.right-enter-active,
+.right-leave-active {
+  transition: transform 0.5s ease;
+}
+
+.right-enter-from {
+  transform: translateX(-100%);
+}
+
+.right-leave-to {
+  transform: translateX(100%);
 }

@@ -1,6 +1,10 @@
 <template>
   <div class="main-wrapper">
-    <router-view></router-view>
+    <router-view v-slot="{ Component }">
+      <transition name="right" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
   </div>
 </template>
 
@@ -14,6 +18,7 @@
   padding: 30px 0;
   width: 70%;
   height: calc(100% - 70px);
+  overflow: hidden;
 }
 
 @media screen and (max-width:992px) {

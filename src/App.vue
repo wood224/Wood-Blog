@@ -1,6 +1,12 @@
 <template>
   <div class="app-wrapper">
-    <router-view></router-view>
+    <keep-alive>
+      <router-view v-slot="{ Component }">
+        <transition name="fade" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
+    </keep-alive>
   </div>
 </template>
 
@@ -12,5 +18,8 @@
 .app-wrapper {
   width: 100vw;
   height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  // overflow: hidden;
 }
 </style>
