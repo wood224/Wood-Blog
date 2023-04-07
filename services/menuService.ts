@@ -1,6 +1,6 @@
 import connect from '../mysql/db';
 
-const menu = {
+const menuService = {
   //获取菜单列表
   getMenuList: async () => {
     const rows = await connect.query('select * from menu');
@@ -14,4 +14,4 @@ const menu = {
   }
 }
 
-module.exports = menu;
+module.exports = menuService;
