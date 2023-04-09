@@ -1,5 +1,6 @@
 <template>
   <div class="index-wrapper">
+    <Snow :num="num" :speed="speed"></Snow>
     <div class="card">
       <div class="avatar"></div>
       <div class="name">
@@ -31,6 +32,9 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
+const num = ref(50);
+const speed = ref(1);
+
 const cardInfo = ref({
   name: 'wood224',
   signature: '愿你长寿，我的朋友',
@@ -45,6 +49,7 @@ const goBlog = () => {
 
 <style scoped lang='scss'>
 .index-wrapper {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
