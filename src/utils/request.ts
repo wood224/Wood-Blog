@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Action } from 'element-plus';
 
 const request = axios.create({
   baseURL: __BaseURL__,
@@ -19,9 +20,14 @@ request.interceptors.response.use(response => {
   return response;
 }, error => {
   if (error.response.status === 401) {
-    localStorage.removeItem('token');
-    location.hash = 'login';
-    location.reload();
+    ElMessageBox.alert('长时间未操作，请重新登录', '提示', {
+      confirmButtonText: '确定',
+      callback: (action: Action) => {
+        localStorage.removeItem('token');
+        location.hash = 'login';
+        location.reload();
+      }
+    })
   }
   return Promise.reject(error);
 });

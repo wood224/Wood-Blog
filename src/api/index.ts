@@ -5,9 +5,14 @@ export const adminLogin = (data: object) => {
   return request.post('/admin/login', data);
 }
 
-//获取菜单列表
+//获取菜单列表（弃用）
 export const getMenuList = () => {
   return request.get('/menu');
+}
+
+//获取首页信息
+export const getHomeInfo = () => {
+  return request.get('/home');
 }
 
 //获取分类

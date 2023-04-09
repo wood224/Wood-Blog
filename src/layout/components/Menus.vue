@@ -50,18 +50,12 @@ import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const test = () => {
-  router.push('/home');
-}
 
 const menuList = computed(() => {
   if (router.options.routes[0].children) {
     return [...router.options.routes[0].children]
   }
 });
-console.log(menuList.value);
-
-
 
 const isCollapse = ref(false);
 
