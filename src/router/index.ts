@@ -34,7 +34,7 @@ const routes = [
             meta: {
               title: '笔记总览',
             },
-            component: () => import('../views/Index/Overview/Overview.vue')
+            component: () => import('../views/Index/Note/Overview/Overview.vue')
           },
           {
             path: 'category',
@@ -42,7 +42,7 @@ const routes = [
             meta: {
               title: '分类管理',
             },
-            component: () => import('../views/Index/Category/Category.vue')
+            component: () => import('../views/Index/Note/Category/Category.vue')
           },
         ]
       },

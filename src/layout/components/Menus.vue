@@ -1,44 +1,41 @@
 <template>
   <div class="menus-wrapper">
-    <div class="title">
-      <span>Wood's Blog</span>
-    </div>
     <div class="list">
       <el-menu default-active="1" class="el-menu-vertical-demo" :collapse="isCollapse" unique-opened>
         <template v-for="(item, index) in menuList" :key="index">
-          <template v-if="item.meta">
-            <el-sub-menu v-if="item.children" :index="`${index}`">
+
+          <el-sub-menu v-if="item.children" :index="`${index}`">
+            <template #title>
+              <router-link class="link" :to="'/' + item.path" v-if="item.meta">
+                <div class="icon" v-if="typeof (item.meta.icon) === 'string'">
+                  <i class="fa" :class="item.meta.icon"></i>
+                </div>
+                <span>{{ item.meta.title }}</span>
+              </router-link>
+            </template>
+            <el-menu-item v-for="(child, childIndex) in item.children" :key="childIndex"
+              :index="`${index}-${childIndex}`">
               <template #title>
-                <router-link class="link" :to="'/' + item.path" v-if="item.meta">
-                  <div class="icon" v-if="typeof (item.meta.icon) === 'string'">
-                    <i class="fa" :class="item.meta.icon"></i>
+                <router-link class="link" :to="`/${item.path}/${child.path}`" v-if="child.meta">
+                  <div class="icon" v-if="typeof (child.meta.icon) === 'string'">
+                    <i class="fa" :class="child.meta.icon"></i>
                   </div>
-                  <span>{{ item.meta.title }}</span>
-                </router-link>
-              </template>
-              <el-menu-item v-for="(child, childIndex) in item.children" :key="childIndex"
-                :index="`${index}-${childIndex}`">
-                <template #title>
-                  <router-link class="link" :to="`/${item.path}/${child.path}`" v-if="child.meta">
-                    <div class="icon" v-if="typeof (child.meta.icon) === 'string'">
-                      <i class="fa" :class="child.meta.icon"></i>
-                    </div>
-                    <span>{{ child.meta.title }}</span>
-                  </router-link>
-                </template>
-              </el-menu-item>
-            </el-sub-menu>
-            <el-menu-item v-else :index="`${index}`">
-              <template #title>
-                <router-link class="link" :to="'/' + item.path" v-if="item.meta">
-                  <div class="icon" v-if="typeof (item.meta.icon) === 'string'">
-                    <i class="fa" :class="item.meta.icon"></i>
-                  </div>
-                  <span>{{ item.meta.title }}</span>
+                  <span>{{ child.meta.title }}</span>
                 </router-link>
               </template>
             </el-menu-item>
-          </template>
+          </el-sub-menu>
+          <el-menu-item v-else :index="`${index}`">
+            <template #title>
+              <router-link class="link" :to="'/' + item.path">
+                <div class="icon" v-if="typeof (item.meta?.icon) === 'string'">
+                  <i class="fa" :class="item.meta?.icon"></i>
+                </div>
+                <span>{{ item.meta?.title }}</span>
+              </router-link>
+            </template>
+          </el-menu-item>
+
         </template>
       </el-menu>
     </div>
@@ -70,23 +67,6 @@ const isCollapse = ref(false);
   height: 100%;
   background-color: #011528;
   text-align: center;
-
-  .title {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100px;
-    font-family: 'STLiti';
-    font-size: 40px;
-    color: white;
-
-    span {
-      display: block;
-      padding: 6px;
-      border-radius: 20px;
-      background-color: #348EED;
-    }
-  }
 
   .list {
     width: 100%;

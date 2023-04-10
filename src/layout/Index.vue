@@ -1,8 +1,9 @@
 <template>
   <div class="index-wrapper">
-    <Menus></Menus>
+    <Header></Header>
     <div class="view">
-      <router-view #default="{ Component }">
+      <Menus></Menus>
+      <router-view #default="{ Component }" class="router-view">
         <transition name="fade" mode="out-in">
           <component :is="Component"></component>
         </transition>
@@ -12,17 +13,23 @@
 </template>
 
 <script setup lang='ts'>
-import { Menus } from './components';
+import { Menus, Header } from './components';
 </script>
 
 <style scoped lang='scss'>
 .index-wrapper {
   display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
 
   .view {
+    display: flex;
     flex: 1;
+
+    .router-view {
+      flex: 1;
+    }
 
     .fade-enter-active,
     .fade-leave-active {

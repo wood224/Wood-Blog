@@ -1,3 +1,4 @@
+/* 菜单 */
 .el-menu {
   background-color: transparent !important;
 }
@@ -23,3 +24,33 @@
 .el-menu .el-menu-item.is-active {
   color: var(--menu-text-color);
 }
+
+/* 菜单 */
+
+/* 上传 */
+.el-upload {
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+}
+
+.el-upload:hover {
+  border-color: var(--el-color-primary);
+}
+
+.el-upload:hover .el-icon.avatar-uploader-icon {
+  color: var(--el-color-primary);
+}
+
+.el-icon.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  text-align: center;
+}
+
+/* 上传 */

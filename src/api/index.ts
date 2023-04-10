@@ -19,3 +19,8 @@ export const getHomeInfo = () => {
 export const getCategory = () => {
   return request.get('/category');
 }
+
+//新增分类
+export const addCategory = (data: object, config: object) => {
+  return request.post('/category', data, config);
+}
