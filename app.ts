@@ -1,4 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
+const formData = require('express-form-data');
+const os = require('os');
 var createError = require('http-errors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -8,14 +10,13 @@ const jwt = require('./utils/JWT');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const categoryRouter = require('./routes/category');
-const menuRouter = require('./routes/menu');
 const adminRouter = require('./routes/admin');
 
 const app = express();
 
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, UPDATE');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.header('Access-Control-Expose-Headers', 'Authorization');
   next();
@@ -26,7 +27,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   if (req.url.includes('login')) {
     return next();
   }
-  console.log(req.url);
 
   const token = req.headers.authorization?.split(' ')[1];
   if (token) {
@@ -46,16 +46,25 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   }
 })
 
+const options = {
+  uploadDir: os.tmpdir(),
+  autoClean: true
+};
+app.use(formData.parse(options));   //解析
+app.use(formData.format());         //删除大小为0的文件
+app.use(formData.stream());         //将文件对象更改为fs.ReadStream
+app.use(formData.union());          //将正文和文件结合起来
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'dist')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/category', categoryRouter);
-app.use('/menu', menuRouter);
 app.use('/admin', adminRouter);
 
 // catch 404 and forward to error handler
