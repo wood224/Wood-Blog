@@ -1,22 +1,25 @@
 const fs = require('fs');
 const path = require('path');
+const util = require('util');
+const rename = util.promisify(fs.rename); //转为promise
 
-function getPathName(str: string) {
-  const i = str.lastIndexOf("\\");
+function getFileSuffix(str: string) {
+  const i = str.lastIndexOf(".");
   const path = str.substring(i + 1, str.length);
   return path;
 }
 
-function saveToUploads(file: any) {
-  const tempPath = file.path;
-  const pathName = `${Date.now()}-${getPathName(tempPath)}`;   //根据当前时间戳生成文件名
-  const targetPath = path.join(__dirname, '../public/uploads', `${pathName}`);
-  fs.rename(tempPath, targetPath, (err: Error) => {
-    if (err) {
-      throw err;
-    }
-  })
-  return `/uploads/${pathName}`;
+async function SaveToUploads(dirname: string, tempPath: string, name: string) {
+  if (dirname !== 'category' && dirname !== 'note') return
+  const suffix = getFileSuffix(tempPath);
+  const pathName = `${Date.now()}-${name}.${suffix}`;   //根据当前时间戳生成文件名
+  const targetPath = path.join(__dirname, `../public/uploads/${dirname}`, `${pathName}`);
+  try {
+    await rename(tempPath, targetPath);
+  } catch (error) {
+    console.error(error);
+  }
+  return `/uploads/${dirname}/${pathName}`;
 }
 
-module.exports = saveToUploads;
+module.exports = SaveToUploads;

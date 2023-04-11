@@ -21,6 +21,16 @@ const categoryService = {
       row1: rows1[0].affectedRows,
       row2: rows2[0].affectedRows
     };
+  },
+
+  //修改分类
+  updateCategory: async (id: number, name: string, coverImg: string = '', introduction: string = '') => {
+    const rows1 = await connect.query("UPDATE category SET name=? WHERE id=?;", [name, id]);
+    const rows2 = coverImg === '' ? await connect.query("UPDATE category_info SET introduction=? WHERE category_id=?", [introduction, id]) : await connect.query("UPDATE category_info SET cover_img=?, introduction=? WHERE category_id=?", [coverImg, introduction, id]);
+    return {
+      row1: rows1[0].affectedRows,
+      row2: rows2[0].affectedRows
+    };
   }
 }
 
