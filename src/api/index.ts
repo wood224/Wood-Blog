@@ -21,6 +21,11 @@ export const getCategory = () => {
 }
 
 //新增分类
-export const addCategory = (data: object, config: object) => {
-  return request.post('/category', data, config);
+export const addCategory = (data: object) => {
+  return request.post('/category', data, { headers: { 'Content-Type': 'multipart/form-data' } });
+}
+
+//更新分类
+export const updateCategory = (data: object) => {
+  return request.put('/category', data, { headers: { 'Content-Type': 'multipart/form-data' } });
 }

@@ -13,15 +13,22 @@
         <div class="container">
           <el-table :data="categoryList" border stripe>
             <el-table-column type="index" width="50" />
+            <el-table-column label="图片">
+              <template #default="scope">
+                <div class="table-cover-img">
+                  <img :src="scope.row.coverImg" alt="暂无图片">
+                </div>
+              </template>
+            </el-table-column>
             <el-table-column label="分类名" prop="name" width="200" />
             <el-table-column label="分类简介" prop="introduction" width="400" />
             <el-table-column label="创建时间" prop="createTime" />
             <el-table-column label="更新时间" prop="updateTime" />
             <el-table-column label="操作" width="150">
-              <template #scoped>
+              <template #default="scope">
                 <div>
-                  <el-button size="small">编辑</el-button>
-                  <el-button size="small" type="danger">Delete</el-button>
+                  <el-button size="small" type="primary" @click="update(scope.row)">编辑</el-button>
+                  <el-button size="small" type="danger">删除</el-button>
                 </div>
               </template>
             </el-table-column>
@@ -67,10 +74,13 @@
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import MenuView from '@/components/MenuView.vue';
-import { getCategory, addCategory } from '@/api/index';
+import { getCategory, addCategory, updateCategory } from '@/api/index';
 import { Search, Plus } from '@element-plus/icons-vue'
 import { Category } from '@/types/CategoryType';
 import { FormInstance, FormRules, UploadInstance, UploadProps } from 'element-plus';
+import { format } from 'path/posix';
+
+const baseURL = __BaseURL__;
 
 const route = useRoute();
 const title = ref<string>(route.meta.title as string);
@@ -85,6 +95,7 @@ const getCategoryList = () => {
       return {
         createTime: item.createtime,
         updateTime: item.updatetime,
+        coverImg: __BaseURL__ + item.cover_img,
         ...item,
       }
     })
@@ -92,24 +103,34 @@ const getCategoryList = () => {
 }
 getCategoryList();
 
-const baseURL = __BaseURL__;
 
 const dialogView = ref(false);
 const dialogTitle = ref('新增');
 const dialogAdd = () => {
   dialogTitle.value = '新增';
+  dialogType.value = 1;
   dialogView.value = true;
 }
 
-
+//表单窗口相关
+const dialogType = ref(1);   // 1：新增  2：更新
+const update = (data: any) => {
+  dialogTitle.value = '修改';
+  dialogType.value = 2;
+  const { id, coverImg, name, introduction } = data;
+  form.value = { id, coverImg, name, introduction };
+  dialogView.value = true;
+}
 const imgFile = ref<File | null>(null);
 const form = ref({
+  id: 0,
   coverImg: '',
   name: '',
   introduction: ''
 });
 const clearForm = () => {
   form.value = {
+    id: 0,
     coverImg: '',
     name: '',
     introduction: ''
@@ -134,18 +155,32 @@ const confirm = async (formRules: FormInstance | undefined) => {
       if (imgFile.value) {
         formData.append('coverImg', imgFile.value);
       }
+      formData.append('id', form.value.id + '');
       formData.append('name', form.value.name);
       formData.append('introduction', form.value.introduction);
-      addCategory(formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then(res => {
-        const data = res.data
-        if (data.code === 200) {
-          ElMessage.success(data.msg);
-          dialogView.value = false;
-          getCategoryList();
-        } else {
-          ElMessage.error(data.msg);
-        }
-      });
+      if (dialogType.value === 1) {
+        addCategory(formData).then(res => {
+          const data = res.data
+          if (data.code === 200) {
+            ElMessage.success(data.msg);
+            dialogView.value = false;
+            getCategoryList();
+          } else {
+            ElMessage.error(data.msg);
+          }
+        });
+      } else if (dialogType.value === 2) {
+        updateCategory(formData).then(res => {
+          const data = res.data
+          if (data.code === 200) {
+            ElMessage.success(data.msg);
+            dialogView.value = false;
+            getCategoryList();
+          } else {
+            ElMessage.error(data.msg);
+          }
+        });
+      }
     }
   })
 }
@@ -154,6 +189,7 @@ const dialogClose = () => {
   clearForm();
 }
 
+//图片上传相关
 const handleCoverChange: UploadProps['onChange'] = (uploadFile) => {
   imgFile.value = uploadFile.raw!;
   form.value.coverImg = URL.createObjectURL(uploadFile.raw!);
@@ -191,6 +227,19 @@ const beforeCoverUpload: UploadProps['beforeUpload'] = (rawFile) => {
       width: 300px;
     }
   }
+
+  .container {
+    .table-cover-img {
+      width: 50px;
+      height: 50px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+  }
 }
 
 .cover-img {
@@ -201,6 +250,8 @@ const beforeCoverUpload: UploadProps['beforeUpload'] = (rawFile) => {
   .img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
 }
 </style>
