@@ -1,5 +1,14 @@
-const mysql = require('mysql2');
-const config = require('./config');
+import { DataSource } from "typeorm";
+import config from "./config";
 
-const pool = mysql.createPool(config).promise();
-export default pool;
+export const AppDataSource = new DataSource({
+  type: 'mysql',
+  host: config.host,
+  port: config.port,
+  username: config.username,
+  password: config.password,
+  database: config.database,
+  entities: config.entities,
+})
+
+AppDataSource.initialize();

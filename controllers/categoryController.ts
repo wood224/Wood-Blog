@@ -15,7 +15,17 @@ const categoryController = {
 
   //获取分类列表
   getCategoryList: async (req: any, res: any) => {
-    const data = await categoryService.getCategoryList();
+    const rows = await categoryService.getCategoryList();
+    const data = rows.map((item: any) => {
+      return {
+        id: item.id,
+        name: item.name,
+        coverImg: item.categoryInfo.coverImg,
+        introduction: item.categoryInfo.introduction,
+        createTime: moment(item.categoryInfo.createTime).format('YYYY-MM-DD HH:mm:ss'),
+        updateTime: moment(item.categoryInfo.updateTime).format('YYYY-MM-DD HH:mm:ss'),
+      }
+    })
     res.send(data);
   },
 
@@ -33,8 +43,8 @@ const categoryController = {
     }
     const result = await categoryController.check(form.name);
     if (result) {       //如果不存在
-      const { row1, row2 } = await categoryService.addCategory(form.name, form.coverImg, form.introduction);
-      if (row1 === 1 && row2 === 1) {
+      const row = await categoryService.addCategory(form.name, form.coverImg, form.introduction);
+      if (row) {
         res.send({ code: 200, msg: '添加成功！' });
       } else {
         res.send({ code: 401, msg: '添加失败！' });
@@ -58,9 +68,8 @@ const categoryController = {
       introduction: req.body.introduction,
       coverImg,
     }
-    console.log(form);
     const { row1, row2 } = await categoryService.updateCategory(form.id, form.name, form.coverImg, form.introduction);
-    if (row1 === 1 && row2 === 1) {
+    if (row1 && row2) {
       res.send({ code: 200, msg: '修改成功！' });
     } else {
       res.send({ code: 401, msg: '修改失败！' });

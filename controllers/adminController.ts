@@ -1,11 +1,10 @@
 const adminService = require('../services/adminService');
 const jwt = require('../utils/JWT');
 const bcrypt = require('../utils/bcrypt');
-
 class CheckResult {
   result: boolean;
   data: object | null;
-  constructor(result: boolean, data: object | null = null) {
+  constructor(result: boolean, data: any | null = null) {
     this.result = result;
     this.data = data;
   }
@@ -14,9 +13,9 @@ class CheckResult {
 const adminController = {
   //查询管理员
   check: async (form: any) => {
-    const data = await adminService.check(form.username);
-    if (data[0].length === 1) {
-      return new CheckResult(true, data[0][0])
+    const row = await adminService.check(form.username);
+    if (row) {
+      return new CheckResult(true, row)
     } else {
       return new CheckResult(false, null);
     }
@@ -25,12 +24,15 @@ const adminController = {
   //管理员登录
   login: async (req: any, res: any, form: any) => {
     const result = await adminController.check(form);
-    if (result.result) {
-      const pwdData = await adminService.getCiphertext(form.username);  //获取密文
-      if (bcrypt.verity(form.password, pwdData[0].password)) {          //校验密码是否正确
-        const data = await adminService.login(form.username);
+    if (result.result && result.data) {
+      const adminData = result.data as any;
+      const password = adminData.password                    //获取密文
+      if (bcrypt.verity(form.password, password)) {          //校验密码是否正确
+        const dataObj = {   //转为 Object
+          password: password,
+        }
         //设置 token
-        const token = jwt.generate(data[0], '1h');
+        const token = jwt.generate(dataObj, '1h');
         res.header('Authorization', token);
         res.send({ code: 200, msg: '登录成功！' });
       } else {
