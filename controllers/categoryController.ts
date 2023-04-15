@@ -74,6 +74,34 @@ const categoryController = {
     } else {
       res.send({ code: 401, msg: '修改失败！' });
     }
+  },
+
+  //删除分类
+  deleteCategory: async (req: any, res: any) => {
+    const row = await categoryService.deleteCategory(req.params.id);
+    console.log(row);
+
+    if (row.affected && row.affected === 1) {
+      res.send({ code: 200, msg: '删除成功！' });
+    } else {
+      res.send({ code: 401, msg: '删除失败！' });
+    }
+  },
+
+  //搜索分类
+  searchCategory: async (req: any, res: any) => {
+    const rows = await categoryService.searchCategory(req.params.name);
+    const data = rows.map((item: any) => {
+      return {
+        id: item.id,
+        name: item.name,
+        coverImg: item.categoryInfo.coverImg,
+        introduction: item.categoryInfo.introduction,
+        createTime: moment(item.categoryInfo.createTime).format('YYYY-MM-DD HH:mm:ss'),
+        updateTime: moment(item.categoryInfo.updateTime).format('YYYY-MM-DD HH:mm:ss'),
+      }
+    })
+    res.send(data);
   }
 }
 

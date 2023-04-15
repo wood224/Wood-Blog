@@ -13,4 +13,12 @@ router.post('/', async (req: Request, res: Response) => {
 router.put('/', async (req: Request, res: Response) => {
   categoryController.updateCategory(req, res);
 })
+
+router.delete('/:id', async (req: Request, res: Response) => {
+  categoryController.deleteCategory(req, res);
+})
+
+router.get('/search/:name', async (req: Request, res: Response) => {
+  categoryController.searchCategory(req, res);
+})
 module.exports = router;
