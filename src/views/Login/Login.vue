@@ -22,7 +22,7 @@
 import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router'
 import Input from '../../components/Input.vue'
-import { adminLogin } from '../../api/index'
+import { adminLoginApi } from '../../api/index'
 
 const router = useRouter();
 
@@ -41,7 +41,7 @@ const form = reactive({
   password: '',
 })
 const login = () => {
-  adminLogin(form).then(res => {
+  adminLoginApi(form).then(res => {
     const data = res.data;
     if (data.code === 200) {
       router.push('/');

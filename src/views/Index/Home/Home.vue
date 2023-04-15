@@ -21,11 +21,11 @@
 
 <script setup lang='ts'>
 import { ref } from 'vue';
-import { getHomeInfo } from '../../../api/index';
+import { getHomeInfoApi } from '../../../api/index';
 
 
 
-getHomeInfo().then(res => {
+getHomeInfoApi().then(res => {
   console.log(res.data);
 })
 </script>
