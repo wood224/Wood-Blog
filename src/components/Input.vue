@@ -48,11 +48,11 @@ const modelValue = computed({
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 50px;
+  margin-top: 50px;
 
   .container {
     position: relative;
-    width: 60%;
+    width: 100%;
 
     input {
       padding: 10px 0;
@@ -77,6 +77,7 @@ const modelValue = computed({
       font-size: 16px;
       transition: 0.5s;
       pointer-events: none;
+      user-select: none;
 
       &.move {
         transform: translateY(-100%);

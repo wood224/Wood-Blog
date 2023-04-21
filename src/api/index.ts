@@ -1,5 +1,10 @@
 import request from '../utils/request';
 
+//获取登录界面验证码
+export const getCaptchaApi = () => {
+  return request.get('/admin/captcha');
+}
+
 //管理员登录
 export const adminLoginApi = (data: object) => {
   return request.post('/admin/login', data);

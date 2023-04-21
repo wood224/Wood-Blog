@@ -24,5 +24,10 @@ export default defineConfig({
   },
   define: {
     __BaseURL__: JSON.stringify('http://localhost:3000'),
+  },
+  server: {
+    host: '0.0.0.0',
+    port: 5173,
+    open: true
   }
 })

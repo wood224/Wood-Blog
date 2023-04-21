@@ -3,7 +3,8 @@ import { Action } from 'element-plus';
 
 const request = axios.create({
   baseURL: __BaseURL__,
-  timeout: 1000 * 60
+  timeout: 1000 * 60,
+  withCredentials: true,
 })
 
 request.interceptors.request.use(config => {

@@ -11,6 +11,10 @@
         <div class="form">
           <Input placeholder="账号" v-model="form.username"></Input>
           <Input placeholder="密码" type="password" v-model="form.password"></Input>
+          <div class="captcha">
+            <Input placeholder="验证码" v-model="form.captcha"></Input>
+            <div class="svg" v-loading="svgLoading" @click="getCaptcha" v-html="captcha"></div>
+          </div>
           <button @click="login">登录</button>
         </div>
       </div>
@@ -22,7 +26,7 @@
 import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router'
 import Input from '../../components/Input.vue'
-import { adminLoginApi } from '../../api/index'
+import { getCaptchaApi, adminLoginApi } from '../../api/index'
 
 const router = useRouter();
 
@@ -36,9 +40,22 @@ if (hour > 12 && hour < 13) {
   title.value = '晚上好';
 }
 
+const captcha = ref('');
+const svgLoading = ref(false);
+//获取验证码
+const getCaptcha = () => {
+  svgLoading.value = true;
+  getCaptchaApi().then(res => {
+    captcha.value = res.data;
+    svgLoading.value = false;
+  })
+}
+getCaptcha();
+
 const form = reactive({
   username: '',
   password: '',
+  captcha: '',
 })
 const login = () => {
   adminLoginApi(form).then(res => {
@@ -47,6 +64,8 @@ const login = () => {
       router.push('/');
     } else {
       ElMessage.error(data.msg);
+      //登录失败重新获取验证码
+      getCaptcha();
     }
   })
 }
@@ -85,17 +104,31 @@ const login = () => {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 60px;
 
       .title {
         width: 100%;
-        margin: 80px 0;
+        margin: 80px 0 30px;
       }
 
       .form {
+        padding: 0 80px;
         width: 100%;
 
+        .captcha {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: end;
+
+          .svg {
+            width: 150px;
+            height: 50px;
+            cursor: pointer;
+          }
+        }
+
         button {
+          margin-top: 50px;
           font-size: 18px;
           letter-spacing: 2px;
           text-transform: uppercase;
@@ -110,6 +143,7 @@ const login = () => {
           text-decoration: none;
           transition: 0.3s ease all;
           z-index: 1;
+          user-select: none;
           cursor: pointer;
         }
 
@@ -157,7 +191,15 @@ const login = () => {
       }
 
       .right {
-        padding: 60px 0;
+        .title {
+          margin: 70px 0 20px;
+        }
+
+        .form {
+          .captcha {
+            flex-direction: column;
+          }
+        }
       }
     }
   }
