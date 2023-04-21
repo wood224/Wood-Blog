@@ -12,15 +12,18 @@ declare module 'express-session' {
 
 //管理员登录
 router.post('/login', (req: Request, res: Response) => {
+  const userCaptcha = req.body.captcha;
   const captcha = req.session.captcha;
-  if (captcha) {
-    if (req.body.captcha !== captcha.toLowerCase()) {
+  if (captcha && userCaptcha) {
+    //正则表达式检查验证码
+    const reg = new RegExp(captcha, 'i');
+    if (!reg.test(userCaptcha)) {
       return res.send({ code: 401, msg: '验证码不正确！' });
     }
     adminController.login(req, res);
   }
   else {
-    res.send({ code: 401, msg: '出错了，请刷新页面重试' });
+    res.send({ code: 401, msg: '出错了，请重试' });
   }
 })
 
