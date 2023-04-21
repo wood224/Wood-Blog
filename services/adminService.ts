@@ -1,7 +1,7 @@
 import { AppDataSource } from '../mysql/db';
 import { Admin } from '../entity/Admin';
 
-const adminService = {
+export const adminService = {
   //根据账号查询管理员
   check: async (username: string) => {
     const row = await AppDataSource.manager.findOne(Admin, { where: { username } });
@@ -21,15 +21,13 @@ const adminService = {
     return row;
   },
 
-  //管理员注册
-  register: async (username: string, password: string) => {
-    // const rows = await connect.query('insert into admin (username, password) values (?, ?)', [username, password]);
-    const admin = new Admin();
-    admin.username = username;
-    admin.password = password;
-    const row = await AppDataSource.manager.save(admin);
-    return row;
-  }
+  // //管理员注册
+  // register: async (username: string, password: string) => {
+  //   // const rows = await connect.query('insert into admin (username, password) values (?, ?)', [username, password]);
+  //   const admin = new Admin();
+  //   admin.username = username;
+  //   admin.password = password;
+  //   const row = await AppDataSource.manager.save(admin);
+  //   return row;
+  // }
 }
-
-module.exports = adminService;

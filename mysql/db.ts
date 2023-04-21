@@ -1,14 +1,14 @@
+import { mysqlConfig } from './../config/index';
 import { DataSource } from "typeorm";
-import config from "./config";
 
 export const AppDataSource = new DataSource({
   type: 'mysql',
-  host: config.host,
-  port: config.port,
-  username: config.username,
-  password: config.password,
-  database: config.database,
-  entities: config.entities,
+  host: mysqlConfig.host,
+  port: mysqlConfig.port,
+  username: mysqlConfig.username,
+  password: mysqlConfig.password,
+  database: mysqlConfig.database,
+  entities: mysqlConfig.entities,
 })
 
 AppDataSource.initialize();

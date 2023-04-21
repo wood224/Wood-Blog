@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 const router = express.Router();
-const categoryController = require('../controllers/categoryController');
+import { categoryController } from '../controllers/categoryController';
 
 router.get('/', (req: Request, res: Response) => {
   categoryController.getCategoryList(req, res);
@@ -21,4 +21,5 @@ router.delete('/:id', async (req: Request, res: Response) => {
 router.get('/search/:name', async (req: Request, res: Response) => {
   categoryController.searchCategory(req, res);
 })
-module.exports = router;
+
+export default router;

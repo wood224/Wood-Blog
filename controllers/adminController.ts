@@ -1,4 +1,4 @@
-const adminService = require('../services/adminService');
+import { adminService } from "../services/adminService";
 const jwt = require('../utils/JWT');
 const bcrypt = require('../utils/bcrypt');
 class CheckResult {
@@ -10,7 +10,7 @@ class CheckResult {
   }
 }
 
-const adminController = {
+export const adminController = {
   //查询管理员
   check: async (form: any) => {
     const row = await adminService.check(form.username);
@@ -22,7 +22,8 @@ const adminController = {
   },
 
   //管理员登录
-  login: async (req: any, res: any, form: any) => {
+  login: async (req: any, res: any) => {
+    const form = req.body;
     const result = await adminController.check(form);
     if (result.result && result.data) {
       const adminData = result.data as any;
@@ -43,22 +44,20 @@ const adminController = {
     }
   },
 
-  //管理员注册
-  register: async (req: any, res: any, form: any) => {
-    const result = await adminController.check(form);
-    if (result.result) {
-      res.send({ code: 401, msg: '账号已存在！' });
-    } else {
-      //对密码进行加密
-      form.password = bcrypt.generate(form.password);
-      const data = await adminService.register(form.username, form.password);
-      if (data === 1) {
-        res.send({ code: 200, msg: '注册成功！' });
-      } else {
-        res.send({ code: 401, msg: '注册失败！' });
-      }
-    }
-  }
+  // //管理员注册
+  // register: async (req: any, res: any, form: any) => {
+  //   const result = await adminController.check(form);
+  //   if (result.result) {
+  //     res.send({ code: 401, msg: '账号已存在！' });
+  //   } else {
+  //     //对密码进行加密
+  //     form.password = bcrypt.generate(form.password);
+  //     const data = await adminService.register(form.username, form.password);
+  //     if (data) {
+  //       res.send({ code: 200, msg: '注册成功！' });
+  //     } else {
+  //       res.send({ code: 401, msg: '注册失败！' });
+  //     }
+  //   }
+  // }
 }
-
-module.exports = adminController;

@@ -15,4 +15,4 @@ router.get('/home', (req: Request, res: Response) => {
   res.send({ ok: 1 });
 })
 
-module.exports = router;
+export default router;

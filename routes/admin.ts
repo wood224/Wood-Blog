@@ -1,10 +1,35 @@
 import express, { Request, Response } from 'express';
 const router = express.Router();
-const adminController = require('../controllers/adminController');
+import { adminController } from '../controllers/adminController';
+import { createCaptcha } from '../utils/captcha';
+
+//解决在 req.session 中添加属性问题
+declare module 'express-session' {
+  interface SessionData {
+    captcha: string;
+  }
+}
 
 //管理员登录
 router.post('/login', (req: Request, res: Response) => {
-  adminController.login(req, res, req.body);
+  const captcha = req.session.captcha;
+  if (captcha) {
+    if (req.body.captcha !== captcha.toLowerCase()) {
+      return res.send({ code: 401, msg: '验证码不正确！' });
+    }
+    adminController.login(req, res);
+  }
+  else {
+    res.send({ code: 401, msg: '出错了，请刷新页面重试' });
+  }
+})
+
+//生成验证码
+router.get('/captcha', (req: Request, res: Response) => {
+  const { text, svg } = createCaptcha();
+  req.session.captcha = text;
+  res.type('svg');
+  res.send(svg);
 })
 
 // //管理员注册
@@ -12,4 +37,4 @@ router.post('/login', (req: Request, res: Response) => {
 //   adminController.register(req, res, req.body);
 // })
 
-module.exports = router;
+export default router;

@@ -1,8 +1,8 @@
-const categoryService = require('../services/categoryService');
+import { categoryService } from "../services/categoryService";
 const moment = require('moment');
 const saveToUploads = require('../utils/saveToUploads');
 
-const categoryController = {
+export const categoryController = {
   //检查分类名
   check: async (name: string) => {
     const data = await categoryService.check(name);
@@ -104,5 +104,3 @@ const categoryController = {
     res.send(data);
   }
 }
-
-module.exports = categoryController;

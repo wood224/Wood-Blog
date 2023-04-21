@@ -1,21 +1,24 @@
 import express, { NextFunction, Request, Response } from 'express';
+const session = require('express-session');
 const formData = require('express-form-data');
 const os = require('os');
-var createError = require('http-errors');
+const createError = require('http-errors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const jwt = require('./utils/JWT');
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const categoryRouter = require('./routes/category');
-const adminRouter = require('./routes/admin');
+import { sessionConfig } from './config';
+
+import indexRouter from './routes/index';
+import categoryRouter from './routes/category';
+import adminRouter from './routes/admin';
 
 const app = express();
 
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
+  res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.header('Access-Control-Expose-Headers', 'Authorization');
@@ -24,7 +27,7 @@ app.all('*', (req: Request, res: Response, next: NextFunction) => {
 
 //token校验
 app.use((req: Request, res: Response, next: NextFunction) => {
-  if (req.url.includes('login')) {
+  if (req.url.includes('login') || req.url.includes('captcha')) {
     return next();
   }
 
@@ -56,6 +59,7 @@ app.use(formData.stream());         //将文件对象更改为fs.ReadStream
 app.use(formData.union());          //将正文和文件结合起来
 
 app.use(logger('dev'));
+app.use(session(sessionConfig));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -63,7 +67,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'dist')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/category', categoryRouter);
 app.use('/admin', adminRouter);
 

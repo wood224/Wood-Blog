@@ -2,7 +2,7 @@ import { AppDataSource } from '../mysql/db';
 import { Category } from '../entity/Category';
 import { CategoryInfo } from '../entity/CategoryInfo';
 
-const categoryService = {
+export const categoryService = {
   //查询分类
   check: async (name: string) => {
     const rows = await AppDataSource.manager.find(Category, { where: { name: name } });
@@ -41,23 +41,22 @@ const categoryService = {
   updateCategory: async (id: number, name: string, coverImg: string = '', introduction: string = '') => {
     const rows = await AppDataSource.manager.transaction(async transactionalEntityManager => {
       const category = await transactionalEntityManager.findOne(Category, { where: { id }, relations: ["categoryInfo"] },);
+      let row1 = null;
+      let row2 = null;
       if (category) {
         const categoryInfo = category.categoryInfo;
         category.name = name
-        const row1 = await transactionalEntityManager.save(category);
+        row1 = await transactionalEntityManager.save(category);
         if (categoryInfo) {
           if (coverImg) {
             categoryInfo.coverImg = coverImg;
           }
           categoryInfo.introduction = introduction;
         }
-        const row2 = await transactionalEntityManager.save(categoryInfo);
-        return {
-          row1,
-          row2
-        }
-      } else {
-        return null;
+        row2 = await transactionalEntityManager.save(categoryInfo);
+      }
+      return {
+        row1, row2
       }
     })
     return rows;
@@ -76,5 +75,3 @@ const categoryService = {
     return rows;
   }
 }
-
-module.exports = categoryService;
