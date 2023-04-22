@@ -3,7 +3,7 @@ const jsonwebtoken = require('jsonwebtoken');
 //设置密钥
 const secret = 'wood-data-secret';
 
-const JWT = {
+export const jwt = {
   generate: (data: object, expire: string) => {
     return jsonwebtoken.sign(data, secret, { expiresIn: expire });
   },
@@ -15,5 +15,3 @@ const JWT = {
     }
   }
 }
-
-module.exports = JWT;

@@ -1,6 +1,6 @@
 import { categoryService } from "../services/categoryService";
 const moment = require('moment');
-const saveToUploads = require('../utils/saveToUploads');
+import { saveToUploads } from '../utils/saveToUploads';
 
 export const categoryController = {
   //检查分类名

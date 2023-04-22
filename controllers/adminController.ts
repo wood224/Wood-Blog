@@ -1,6 +1,6 @@
 import { adminService } from "../services/adminService";
-const jwt = require('../utils/JWT');
-const bcrypt = require('../utils/bcrypt');
+import { jwt } from '../utils/JWT';
+import { bcrypt } from '../utils/bcrypt';
 class CheckResult {
   result: boolean;
   data: object | null;

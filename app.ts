@@ -6,7 +6,7 @@ const createError = require('http-errors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const jwt = require('./utils/JWT');
+import { jwt } from './utils/JWT';
 
 import { sessionConfig } from './config';
 

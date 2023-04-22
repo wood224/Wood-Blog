@@ -9,8 +9,8 @@ function getFileSuffix(str: string) {
   return path;
 }
 
-async function SaveToUploads(dirname: string, tempPath: string, name: string) {
-  if (dirname !== 'category' && dirname !== 'note') return
+export async function saveToUploads(dirname: string, tempPath: string, name: string) {
+  if (dirname !== 'category' && dirname !== 'note') return ''
   const suffix = getFileSuffix(tempPath);
   const pathName = `${Date.now()}-${name}.${suffix}`;   //根据当前时间戳生成文件名
   const targetPath = path.join(__dirname, `../public/uploads/${dirname}`, `${pathName}`);
@@ -21,5 +21,3 @@ async function SaveToUploads(dirname: string, tempPath: string, name: string) {
   }
   return `/uploads/${dirname}/${pathName}`;
 }
-
-module.exports = SaveToUploads;

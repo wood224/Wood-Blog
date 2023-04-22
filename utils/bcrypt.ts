@@ -2,7 +2,7 @@ const bcryptjs = require('bcryptjs');
 
 const saltRounds = 10;
 
-const Bcrypt = {
+export const bcrypt = {
   generate: (pwd: string) => {
     return bcryptjs.hashSync(pwd, saltRounds);
   },
@@ -11,5 +11,3 @@ const Bcrypt = {
     return bcryptjs.compareSync(pwd, hash);
   }
 }
-
-module.exports = Bcrypt;
