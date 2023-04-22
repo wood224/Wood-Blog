@@ -1,9 +1,8 @@
 <template>
   <div class="menus-wrapper">
     <div class="list">
-      <el-menu default-active="1" class="el-menu-vertical-demo" :collapse="isCollapse" unique-opened>
+      <el-menu default-active="1" class="el-menu-vertical-demo" :collapse="isCollapse">
         <template v-for="(item, index) in menuList" :key="index">
-
           <el-sub-menu v-if="item.children" :index="`${index}`">
             <template #title>
               <router-link class="link" :to="'/' + item.path" v-if="item.meta">
@@ -35,7 +34,6 @@
               </router-link>
             </template>
           </el-menu-item>
-
         </template>
       </el-menu>
     </div>

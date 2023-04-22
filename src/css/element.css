@@ -56,3 +56,14 @@
 }
 
 /* 上传 */
+
+/* 标签 */
+.el-tag {
+  margin-top: 6px;
+}
+
+.el-tag+.el-tag {
+  margin-left: 0px;
+}
+
+/* 标签 */

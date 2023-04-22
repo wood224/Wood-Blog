@@ -10,10 +10,20 @@ export const adminLoginApi = (data: object) => {
   return request.post('/admin/login', data);
 }
 
-//获取菜单列表（弃用）
-export const getMenuListApi = () => {
-  return request.get('/menu');
+//获取个人信息
+export const getInfoApi = () => {
+  return request.get('/admin/info');
 }
+
+//修改个人信息
+export const updateInfoApi = (data: object) => {
+  return request.put('/admin/info', data, { headers: { 'Content-Type': 'multipart/form-data' } });
+}
+
+// //获取菜单列表（弃用）
+// export const getMenuListApi = () => {
+//   return request.get('/menu');
+// }
 
 //获取首页信息
 export const getHomeInfoApi = () => {

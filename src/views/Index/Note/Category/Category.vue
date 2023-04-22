@@ -48,8 +48,7 @@
           style="max-width: 460px">
           <el-form-item label="分类封面">
             <el-upload ref="uploadRef" class="cover-img" :action="baseURL + '/category'" :show-file-list="false"
-              :on-change="handleCoverChange" :on-success="handleCoverSuccess" :before-upload="beforeCoverUpload"
-              :auto-upload="false">
+              :on-change="handleCoverChange" :auto-upload="false">
               <img v-if="form.coverImg" :src="form.coverImg" class="img" />
               <el-icon v-else class="avatar-uploader-icon">
                 <Plus />
@@ -150,6 +149,7 @@ const clearForm = () => {
     introduction: ''
   };
 }
+//表单校验
 const ruleFormRef = ref<FormInstance>()
 const uploadRef = ref<UploadInstance>()
 const rules = ref<FormRules>({
@@ -215,21 +215,15 @@ const searchCategory = () => {
 
 //图片上传相关
 const handleCoverChange: UploadProps['onChange'] = (uploadFile) => {
-  imgFile.value = uploadFile.raw!;
-  form.value.coverImg = URL.createObjectURL(uploadFile.raw!);
-}
-const handleCoverSuccess: UploadProps['onSuccess'] = (response, uploadFile) => {
-  form.value.coverImg = URL.createObjectURL(uploadFile.raw!);
-}
-const beforeCoverUpload: UploadProps['beforeUpload'] = (rawFile) => {
-  if (rawFile.type !== 'image/jpeg' && rawFile.type !== 'image/png') {
+  if (uploadFile.raw!.type !== 'image/jpeg' && uploadFile.raw!.type !== 'image/png') {
     ElMessage.error('请选择图片！');
     return false;
-  } else if (rawFile.size / 1024 / 1024 > 2) {
+  } else if (uploadFile.raw!.size / 1024 / 1024 > 2) {
     ElMessage.error('图片大小不能超过2M！');
     return false
   }
-  return true;
+  imgFile.value = uploadFile.raw!;
+  form.value.coverImg = URL.createObjectURL(uploadFile.raw!);
 }
 </script>
 
