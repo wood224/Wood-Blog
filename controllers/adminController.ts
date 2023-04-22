@@ -41,10 +41,10 @@ export const adminController = {
         res.header('Authorization', token);
         res.send({ code: 200, msg: '登录成功！' });
       } else {
-        res.send({ code: 401, msg: '用户名或密码错误！' });
+        res.status(410).send({ code: 410, msg: '用户名或密码错误！' });
       }
     } else {
-      res.send({ code: 401, msg: '账号不存在！' });
+      res.status(410).send({ code: 410, msg: '账号不存在！' });
     }
   },
 
@@ -65,7 +65,7 @@ export const adminController = {
         return res.send(data);
       }
     }
-    res.status(404).send('出错了！');
+    res.status(410).send({ code: 410, msg: '出错了！' });
   },
 
   //修改个人信息
@@ -81,7 +81,7 @@ export const adminController = {
     if (row) {
       res.send('修改成功！');
     } else {
-      res.status(401).send('修改失败！');
+      res.status(410).send({ code: 410, msg: '修改失败！' });
     }
   }
 
