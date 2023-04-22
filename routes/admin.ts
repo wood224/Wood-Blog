@@ -35,6 +35,16 @@ router.get('/captcha', (req: Request, res: Response) => {
   res.send(svg);
 })
 
+//获取个人信息
+router.get('/info', (req: Request, res: Response) => {
+  adminController.getInfo(req, res);
+})
+
+//修改个人信息
+router.put('/info', (req: Request, res: Response) => {
+  adminController.updateInfo(req, res);
+})
+
 // //管理员注册
 // router.post('/register', (req: Request, res: Response) => {
 //   adminController.register(req, res, req.body);

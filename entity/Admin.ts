@@ -1,5 +1,6 @@
 import 'reflect-metadata';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { AdminInfo } from './AdminInfo';
 
 @Entity()
 export class Admin {
@@ -11,4 +12,7 @@ export class Admin {
 
   @Column()
   password: string;
+
+  @OneToOne(() => AdminInfo, adminInfo => adminInfo.admin, { cascade: true })
+  adminInfo: AdminInfo;
 }

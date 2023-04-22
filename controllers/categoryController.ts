@@ -47,11 +47,11 @@ export const categoryController = {
       if (row) {
         res.send({ code: 200, msg: '添加成功！' });
       } else {
-        res.send({ code: 401, msg: '添加失败！' });
+        res.status(401).send({ code: 401, msg: '添加失败！' });
       }
     }
     else {
-      res.send({ code: 401, msg: '该分类名已存在！' });
+      res.status(401).send({ code: 401, msg: '该分类名已存在！' });
     }
   },
 
@@ -70,21 +70,19 @@ export const categoryController = {
     }
     const { row1, row2 } = await categoryService.updateCategory(form.id, form.name, form.coverImg, form.introduction);
     if (row1 && row2) {
-      res.send({ code: 200, msg: '修改成功！' });
+      res.status(401).send({ code: 200, msg: '修改成功！' });
     } else {
-      res.send({ code: 401, msg: '修改失败！' });
+      res.status(401).send({ code: 401, msg: '修改失败！' });
     }
   },
 
   //删除分类
   deleteCategory: async (req: any, res: any) => {
     const row = await categoryService.deleteCategory(req.params.id);
-    console.log(row);
-
     if (row.affected && row.affected === 1) {
       res.send({ code: 200, msg: '删除成功！' });
     } else {
-      res.send({ code: 401, msg: '删除失败！' });
+      res.status(401).send({ code: 401, msg: '删除失败！' });
     }
   },
 

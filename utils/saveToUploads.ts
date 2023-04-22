@@ -3,9 +3,9 @@ const path = require('path');
 const util = require('util');
 const rename = util.promisify(fs.rename); //转为promise
 
-const allowedDirs = ['category', 'note'];
+const allowedDirs = ['category', 'note', 'avatar'];
 const allowedSuffixes = ['jpg', 'png'];
-const maxSize = 2 * 1024 * 1024; //2MB
+const maxSize = 4 * 1024 * 1024;          //4MB
 
 //获取文件后缀名
 function getFileSuffix(str: string) {
@@ -21,6 +21,7 @@ function checkFile(tempPath: string) {
     return false;
   }
   const size = fs.statSync(tempPath).size;
+  console.log(size);
   if (size > maxSize) return false
   return suffix;
 }
