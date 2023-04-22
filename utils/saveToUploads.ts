@@ -21,7 +21,6 @@ function checkFile(tempPath: string) {
     return false;
   }
   const size = fs.statSync(tempPath).size;
-  console.log(size);
   if (size > maxSize) return false
   return suffix;
 }
