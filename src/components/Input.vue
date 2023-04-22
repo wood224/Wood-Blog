@@ -49,6 +49,7 @@ const modelValue = computed({
   align-items: center;
   justify-content: center;
   margin-top: 50px;
+  width: 100%;
 
   .container {
     position: relative;
