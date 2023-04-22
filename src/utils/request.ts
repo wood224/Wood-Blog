@@ -30,6 +30,9 @@ request.interceptors.response.use(response => {
       }
     })
   }
+  if (error.response.status === 410) {
+    ElMessage.error(error.response.data.msg);
+  }
   return Promise.reject(error);
 });
 
