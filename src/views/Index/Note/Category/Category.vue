@@ -89,11 +89,8 @@ const baseURL = __BaseURL__;
 //响应消息显示
 const responseMessage = (data: any) => {
   if (data.code === 200) {
-    ElMessage.success(data.msg);
     dialogView.value = false;
     getCategoryList();
-  } else {
-    ElMessage.error(data.msg);
   }
 }
 

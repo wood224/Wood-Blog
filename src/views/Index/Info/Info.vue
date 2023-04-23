@@ -159,12 +159,7 @@ const confirm = async (formRules: FormInstance | undefined) => {
       //reduce 方法拼接数组为字符串(需要去掉最后一位分隔符)
       formData.append('technology', form.value.technology.reduce((acc, val) => acc.concat(val.name, ','), '').slice(0, -1));
       updateInfoApi(formData).then(res => {
-        if (res.status === 200) {
-          ElMessage.success(res.data);
-          getInfo();
-        } else {
-          ElMessage.error(res.data);
-        }
+        getInfo();
       })
     }
   })

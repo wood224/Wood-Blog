@@ -16,6 +16,9 @@ request.interceptors.request.use(config => {
 });
 
 request.interceptors.response.use(response => {
+  if (response.data.code && response.data.code === 200) {
+    ElMessage.success(response.data.msg);
+  }
   const { authorization } = response.headers;
   authorization && localStorage.setItem('token', authorization);
   return response;

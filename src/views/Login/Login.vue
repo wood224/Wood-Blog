@@ -59,14 +59,10 @@ const form = reactive({
 })
 const login = () => {
   adminLoginApi(form).then(res => {
-    const data = res.data;
-    if (data.code === 200) {
-      router.push('/');
-    } else {
-      ElMessage.error(data.msg);
-      //登录失败重新获取验证码
-      getCaptcha();
-    }
+    router.push('/')
+  }).catch(err => {
+    //登录失败重新获取验证码
+    getCaptcha();
   })
 }
 
