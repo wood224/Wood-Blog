@@ -1,7 +1,7 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 const router = express.Router();
 import { adminController } from '../controllers/adminController';
-import { createCaptcha } from '../utils/captcha';
+import { captchaController } from '../controllers/captchaController';
 
 //解决在 req.session 中添加属性问题
 declare module 'express-session' {
@@ -11,39 +11,16 @@ declare module 'express-session' {
 }
 
 //管理员登录
-router.post('/login', (req: Request, res: Response) => {
-  const userCaptcha = req.body.captcha;
-  const captcha = req.session.captcha;
-  if (captcha && userCaptcha) {
-    //正则表达式检查验证码
-    const reg = new RegExp(captcha, 'i');
-    if (!reg.test(userCaptcha)) {
-      return res.send({ code: 401, msg: '验证码不正确！' });
-    }
-    adminController.login(req, res);
-  }
-  else {
-    res.send({ code: 401, msg: '出错了，请重试' });
-  }
-})
+router.post('/login', adminController.login);
 
 //生成验证码
-router.get('/captcha', (req: Request, res: Response) => {
-  const { text, svg } = createCaptcha();
-  req.session.captcha = text;
-  res.type('svg');
-  res.send(svg);
-})
+router.get('/captcha', captchaController.generateCaptcha);
 
 //获取个人信息
-router.get('/info', (req: Request, res: Response) => {
-  adminController.getInfo(req, res);
-})
+router.get('/info', adminController.getInfo);
 
 //修改个人信息
-router.put('/info', (req: Request, res: Response) => {
-  adminController.updateInfo(req, res);
-})
+router.put('/info', adminController.updateInfo);
 
 // //管理员注册
 // router.post('/register', (req: Request, res: Response) => {

@@ -1,3 +1,4 @@
+import { Request, Response } from 'express';
 import { categoryService } from "../services/categoryService";
 const moment = require('moment');
 import { saveToUploads } from '../utils/saveToUploads';
@@ -14,7 +15,7 @@ export const categoryController = {
   },
 
   //获取分类列表
-  getCategoryList: async (req: any, res: any) => {
+  getCategoryList: async (req: Request, res: Response) => {
     const rows = await categoryService.getCategoryList();
     const data = rows.map((item: any) => {
       return {
@@ -30,7 +31,7 @@ export const categoryController = {
   },
 
   //新增分类
-  addCategory: async (req: any, res: any) => {
+  addCategory: async (req: Request, res: Response) => {
     const file = req.body.coverImg;
     let coverImg = '';
     if (file) {
@@ -56,7 +57,7 @@ export const categoryController = {
   },
 
   //修改分类
-  updateCategory: async (req: any, res: any) => {
+  updateCategory: async (req: Request, res: Response) => {
     const file = req.body.coverImg;
     let coverImg = '';
     if (file && file instanceof Object) {
@@ -77,17 +78,21 @@ export const categoryController = {
   },
 
   //删除分类
-  deleteCategory: async (req: any, res: any) => {
-    const row = await categoryService.deleteCategory(req.params.id);
-    if (row.affected && row.affected === 1) {
-      res.send({ code: 200, msg: '删除成功！' });
+  deleteCategory: async (req: Request, res: Response) => {
+    if (req.params) {
+      const row = await categoryService.deleteCategory(Number(req.params.id));
+      if (row.affected && row.affected === 1) {
+        res.send({ code: 200, msg: '删除成功！' });
+      } else {
+        res.status(410).send({ code: 410, msg: '删除失败！' });
+      }
     } else {
       res.status(410).send({ code: 410, msg: '删除失败！' });
     }
   },
 
   //搜索分类
-  searchCategory: async (req: any, res: any) => {
+  searchCategory: async (req: Request, res: Response) => {
     const rows = await categoryService.searchCategory(req.params.name);
     const data = rows.map((item: any) => {
       return {
