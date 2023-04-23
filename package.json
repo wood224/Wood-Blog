@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon -e ts --exec ts-node ./bin/www"
+    "start": "nodemon -e ts --exec ts-node ./bin/www",
+    "apidoc": "apidoc -i routes/ -o apidoc/ -d"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

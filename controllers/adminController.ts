@@ -32,7 +32,7 @@ export const adminController = {
       //正则表达式检查验证码
       const reg = new RegExp(captcha, 'i');
       if (!reg.test(userCaptcha)) {
-        return res.send({ code: 401, msg: '验证码不正确！' });
+        return res.status(410).send({ code: 410, msg: '验证码不正确！' });
       }
       //校验账号密码
       const form = req.body;
@@ -59,7 +59,7 @@ export const adminController = {
       }
     }
     else {
-      res.send({ code: 401, msg: '出错了，请重试' });
+      res.status(410).send({ code: 410, msg: '出错了，请重试' });
     }
   },
 
@@ -80,7 +80,7 @@ export const adminController = {
         return res.send(data);
       }
     }
-    res.status(410).send({ code: 410, msg: '出错了！' });
+    res.status(410).send({ code: 410, msg: '出错了！请重新登录。' });
   },
 
   //修改个人信息
@@ -94,26 +94,26 @@ export const adminController = {
     form.avatar = avatar;
     const row = await adminService.updateInfo(form);
     if (row) {
-      res.send('修改成功！');
+      res.send({ code: 200, msg: '修改成功！' });
     } else {
       res.status(410).send({ code: 410, msg: '修改失败！' });
     }
   }
 
-  // //管理员注册
-  // register: async (req: Request, res: Response, form: any) => {
-  //   const result = await adminController.check(form);
-  //   if (result.result) {
-  //     res.send({ code: 401, msg: '账号已存在！' });
-  //   } else {
-  //     //对密码进行加密
-  //     form.password = bcrypt.generate(form.password);
-  //     const data = await adminService.register(form.username, form.password);
-  //     if (data) {
-  //       res.send({ code: 200, msg: '注册成功！' });
-  //     } else {
-  //       res.send({ code: 401, msg: '注册失败！' });
-  //     }
-  //   }
-  // }
+  //  //管理员注册
+  //  // register: async (req: Request, res: Response, form: any) => {
+  //  //   const result = await adminController.check(form);
+  //  //   if (result.result) {
+  //  //     res.send({ code: 401, msg: '账号已存在！' });
+  //  //   } else {
+  //  //     //对密码进行加密
+  //  //     form.password = bcrypt.generate(form.password);
+  //  //     const data = await adminService.register(form.username, form.password);
+  //  //     if (data) {
+  //  //       res.send({ code: 200, msg: '注册成功！' });
+  //  //     } else {
+  //  //       res.send({ code: 401, msg: '注册失败！' });
+  //  //     }
+  //  //   }
+  //  // }
 }

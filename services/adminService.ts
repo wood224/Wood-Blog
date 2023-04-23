@@ -44,12 +44,11 @@ export const adminService = {
   }
 
   // //管理员注册
-  // register: async (username: string, password: string) => {
-  //   // const rows = await connect.query('insert into admin (username, password) values (?, ?)', [username, password]);
-  //   const admin = new Admin();
-  //   admin.username = username;
-  //   admin.password = password;
-  //   const row = await AppDataSource.manager.save(admin);
-  //   return row;
-  // }
+  // // register: async (username: string, password: string) => {
+  // //   const admin = new Admin();
+  // //   admin.username = username;
+  // //   admin.password = password;
+  // //   const row = await AppDataSource.manager.save(admin);
+  // //   return row;
+  // // }
 }
