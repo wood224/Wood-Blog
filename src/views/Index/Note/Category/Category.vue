@@ -5,11 +5,11 @@
         <div class="top">
           <div class="search">
             <div class="ipt">
-              <el-input v-model="searchText" class="w-50 m-2" size="large" placeholder="搜索" :prefix-icon="Search"
-                maxlength="10" show-word-limit clearable @keyup.enter="searchCategory" />
+              <el-input v-model="searchText" class="w-50 m-2" size="large" placeholder="搜索分类名" :prefix-icon="Search"
+                maxlength="10" show-word-limit clearable @keyup.enter="searchCategory(pageOptions.limit)" />
             </div>
             <div class="btn">
-              <el-button @click="searchCategory">搜索</el-button>
+              <el-button @click="searchCategory(pageOptions.limit)">搜索</el-button>
             </div>
           </div>
           <div class="btn">
@@ -17,7 +17,7 @@
           </div>
         </div>
         <div class="container">
-          <el-table :data="categoryList" border stripe>
+          <el-table :data="categoryList.list" border stripe>
             <el-table-column type="index" width="50" />
             <el-table-column label="图片">
               <template #default="scope">
@@ -34,13 +34,17 @@
               <template #default="scope">
                 <div>
                   <el-button size="small" type="primary" @click="updateCategory(scope.row)">编辑</el-button>
-                  <el-button size="small" type="danger" @click="removeCategory(scope.row.id)">删除</el-button>
+                  <el-button size="small" type="danger"
+                    @click="removeCategory(scope.row.id, scope.row.name)">删除</el-button>
                 </div>
               </template>
             </el-table-column>
           </el-table>
         </div>
-        <div class="pages"></div>
+        <div class="pages">
+          <el-pagination layout="prev, pager, next" :current-page="(pageOptions.offset / 10) + 1"
+            :total="categoryList.count" @current-change="currentChange" />
+        </div>
       </div>
 
       <el-dialog @closed="dialogClose" v-model="dialogView" :title="dialogTitle" width="30%" align-center>
@@ -56,7 +60,7 @@
             </el-upload>
           </el-form-item>
           <el-form-item label="分类名" prop="name">
-            <el-input v-model="form.name" maxlength="10" show-word-limit />
+            <el-input v-model="form.name" maxlength="15" show-word-limit />
           </el-form-item>
           <el-form-item label="分类简介" prop="introduction">
             <el-input v-model="form.introduction" maxlength="50" type="textarea" show-word-limit />
@@ -76,12 +80,11 @@
 </template>
 
 <script setup lang='ts'>
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import MenuView from '@/components/MenuView.vue';
 import { getCategoryApi, addCategoryApi, updateCategoryApi, deleteCategoryApi, searchCategoryApi } from '@/api/index';
 import { Search, Plus } from '@element-plus/icons-vue'
-import { Category } from '@/types/CategoryType';
+import { CategoryList } from '@/types/CategoryType';
 import { FormInstance, FormRules, UploadInstance, UploadProps } from 'element-plus';
 
 const baseURL = __BaseURL__;
@@ -90,7 +93,7 @@ const baseURL = __BaseURL__;
 const responseMessage = (data: any) => {
   if (data.code === 200) {
     dialogView.value = false;
-    getCategoryList();
+    getCategoryList(pageOptions.limit, pageOptions.offset);
   }
 }
 
@@ -100,11 +103,16 @@ const title = ref<string>(route.meta.title as string);
 const searchText = ref('');
 
 //获取分类列表
-const categoryList = ref<Array<Category>>();
-const getCategoryList = () => {
-  getCategoryApi().then(res => {
+const categoryList = ref<CategoryList>({ count: 0, list: [] });
+const pageOptions = reactive({
+  limit: 10,
+  offset: 0
+})
+const getCategoryList = (limit: number, offset: number) => {
+  getCategoryApi({ limit: limit, offset: offset }).then(res => {
     const data = res.data;
-    categoryList.value = data.map((item: any) => {
+    categoryList.value.count = data.count;
+    categoryList.value.list = data.categoryList.map((item: any) => {
       return {
         ...item,
         coverImg: item.coverImg ? baseURL + item.coverImg : '',
@@ -112,8 +120,10 @@ const getCategoryList = () => {
     })
   })
 }
-getCategoryList();
+getCategoryList(pageOptions.limit, pageOptions.offset);
 
+//表单窗口相关
+const dialogType = ref(1);   // 1：新增  2：更新
 const dialogView = ref(false);
 const dialogTitle = ref('新增');
 const dialogAdd = () => {
@@ -122,8 +132,6 @@ const dialogAdd = () => {
   dialogView.value = true;
 }
 
-//表单窗口相关
-const dialogType = ref(1);   // 1：新增  2：更新
 const updateCategory = (data: any) => {
   dialogTitle.value = '修改';
   dialogType.value = 2;
@@ -152,7 +160,7 @@ const uploadRef = ref<UploadInstance>()
 const rules = ref<FormRules>({
   name: [
     { required: true, message: '分类名不能为空！', trigger: 'blur' },
-    { max: 10, message: '长度不能超过10个字！', trigger: 'blur' }
+    { max: 15, message: '长度不能超过15个字！', trigger: 'blur' }
   ],
   introduction: [
     { max: 50, message: '长度不能超过50个字！', trigger: 'blur' }
@@ -189,25 +197,46 @@ const dialogClose = () => {
 }
 
 //删除分类
-const removeCategory = (id: number) => {
-  deleteCategoryApi(id).then(res => {
-    const data = res.data;
-    responseMessage(data);
-  });
+const removeCategory = (id: number, name: string) => {
+  ElMessageBox.confirm(`确认删除分类 ${name} 吗？`, '提示', {
+    confirmButtonText: '确认删除',
+    confirmButtonClass: 'confirm-remove-button',
+    cancelButtonText: '取消',
+    type: 'warning',
+  }
+  )
+    .then(() => {
+      deleteCategoryApi(id).then(res => {
+        const data = res.data;
+        responseMessage(data);
+      });
+    })
 }
 
 //搜索分类
-const searchCategory = () => {
-  if (searchText.value === '') return getCategoryList();
-  searchCategoryApi(searchText.value).then(res => {
+const searchCategory = (limit: number = pageOptions.limit, offset: number = 0) => {
+  pageOptions.offset = offset  //搜索时重置页数(偏移量)
+  if (searchText.value === '') return getCategoryList(limit, 0);
+  searchCategoryApi({ name: searchText.value, limit: limit, offset: offset }).then(res => {
     const data = res.data;
-    categoryList.value = data.map((item: any) => {
+    categoryList.value.count = data.count;
+    categoryList.value.list = data.categoryList.map((item: any) => {
       return {
         ...item,
         coverImg: item.coverImg ? baseURL + item.coverImg : '',
       }
     })
   })
+}
+
+//分页函数
+const currentChange = (page: number) => {
+  pageOptions.offset = (page - 1) * 10;
+  if (searchText.value) {
+    searchCategory(pageOptions.limit, pageOptions.offset);
+  } else {
+    getCategoryList(pageOptions.limit, pageOptions.offset);
+  }
 }
 
 //图片上传相关
@@ -260,6 +289,10 @@ const handleCoverChange: UploadProps['onChange'] = (uploadFile) => {
         object-fit: contain;
       }
     }
+  }
+
+  .pages {
+    margin: 10px auto 0;
   }
 }
 

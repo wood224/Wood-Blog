@@ -1,16 +1,16 @@
 <template>
   <div class="menus-wrapper">
     <div class="list">
-      <el-menu default-active="1" class="el-menu-vertical-demo" :collapse="isCollapse">
+      <el-menu default-active="1" class="el-menu-vertical-demo" :unique-opened="false" :collapse="isCollapse">
         <template v-for="(item, index) in menuList" :key="index">
           <el-sub-menu v-if="item.children" :index="`${index}`">
             <template #title>
-              <router-link class="link" :to="'/' + item.path" v-if="item.meta">
+              <span class="link" v-if="item.meta">
                 <div class="icon" v-if="typeof (item.meta.icon) === 'string'">
                   <i class="fa" :class="item.meta.icon"></i>
                 </div>
                 <span>{{ item.meta.title }}</span>
-              </router-link>
+              </span>
             </template>
             <el-menu-item v-for="(child, childIndex) in item.children" :key="childIndex"
               :index="`${index}-${childIndex}`">

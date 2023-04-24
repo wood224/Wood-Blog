@@ -12,7 +12,7 @@
             </el-icon>
           </el-upload>
         </el-form-item>
-        <el-form-item label="用户名" prop="name">
+        <el-form-item label="昵称" prop="name">
           <el-input v-model="form.name" maxlength="10" show-word-limit />
         </el-form-item>
         <el-form-item label="个性签名" prop="signature">
@@ -48,10 +48,12 @@
 </template>
 
 <script setup lang='ts'>
-import { nextTick, ref } from 'vue';
+import { nextTick, ref, watch } from 'vue';
 import { FormInstance, FormRules, UploadInstance, UploadProps } from 'element-plus';
 import { getInfoApi, updateInfoApi } from '@/api/index';
-import { Tag } from '@/types/TagType'
+import { onBeforeRouteLeave } from 'vue-router';
+import { Tag } from '@/types/TagType';
+import { InfoType, Info } from '@/types/InfoType';
 
 const baseURL = __BaseURL__;
 
@@ -84,13 +86,7 @@ const showInput = () => {
 }
 
 const imgFile = ref<File | null>(null);
-const form = ref({
-  id: 0,
-  avatar: '',
-  name: '',
-  signature: '',
-  technology: [] as Tag[],
-})
+const form = ref<InfoType>(new Info());
 //获取个人信息
 const getInfo = () => {
   getInfoApi().then(res => {
@@ -159,7 +155,8 @@ const confirm = async (formRules: FormInstance | undefined) => {
       //reduce 方法拼接数组为字符串(需要去掉最后一位分隔符)
       formData.append('technology', form.value.technology.reduce((acc, val) => acc.concat(val.name, ','), '').slice(0, -1));
       updateInfoApi(formData).then(res => {
-        getInfo();
+        changeCount.value = 0;
+        isChange.value = false;
       })
     }
   })
@@ -177,6 +174,29 @@ const handleAvatarChange: UploadProps['onChange'] = (uploadFile) => {
   imgFile.value = uploadFile.raw!;
   form.value.avatar = URL.createObjectURL(uploadFile.raw!);
 }
+
+//修改未保存提示
+const changeCount = ref(0);   //修改次数，当为1时表示为初始化时的变化
+const isChange = ref(false);
+watch(form, () => {
+  if (changeCount.value <= 10) changeCount.value++;   //增加修改次数
+  isChange.value = changeCount.value > 1;
+}, { deep: true })
+onBeforeRouteLeave((to, from) => {
+  if (isChange.value) {
+    return ElMessageBox.confirm('有保存未提交，确定离开吗？', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消'
+    }).then(() => {
+      return true;
+    }).catch(() => {
+      return false;
+    });
+  }
+  else {
+    return true
+  }
+})
 </script>
 
 <style scoped lang='scss'>

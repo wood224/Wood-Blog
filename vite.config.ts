@@ -24,6 +24,7 @@ export default defineConfig({
   },
   define: {
     __BaseURL__: JSON.stringify('http://localhost:3000'),
+    // __BaseURL__: JSON.stringify('http://112.124.33.168:3000'),
   },
   server: {
     host: '0.0.0.0',

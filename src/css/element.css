@@ -67,3 +67,11 @@
 }
 
 /* 标签 */
+
+/* ElMessageBox.confirm的确认按钮样式 */
+.el-message-box .el-message-box__btns .confirm-remove-button {
+  background-color: var(--el-color-danger) !important;
+  border-color: var(--el-color-danger) !important;
+}
+
+/* ElMessageBox.confirm的确认按钮样式 */

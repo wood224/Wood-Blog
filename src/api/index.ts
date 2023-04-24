@@ -21,9 +21,9 @@ export const updateInfoApi = (data: object) => {
 }
 
 // //获取菜单列表（弃用）
-// export const getMenuListApi = () => {
-//   return request.get('/menu');
-// }
+// // export const getMenuListApi = () => {
+// //   return request.get('/menu');
+// // }
 
 //获取首页信息
 export const getHomeInfoApi = () => {
@@ -31,8 +31,8 @@ export const getHomeInfoApi = () => {
 }
 
 //获取分类
-export const getCategoryApi = () => {
-  return request.get('/category');
+export const getCategoryApi = (data: object) => {
+  return request.get('/category', { params: data });
 }
 
 //新增分类
@@ -51,6 +51,6 @@ export const deleteCategoryApi = (id: number) => {
 }
 
 //搜索分类
-export const searchCategoryApi = (name: string) => {
-  return request.get(`/category/search/${name}`);
+export const searchCategoryApi = (data: object) => {
+  return request.get('/category/search/', { params: data });
 }
