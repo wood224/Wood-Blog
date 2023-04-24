@@ -1,6 +1,7 @@
 import 'reflect-metadata';
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CategoryInfo } from './CategoryInfo';
+import { Note } from './Note';
 
 @Entity()
 export class Category {
@@ -12,4 +13,7 @@ export class Category {
 
   @OneToOne(() => CategoryInfo, categoryInfo => categoryInfo.category, { cascade: true })
   categoryInfo: CategoryInfo;
+
+  @OneToMany(() => Note, note => note.category)
+  notes: Note[];
 }

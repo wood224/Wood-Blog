@@ -13,6 +13,7 @@ import { sessionConfig } from './config';
 import indexRouter from './routes/index';
 import categoryRouter from './routes/category';
 import adminRouter from './routes/admin';
+import noteRouter from './routes/note';
 
 const app = express();
 
@@ -69,6 +70,8 @@ app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/', indexRouter);
 app.use('/category', categoryRouter);
 app.use('/admin', adminRouter);
+app.use('/note', noteRouter);
+
 app.use('/apidoc', express.static(path.join(__dirname, 'apidoc')));
 
 // catch 404 and forward to error handler
