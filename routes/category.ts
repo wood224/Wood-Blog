@@ -13,23 +13,27 @@ import { categoryController } from '../controllers/categoryController';
  * @apiVersion  1.0.0
  * 
  * 
- * @apiSuccess {Number} id id
- * @apiSuccess {String} name 名字
- * @apiSuccess {String} coverImg 封面图片路径
- * @apiSuccess {String} introduction 简介
- * @apiSuccess {String} createTime 创建时间
- * @apiSuccess {String} updateTime 更新时间
+ * @apiSuccess {Number} count 总数
+ * @apiSuccess {Object} categoryList 分类列表
+ * @apiSuccess {Number} categoryList.id id
+ * @apiSuccess {String} categoryList.name 名字
+ * @apiSuccess {String} categoryList.coverImg 封面图片路径
+ * @apiSuccess {String} categoryList.introduction 简介
+ * @apiSuccess {String} categoryList.createTime 创建时间
+ * @apiSuccess {String} categoryList.updateTime 更新时间
  * 
  * @apiSuccessExample {json} 成功响应:
- * [{
- *    "id":33,
- *    "name":"Vue3",
- *    "coverImg":"/uploads/category/1681191866260-Vue3.png",
- *    "introduction":"Vue3",
- *    "createTime":"2023-04-11 11:00:58",
- *    "updateTime":"2023-04-15 16:11:01"
- * }]
- * 
+ * {
+ *    "count" : 1,
+ *    "categoryList":[{
+ *        "id" : 33,
+ *        "name" : "Vue3",
+ *        "coverImg" : "/uploads/category/1681191866260-Vue3.png",
+ *        "introduction" : "Vue3",
+ *        "createTime" : "2023-04-11 11:00:58",
+ *        "updateTime" : "2023-04-15 16:11:01"
+ *    }]
+ * }
  * 
  */
 router.get('/', categoryController.getCategoryList);
@@ -141,25 +145,30 @@ router.delete('/:id', categoryController.deleteCategory);
  * }
  * 
  * 
- * @apiSuccess {Number} id id
- * @apiSuccess {String} name 名字
- * @apiSuccess {String} coverImg 封面图片路径
- * @apiSuccess {String} introduction 简介
- * @apiSuccess {String} createTime 创建时间
- * @apiSuccess {String} updateTime 更新时间
+ * @apiSuccess {Number} count 总数
+ * @apiSuccess {Object} categoryList 分类列表
+ * @apiSuccess {Number} categoryList.id id
+ * @apiSuccess {String} categoryList.name 名字
+ * @apiSuccess {String} categoryList.coverImg 封面图片路径
+ * @apiSuccess {String} categoryList.introduction 简介
+ * @apiSuccess {String} categoryList.createTime 创建时间
+ * @apiSuccess {String} categoryList.updateTime 更新时间
  * 
  * @apiSuccessExample {json} 成功响应:
- * [{
- *    "id":33,
- *    "name":"Vue3",
- *    "coverImg":"/uploads/category/1681191866260-Vue3.png",
- *    "introduction":"Vue3",
- *    "createTime":"2023-04-11 11:00:58",
- *    "updateTime":"2023-04-15 16:11:01"
- * }]
+ * {
+ *    "count" : 1,
+ *    "categoryList":[{
+ *        "id" : 33,
+ *        "name" : "Vue3",
+ *        "coverImg" : "/uploads/category/1681191866260-Vue3.png",
+ *        "introduction" : "Vue3",
+ *        "createTime" : "2023-04-11 11:00:58",
+ *        "updateTime" : "2023-04-15 16:11:01"
+ *    }]
+ * }
  * 
  * 
  */
-router.get('/search/:name', categoryController.searchCategory);
+router.get('/search', categoryController.searchCategory);
 
 export default router;

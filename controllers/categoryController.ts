@@ -16,7 +16,9 @@ export const categoryController = {
 
   //获取分类列表
   getCategoryList: async (req: Request, res: Response) => {
-    const rows = await categoryService.getCategoryList();
+    const limit = Number(req.query.limit);
+    const offset = Number(req.query.offset);
+    const { count, rows } = await categoryService.getCategoryList(limit, offset);
     const data = rows.map((item: any) => {
       return {
         id: item.id,
@@ -27,7 +29,7 @@ export const categoryController = {
         updateTime: moment(item.categoryInfo.updateTime).format('YYYY-MM-DD HH:mm:ss'),
       }
     })
-    res.send(data);
+    res.send({ count: count, categoryList: data });
   },
 
   //新增分类
@@ -93,7 +95,12 @@ export const categoryController = {
 
   //搜索分类
   searchCategory: async (req: Request, res: Response) => {
-    const rows = await categoryService.searchCategory(req.params.name);
+    console.log(req.query);
+
+    const name = String(req.query.name)
+    const limit = Number(req.query.limit);
+    const offset = Number(req.query.offset);
+    const { count, rows } = await categoryService.searchCategory(name, limit, offset);
     const data = rows.map((item: any) => {
       return {
         id: item.id,
@@ -104,6 +111,6 @@ export const categoryController = {
         updateTime: moment(item.categoryInfo.updateTime).format('YYYY-MM-DD HH:mm:ss'),
       }
     })
-    res.send(data);
+    res.send({ count: count, categoryList: data });
   }
 }
