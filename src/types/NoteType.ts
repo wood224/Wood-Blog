@@ -1,7 +1,4 @@
-interface Category {
-  id: number;
-  name: string;
-}
+import { Category } from './CategoryType';
 
 export interface Note {
   id: number;
