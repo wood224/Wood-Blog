@@ -54,3 +54,8 @@ export const deleteCategoryApi = (id: number) => {
 export const searchCategoryApi = (data: object) => {
   return request.get('/category/search/', { params: data });
 }
+
+//获取笔记
+export const getNoteListApi = (data: object) => {
+  return request.get('/note', { params: data });
+}

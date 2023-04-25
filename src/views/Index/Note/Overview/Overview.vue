@@ -1,91 +1,89 @@
 <template>
-  <MenuView :title="title">
-    <template #default>
-      <div class="overview-wrapper">
-        <div class="top">
-          <div class="search">
-            <div class="ipt">
-              <el-input v-model="searchText" class="w-50 m-2" size="large" placeholder="搜索笔记名" :prefix-icon="Search"
-                maxlength="10" show-word-limit clearable @keyup.enter="searchCategory(pageOptions.limit)" />
-            </div>
-            <div class="btn">
-              <el-button @click="searchCategory(pageOptions.limit)">搜索</el-button>
-            </div>
+  <MenuView>
+    <div class="overview-wrapper">
+      <div class="top">
+        <div class="search">
+          <div class="ipt">
+            <el-input v-model="searchText" class="w-50 m-2" size="large" placeholder="搜索笔记名" :prefix-icon="Search"
+              maxlength="10" show-word-limit clearable @keyup.enter="searchCategory(pageOptions.limit)" />
           </div>
           <div class="btn">
-            <el-button type="success" :icon="Plus" @click="dialogAdd">新增</el-button>
+            <el-button @click="searchCategory(pageOptions.limit)">搜索</el-button>
           </div>
         </div>
-        <div class="container">
-          <el-table :data="categoryList.list" border stripe>
-            <el-table-column type="index" width="50" />
-            <el-table-column label="图片">
-              <template #default="scope">
-                <div class="table-cover-img">
-                  <img :src="scope.row.coverImg" alt="暂无图片">
-                </div>
-              </template>
-            </el-table-column>
-            <el-table-column label="分类名" prop="name" width="200" />
-            <el-table-column label="分类简介" prop="introduction" width="400" />
-            <el-table-column label="创建时间" prop="createTime" />
-            <el-table-column label="更新时间" prop="updateTime" />
-            <el-table-column label="操作" width="150">
-              <template #default="scope">
-                <div>
-                  <el-button size="small" type="primary" @click="updateCategory(scope.row)">编辑</el-button>
-                  <el-button size="small" type="danger"
-                    @click="removeCategory(scope.row.id, scope.row.name)">删除</el-button>
-                </div>
-              </template>
-            </el-table-column>
-          </el-table>
+        <div class="btn">
+          <el-button type="success" :icon="Plus" @click="addNote">新增</el-button>
         </div>
-        <div class="pages">
-          <el-pagination layout="prev, pager, next" :current-page="(pageOptions.offset / 10) + 1"
-            :total="categoryList.count" @current-change="currentChange" />
-        </div>
-
-        <el-dialog @closed="dialogClose" v-model="dialogView" :title="dialogTitle" width="30%" align-center>
-          <el-form ref="ruleFormRef" label-position="right" label-width="100px" :model="form" :rules="rules"
-            style="max-width: 460px">
-            <el-form-item label="分类封面">
-              <el-upload ref="uploadRef" class="cover-img" :action="baseURL + '/category'" :show-file-list="false"
-                :on-change="handleCoverChange" :auto-upload="false">
-                <img v-if="form.coverImg" :src="form.coverImg" class="img" />
-                <el-icon v-else class="avatar-uploader-icon">
-                  <Plus />
-                </el-icon>
-              </el-upload>
-            </el-form-item>
-            <el-form-item label="分类名" prop="name">
-              <el-input v-model="form.name" maxlength="15" show-word-limit />
-            </el-form-item>
-            <el-form-item label="分类简介" prop="introduction">
-              <el-input v-model="form.introduction" maxlength="50" type="textarea" show-word-limit />
-            </el-form-item>
-          </el-form>
-          <template #footer>
-            <span class="dialog-footer">
-              <el-button @click="dialogView = false">取消</el-button>
-              <el-button type="primary" @click="confirm(ruleFormRef)">
-                确认
-              </el-button>
-            </span>
-          </template>
-        </el-dialog>
       </div>
-    </template>
+      <div class="container">
+        <el-table :data="noteList.list" border stripe>
+          <el-table-column type="index" width="50" />
+          <el-table-column label="封面">
+            <template #default="scope">
+              <div class="table-cover-img">
+                <img :src="scope.row.coverImg" alt="暂无图片">
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="标题" prop="title" />
+          <el-table-column label="副标题" prop="subtitle" />
+          <el-table-column label="分类" prop="category.name" />
+          <el-table-column label="创建时间" prop="createTime" />
+          <el-table-column label="更新时间" prop="updateTime" />
+          <el-table-column label="操作" width="150">
+            <template #default="scope">
+              <div>
+                <el-button size="small" type="primary" @click="updateCategory(scope.row)">编辑</el-button>
+                <el-button size="small" type="danger" @click="removeCategory(scope.row.id, scope.row.name)">删除</el-button>
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="pages">
+        <el-pagination layout="prev, pager, next" :current-page="(pageOptions.offset / 10) + 1" :total="noteList.count"
+          @current-change="currentChange" />
+      </div>
+
+      <el-dialog @closed="dialogClose" v-model="dialogView" :title="dialogTitle" width="30%" align-center>
+        <el-form ref="ruleFormRef" label-position="right" label-width="100px" :model="form" :rules="rules"
+          style="max-width: 460px">
+          <el-form-item label="分类封面">
+            <el-upload ref="uploadRef" class="cover-img" :action="baseURL + '/category'" :show-file-list="false"
+              :on-change="handleCoverChange" :auto-upload="false">
+              <img v-if="form.coverImg" :src="form.coverImg" class="img" />
+              <el-icon v-else class="avatar-uploader-icon">
+                <Plus />
+              </el-icon>
+            </el-upload>
+          </el-form-item>
+          <el-form-item label="分类名" prop="name">
+            <el-input v-model="form.name" maxlength="15" show-word-limit />
+          </el-form-item>
+          <el-form-item label="分类简介" prop="introduction">
+            <el-input v-model="form.introduction" maxlength="50" type="textarea" show-word-limit />
+          </el-form-item>
+        </el-form>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="dialogView = false">取消</el-button>
+            <el-button type="primary" @click="confirm(ruleFormRef)">
+              确认
+            </el-button>
+          </span>
+        </template>
+      </el-dialog>
+    </div>
   </MenuView>
 </template>
 
 <script setup lang='ts'>
 import { reactive, ref } from 'vue';
-import { useRoute } from 'vue-router';
-import { getCategoryApi, addCategoryApi, updateCategoryApi, deleteCategoryApi, searchCategoryApi } from '@/api/index';
+import { getNoteListApi, addCategoryApi, updateCategoryApi, deleteCategoryApi, searchCategoryApi } from '@/api/index';
 import { Search, Plus } from '@element-plus/icons-vue'
-import { CategoryList } from '@/types/CategoryType';
 import { FormInstance, FormRules, UploadInstance, UploadProps } from 'element-plus';
+import { Note, NoteList } from '@/types/NoteType';
+import router from '@/router';
 
 const baseURL = __BaseURL__;
 
@@ -93,43 +91,40 @@ const baseURL = __BaseURL__;
 const responseMessage = (data: any) => {
   if (data.code === 200) {
     dialogView.value = false;
-    getCategoryList(pageOptions.limit, pageOptions.offset);
+    getNoteList(pageOptions.limit, pageOptions.offset);
   }
 }
 
-const route = useRoute();
-const title = ref<string>(route.meta.title as string);
-
 const searchText = ref('');
 
-//获取分类列表
-const categoryList = ref<CategoryList>({ count: 0, list: [] });
+//获取笔记列表
+const noteList = ref(new NoteList());
 const pageOptions = reactive({
   limit: 10,
   offset: 0
 })
-const getCategoryList = (limit: number, offset: number) => {
-  getCategoryApi({ limit: limit, offset: offset }).then(res => {
+const getNoteList = (limit: number = pageOptions.limit, offset: number = 0) => {
+  getNoteListApi({ limit: limit, offset: offset }).then(res => {
     const data = res.data;
-    categoryList.value.count = data.count;
-    categoryList.value.list = data.categoryList.map((item: any) => {
+    noteList.value.count = data.count;
+    noteList.value.list = data.noteList.map((item: Note) => {
       return {
         ...item,
-        coverImg: item.coverImg ? baseURL + item.coverImg : '',
+        coverImg: item.coverImg ? baseURL + item.coverImg : new URL('@/assets/image/defaultNote.png', import.meta.url),
       }
     })
   })
 }
-getCategoryList(pageOptions.limit, pageOptions.offset);
+getNoteList();
+
+const editorType = ref(1);        // 1：新增  2：修改
 
 //表单窗口相关
-const dialogType = ref(1);   // 1：新增  2：更新
+const dialogType = ref(1);        // 1：新增  2：更新
 const dialogView = ref(false);
 const dialogTitle = ref('新增');
-const dialogAdd = () => {
-  dialogTitle.value = '新增';
-  dialogType.value = 1;
-  dialogView.value = true;
+const addNote = () => {
+  router.push({ path: '/note/editor', query: { type: editorType.value } });
 }
 
 const updateCategory = (data: any) => {
@@ -216,11 +211,11 @@ const removeCategory = (id: number, name: string) => {
 //搜索分类
 const searchCategory = (limit: number = pageOptions.limit, offset: number = 0) => {
   pageOptions.offset = offset  //搜索时重置页数(偏移量)
-  if (searchText.value === '') return getCategoryList(limit, 0);
+  if (searchText.value === '') return getNoteList(limit, 0);
   searchCategoryApi({ name: searchText.value, limit: limit, offset: offset }).then(res => {
     const data = res.data;
-    categoryList.value.count = data.count;
-    categoryList.value.list = data.categoryList.map((item: any) => {
+    noteList.value.count = data.count;
+    noteList.value.list = data.noteList.map((item: any) => {
       return {
         ...item,
         coverImg: item.coverImg ? baseURL + item.coverImg : '',
@@ -235,7 +230,7 @@ const currentChange = (page: number) => {
   if (searchText.value) {
     searchCategory(pageOptions.limit, pageOptions.offset);
   } else {
-    getCategoryList(pageOptions.limit, pageOptions.offset);
+    getNoteList(pageOptions.limit, pageOptions.offset);
   }
 }
 

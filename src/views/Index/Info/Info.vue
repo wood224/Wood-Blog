@@ -40,7 +40,8 @@
           </div>
         </el-form-item>
         <el-form-item>
-          <el-button style="margin-top: 50px;" type="primary" @click="confirm(ruleFormRef)">确认修改</el-button>
+          <el-button style="margin-top: 50px;" :disabled="!isChange" type="primary"
+            @click="confirm(ruleFormRef)">确认修改</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -53,7 +54,7 @@ import { FormInstance, FormRules, UploadInstance, UploadProps } from 'element-pl
 import { getInfoApi, updateInfoApi } from '@/api/index';
 import { onBeforeRouteLeave } from 'vue-router';
 import { Tag } from '@/types/TagType';
-import { InfoType, Info } from '@/types/InfoType';
+import { Info } from '@/types/InfoType';
 
 const baseURL = __BaseURL__;
 
@@ -86,7 +87,7 @@ const showInput = () => {
 }
 
 const imgFile = ref<File | null>(null);
-const form = ref<InfoType>(new Info());
+const form = ref<Info>(new Info());
 //获取个人信息
 const getInfo = () => {
   getInfoApi().then(res => {

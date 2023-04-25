@@ -1,4 +1,4 @@
-interface Category {
+export interface Category {
   id: number;
   coverImg: string;
   name: string;
@@ -6,7 +6,11 @@ interface Category {
   createTime: string;
   updateTime: string;
 }
-export interface CategoryList {
+export class CategoryList {
   count: number;
   list: Category[];
+  constructor(count?: number, list?: Category[]) {
+    this.count = count ?? 0;
+    this.list = list ?? [];
+  }
 }

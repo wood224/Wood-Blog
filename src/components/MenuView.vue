@@ -10,16 +10,11 @@
 </template>
 
 <script setup lang='ts'>
-import { toRefs } from 'vue';
+import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 
-const props = defineProps({
-  title: {
-    type: String,
-    require: true,
-  }
-})
-
-const { title } = toRefs(props);
+const route = useRoute();
+const title = ref(route.meta.title);
 </script>
 
 <style scoped lang='scss'>

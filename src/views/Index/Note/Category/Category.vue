@@ -1,90 +1,86 @@
 <template>
-  <MenuView :title="title">
-    <template #default>
-      <div class="category-wrapper">
-        <div class="top">
-          <div class="search">
-            <div class="ipt">
-              <el-input v-model="searchText" class="w-50 m-2" size="large" placeholder="搜索分类名" :prefix-icon="Search"
-                maxlength="10" show-word-limit clearable @keyup.enter="searchCategory(pageOptions.limit)" />
-            </div>
-            <div class="btn">
-              <el-button @click="searchCategory(pageOptions.limit)">搜索</el-button>
-            </div>
+  <MenuView>
+    <div class="category-wrapper">
+      <div class="top">
+        <div class="search">
+          <div class="ipt">
+            <el-input v-model="searchText" class="w-50 m-2" size="large" placeholder="搜索分类名" :prefix-icon="Search"
+              maxlength="10" show-word-limit clearable @keyup.enter="searchCategory(pageOptions.limit)" />
           </div>
           <div class="btn">
-            <el-button type="success" :icon="Plus" @click="dialogAdd">新增</el-button>
+            <el-button @click="searchCategory(pageOptions.limit)">搜索</el-button>
           </div>
         </div>
-        <div class="container">
-          <el-table :data="categoryList.list" border stripe>
-            <el-table-column type="index" width="50" />
-            <el-table-column label="图片">
-              <template #default="scope">
-                <div class="table-cover-img">
-                  <img :src="scope.row.coverImg" alt="暂无图片">
-                </div>
-              </template>
-            </el-table-column>
-            <el-table-column label="分类名" prop="name" width="200" />
-            <el-table-column label="分类简介" prop="introduction" width="400" />
-            <el-table-column label="创建时间" prop="createTime" />
-            <el-table-column label="更新时间" prop="updateTime" />
-            <el-table-column label="操作" width="150">
-              <template #default="scope">
-                <div>
-                  <el-button size="small" type="primary" @click="updateCategory(scope.row)">编辑</el-button>
-                  <el-button size="small" type="danger"
-                    @click="removeCategory(scope.row.id, scope.row.name)">删除</el-button>
-                </div>
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
-        <div class="pages">
-          <el-pagination layout="prev, pager, next" :current-page="(pageOptions.offset / 10) + 1"
-            :total="categoryList.count" @current-change="currentChange" />
+        <div class="btn">
+          <el-button type="success" :icon="Plus" @click="dialogAdd">新增</el-button>
         </div>
       </div>
+      <div class="container">
+        <el-table :data="categoryList.list" border stripe>
+          <el-table-column type="index" width="50" />
+          <el-table-column label="图片">
+            <template #default="scope">
+              <div class="table-cover-img">
+                <img :src="scope.row.coverImg" alt="暂无图片">
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="分类名" prop="name" width="200" />
+          <el-table-column label="分类简介" prop="introduction" width="400" />
+          <el-table-column label="创建时间" prop="createTime" />
+          <el-table-column label="更新时间" prop="updateTime" />
+          <el-table-column label="操作" width="150">
+            <template #default="scope">
+              <div>
+                <el-button size="small" type="primary" @click="updateCategory(scope.row)">编辑</el-button>
+                <el-button size="small" type="danger" @click="removeCategory(scope.row.id, scope.row.name)">删除</el-button>
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="pages">
+        <el-pagination layout="prev, pager, next" :current-page="(pageOptions.offset / 10) + 1"
+          :total="categoryList.count" @current-change="currentChange" />
+      </div>
+    </div>
 
-      <el-dialog @closed="dialogClose" v-model="dialogView" :title="dialogTitle" width="30%" align-center>
-        <el-form ref="ruleFormRef" label-position="right" label-width="100px" :model="form" :rules="rules"
-          style="max-width: 460px">
-          <el-form-item label="分类封面">
-            <el-upload ref="uploadRef" class="cover-img" :action="baseURL + '/category'" :show-file-list="false"
-              :on-change="handleCoverChange" :auto-upload="false">
-              <img v-if="form.coverImg" :src="form.coverImg" class="img" />
-              <el-icon v-else class="avatar-uploader-icon">
-                <Plus />
-              </el-icon>
-            </el-upload>
-          </el-form-item>
-          <el-form-item label="分类名" prop="name">
-            <el-input v-model="form.name" maxlength="15" show-word-limit />
-          </el-form-item>
-          <el-form-item label="分类简介" prop="introduction">
-            <el-input v-model="form.introduction" maxlength="50" type="textarea" show-word-limit />
-          </el-form-item>
-        </el-form>
-        <template #footer>
-          <span class="dialog-footer">
-            <el-button @click="dialogView = false">取消</el-button>
-            <el-button type="primary" @click="confirm(ruleFormRef)">
-              确认
-            </el-button>
-          </span>
-        </template>
-      </el-dialog>
-    </template>
+    <el-dialog @closed="dialogClose" v-model="dialogView" :title="dialogTitle" width="30%" align-center>
+      <el-form ref="ruleFormRef" label-position="right" label-width="100px" :model="form" :rules="rules"
+        style="max-width: 460px">
+        <el-form-item label="分类封面">
+          <el-upload ref="uploadRef" class="cover-img" :action="baseURL + '/category'" :show-file-list="false"
+            :on-change="handleCoverChange" :auto-upload="false">
+            <img v-if="form.coverImg" :src="form.coverImg" class="img" />
+            <el-icon v-else class="avatar-uploader-icon">
+              <Plus />
+            </el-icon>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="分类名" prop="name">
+          <el-input v-model="form.name" maxlength="15" show-word-limit />
+        </el-form-item>
+        <el-form-item label="分类简介" prop="introduction">
+          <el-input v-model="form.introduction" maxlength="50" type="textarea" show-word-limit />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogView = false">取消</el-button>
+          <el-button type="primary" @click="confirm(ruleFormRef)">
+            确认
+          </el-button>
+        </span>
+      </template>
+    </el-dialog>
   </MenuView>
 </template>
 
 <script setup lang='ts'>
 import { reactive, ref } from 'vue';
-import { useRoute } from 'vue-router';
 import { getCategoryApi, addCategoryApi, updateCategoryApi, deleteCategoryApi, searchCategoryApi } from '@/api/index';
 import { Search, Plus } from '@element-plus/icons-vue'
-import { CategoryList } from '@/types/CategoryType';
+import { Category, CategoryList } from '@/types/CategoryType';
 import { FormInstance, FormRules, UploadInstance, UploadProps } from 'element-plus';
 
 const baseURL = __BaseURL__;
@@ -97,13 +93,10 @@ const responseMessage = (data: any) => {
   }
 }
 
-const route = useRoute();
-const title = ref<string>(route.meta.title as string);
-
 const searchText = ref('');
 
 //获取分类列表
-const categoryList = ref<CategoryList>({ count: 0, list: [] });
+const categoryList = ref(new CategoryList());
 const pageOptions = reactive({
   limit: 10,
   offset: 0
@@ -112,10 +105,10 @@ const getCategoryList = (limit: number, offset: number) => {
   getCategoryApi({ limit: limit, offset: offset }).then(res => {
     const data = res.data;
     categoryList.value.count = data.count;
-    categoryList.value.list = data.categoryList.map((item: any) => {
+    categoryList.value.list = data.categoryList.map((item: Category) => {
       return {
         ...item,
-        coverImg: item.coverImg ? baseURL + item.coverImg : '',
+        coverImg: item.coverImg ? baseURL + item.coverImg : new URL('@/assets/image/defaultCategory.png', import.meta.url),
       }
     })
   })

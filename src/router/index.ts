@@ -29,6 +29,14 @@ const routes = [
         },
         children: [
           {
+            path: 'editor',
+            name: 'editor',
+            meta: {
+              title: '编辑'
+            },
+            component: () => import('../views/Index/Note/Editor/Editor.vue'),
+          },
+          {
             path: 'overview',
             name: 'overview',
             meta: {

@@ -1,14 +1,6 @@
 import { Tag } from '@/types/TagType'
 
-export interface InfoType {
-  id: number;
-  avatar: string;
-  name: string;
-  signature: string;
-  technology: Tag[];
-}
-
-export class Info implements InfoType {
+export class Info {
   id: number;
   avatar: string;
   name: string;
