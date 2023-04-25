@@ -23,8 +23,8 @@ export class Note {
   @UpdateDateColumn({ type: 'timestamp', name: 'updatetime' })
   updateTime: Date;
 
-  @Column()
-  delete: number;
+  @Column({ name: 'is_delete' })
+  isDelete: number;
 
   @OneToOne(() => NoteInfo, noteInfo => noteInfo.note, { cascade: true })
   noteInfo: NoteInfo;

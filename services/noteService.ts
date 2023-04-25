@@ -10,7 +10,8 @@ export const noteService = {
   getNoteList: async (limit: number, offset: number) => {
     const count = await noteRepository.count();
     const rows = await noteRepository.createQueryBuilder('note')
-      .orderBy('note.id').limit(limit).offset(offset).getMany();
+      .leftJoinAndSelect('note.category', 'category').orderBy('note.id')
+      .limit(limit).offset(offset).getMany();
     return {
       count,
       rows,
