@@ -30,9 +30,14 @@ export const getHomeInfoApi = () => {
   return request.get('/home');
 }
 
-//获取分类
+//获取分类(分页)
 export const getCategoryApi = (data: object) => {
   return request.get('/category', { params: data });
+}
+
+//获取分类(所有)
+export const getCategoryAllApi = () => {
+  return request.get('/category',);
 }
 
 //新增分类
@@ -58,4 +63,9 @@ export const searchCategoryApi = (data: object) => {
 //获取笔记
 export const getNoteListApi = (data: object) => {
   return request.get('/note', { params: data });
+}
+
+//新增笔记
+export const addNoteApi = (data: object) => {
+  return request.post('/note', data);
 }

@@ -10,11 +10,17 @@
 </template>
 
 <script setup lang='ts'>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { useIndexStore } from '@/store/index'
+
+const store = useIndexStore();
 
 const route = useRoute();
-const title = ref(route.meta.title);
+store.setMenuViewTitle(route.meta.title as string);
+const title = computed(() => {
+  return store.menuViewTitle;
+});
 </script>
 
 <style scoped lang='scss'>
