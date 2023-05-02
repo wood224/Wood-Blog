@@ -33,7 +33,7 @@
 <script setup lang='ts'>
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { getCategoryAllApi, addNoteApi } from '@/api';
+import { getCategoryAllApi, addNoteApi, getNoteInfoApi, updateNoteApi } from '@/api';
 import { useIndexStore } from '@/store';
 import { FormInstance, FormRules } from 'element-plus';
 import MdEditor from 'md-editor-v3';
@@ -44,7 +44,7 @@ const baseURL = __BaseURL__;
 const store = useIndexStore();
 const route = useRoute();
 const type = ref(route.query.type ? Number(route.query.type) : 1);    // 1：新增  2：修改
-const id = ref(route.query.id);
+const id = ref(Number(route.query.id));
 
 const categoryList = ref([{
   id: 0,
@@ -67,6 +67,18 @@ const form = ref({
   categoryId: '',
   text: ''
 });
+const getInfo = () => {
+  if (!id.value || type.value === 1) return
+  getNoteInfoApi(id.value).then(res => {
+    const data = res.data;
+    form.value.title = data.title;
+    form.value.subtitle = data.subtitle;
+    form.value.categoryId = data.category.id;
+    form.value.text = data.noteInfo.noteText;
+    console.log(form.value);
+  })
+}
+getInfo();
 
 //表单校验
 const ruleFormRef = ref<FormInstance>();
@@ -91,14 +103,16 @@ const onSave = async (formRules: FormInstance | undefined) => {
         addNoteApi(form.value).then(res => {
           console.log(res.data);
         })
+      } if (type.value === 2) {
+        updateNoteApi(id.value, form.value).then(res => {
+          console.log(res.data);
+        })
       }
     }
   })
 }
 
 onMounted(() => {
-  console.log(type.value);
-
   store.setMenuViewTitle(type.value === 1 ? '新增' : '修改');
 })
 </script>

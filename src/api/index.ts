@@ -69,3 +69,13 @@ export const getNoteListApi = (data: object) => {
 export const addNoteApi = (data: object) => {
   return request.post('/note', data);
 }
+
+//获取笔记内容
+export const getNoteInfoApi = (id: number) => {
+  return request.get(`/note/${id}`);
+}
+
+//修改笔记
+export const updateNoteApi = (id: number, data: object) => {
+  return request.put(`/note/${id}`, data);
+}
