@@ -1,7 +1,6 @@
 import { Request, Response } from 'express'
 import { noteService } from '../services/noteService'
 const moment = require('moment');
-import { saveToUploads } from '../utils/saveToUploads';
 
 export const noteController = {
   //检查标题
@@ -42,6 +41,29 @@ export const noteController = {
     }
     else {
       res.status(410).send({ code: 410, msg: '该标题已存在！' });
+    }
+  },
+
+  //获取笔记内容
+  getInfo: async (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    if (id) {
+      const row = await noteService.getInfo(id);
+      res.send(row);
+    } else {
+      res.status(410).send({ code: 410, msg: '出错了！' });
+    }
+  },
+
+  //修改笔记
+  updateNote: async (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    const body = req.body;
+    const row = await noteService.updateNote(id, body.title, body.subtitle, body.categoryId, body.text);
+    if (row) {
+      res.send({ code: 200, msg: '修改成功！' });
+    } else {
+      res.status(410).send({ code: 410, msg: '修改失败！' });
     }
   }
 }

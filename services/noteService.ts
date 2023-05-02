@@ -48,6 +48,29 @@ export const noteService = {
     })
 
     return row;
-  }
+  },
 
+  //获取笔记内容
+  getInfo: async (id: number) => {
+    const row = await noteRepository.createQueryBuilder('note')
+      .innerJoinAndSelect('note.noteInfo', 'noteInfo').innerJoinAndSelect('note.category', 'category').where('note.id = :id', { id }).getOne();
+    return row;
+  },
+
+  //修改笔记
+  updateNote: async (id: number, title: string, subtitle: string, categoryId: number, text: string) => {
+    const row = await AppDataSource.transaction(async transactionalEntityManager => {
+      const note = await transactionalEntityManager.findOne(Note, { where: { id }, relations: ['category', 'noteInfo'] });
+      if (note) {
+        note.title = title;
+        note.subtitle = subtitle;
+        note.category.id = categoryId;
+        note.noteInfo.noteText = text;
+        const row = await transactionalEntityManager.save(note);
+        return row;
+      }
+      return null;
+    })
+    return row;
+  }
 }
