@@ -13,6 +13,10 @@ import { categoryController } from '../controllers/categoryController';
  * @apiVersion  1.0.0
  * 
  * 
+ * @apiParam  {Number} [limit] 每页个数
+ * @apiParam  {Number} [offset] 偏移量
+ * 
+ * 
  * @apiSuccess {Number} count 总数
  * @apiSuccess {Object} categoryList 分类列表
  * @apiSuccess {Number} categoryList.id id
@@ -22,7 +26,7 @@ import { categoryController } from '../controllers/categoryController';
  * @apiSuccess {String} categoryList.createTime 创建时间
  * @apiSuccess {String} categoryList.updateTime 更新时间
  * 
- * @apiSuccessExample {json} 成功响应:
+ * @apiSuccessExample {json} 成功响应(有参):
  * {
  *    "count" : 1,
  *    "categoryList":[{
@@ -34,6 +38,14 @@ import { categoryController } from '../controllers/categoryController';
  *        "updateTime" : "2023-04-15 16:11:01"
  *    }]
  * }
+ * @apiSuccessExample {json} 成功响应(无参):
+ * [
+ *    {
+ *      id: 33, 
+ *      name: 'Vue3',
+ *      "coverImg" : "/uploads/category/1681191866260-Vue3.png"
+ *    }
+ * ]
  * 
  */
 router.get('/', categoryController.getCategoryList);

@@ -8,9 +8,6 @@ export class Note {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'cover_img' })
-  coverImg: string;
-
   @Column()
   title: string;
 

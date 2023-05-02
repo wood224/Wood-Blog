@@ -13,7 +13,7 @@ export const categoryService = {
   },
 
   //获取分类列表
-  getCategoryList: async (limit: number, offset: number) => {
+  getCategoryList: async (limit?: number, offset?: number) => {
     const count = await categoryRepository.count();
     const rows = await categoryRepository.createQueryBuilder('category')
       .innerJoinAndSelect('category.categoryInfo', 'categoryInfo').orderBy("category.id")
@@ -26,23 +26,20 @@ export const categoryService = {
 
   //新增分类
   addCategory: async (name: string, coverImg: string = '', introduction: string = '') => {
-    const rows = await AppDataSource.transaction(async transactionalEntityManager => {
-      //主表数据
+    const row = await AppDataSource.transaction(async transactionalEntityManager => {
       const category = new Category();
       category.name = name;
-      //插入数据
       const saveCategoryData = await transactionalEntityManager.save(category);
-      //副表数据
+
       const categoryInfo = new CategoryInfo();
       categoryInfo.coverImg = coverImg;
       categoryInfo.introduction = introduction;
       categoryInfo.category = saveCategoryData;
-      //插入数据
       const row = await transactionalEntityManager.save(categoryInfo);
 
       return row;
     })
-    return rows;
+    return row;
   },
 
   //修改分类
