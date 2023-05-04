@@ -94,7 +94,6 @@ export const noteService = {
       .andWhere('category.is_delete=0')
       .andWhere('note.title LIKE :title', { title: `%${title}%` })
       .orderBy("note.id").limit(limit).offset(offset).getMany();
-    console.log(rows);
     return {
       count,
       rows
