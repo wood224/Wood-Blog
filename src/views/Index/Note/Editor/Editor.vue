@@ -75,7 +75,6 @@ const getInfo = () => {
     form.value.subtitle = data.subtitle;
     form.value.categoryId = data.category.id;
     form.value.text = data.noteInfo.noteText;
-    console.log(form.value);
   })
 }
 getInfo();
@@ -101,11 +100,11 @@ const onSave = async (formRules: FormInstance | undefined) => {
     if (valid) {
       if (type.value === 1) {
         addNoteApi(form.value).then(res => {
-          console.log(res.data);
+
         })
       } if (type.value === 2) {
         updateNoteApi(id.value, form.value).then(res => {
-          console.log(res.data);
+
         })
       }
     }

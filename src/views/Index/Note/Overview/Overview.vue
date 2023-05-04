@@ -27,7 +27,7 @@
             <template #default="scope">
               <div>
                 <el-button size="small" type="primary" @click="editorNote(2, scope.row.id)">编辑</el-button>
-                <el-button size="small" type="danger" @click="removeNote(scope.row.id, scope.row.name)">删除</el-button>
+                <el-button size="small" type="danger" @click="removeNote(scope.row.id, scope.row.title)">删除</el-button>
               </div>
             </template>
           </el-table-column>
@@ -43,7 +43,7 @@
 
 <script setup lang='ts'>
 import { reactive, ref } from 'vue';
-import { getNoteListApi, deleteCategoryApi, searchCategoryApi } from '@/api/index';
+import { getNoteListApi, deleteNoteApi, searchCategoryApi } from '@/api/index';
 import { Search, Plus } from '@element-plus/icons-vue'
 import { Note, NoteList } from '@/types/NoteType';
 import router from '@/router';
@@ -79,18 +79,21 @@ const editorNote = (type: number, id?: number) => {
 
 //删除分类
 const removeNote = (id: number, name: string) => {
-  ElMessageBox.confirm(`确认删除分类 ${name} 吗？`, '提示', {
+  ElMessageBox.confirm(`确认删除笔记 《${name}》 吗？`, '提示', {
     confirmButtonText: '确认删除',
     confirmButtonClass: 'confirm-remove-button',
     cancelButtonText: '取消',
     type: 'warning',
-  }
-  )
+  })
     .then(() => {
-      deleteCategoryApi(id).then(res => {
+      deleteNoteApi(id).then(res => {
         const data = res.data;
+        if (data.code === 200) {
+          getNoteList();
+        }
       });
     })
+    .catch(() => { })
 }
 
 //搜索分类

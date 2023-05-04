@@ -85,8 +85,8 @@ import { FormInstance, FormRules, UploadInstance, UploadProps } from 'element-pl
 
 const baseURL = __BaseURL__;
 
-//响应消息显示
-const responseMessage = (data: any) => {
+//刷新列表
+const RefreshList = (data: any) => {
   if (data.code === 200) {
     dialogView.value = false;
     getCategoryList(pageOptions.limit, pageOptions.offset);
@@ -173,12 +173,12 @@ const confirm = async (formRules: FormInstance | undefined) => {
       if (dialogType.value === 1) {
         addCategoryApi(formData).then(res => {
           const data = res.data;
-          responseMessage(data);
+          RefreshList(data);
         });
       } else if (dialogType.value === 2) {
         updateCategoryApi(formData).then(res => {
           const data = res.data;
-          responseMessage(data);
+          RefreshList(data);
         });
       }
     }
@@ -196,14 +196,14 @@ const removeCategory = (id: number, name: string) => {
     confirmButtonClass: 'confirm-remove-button',
     cancelButtonText: '取消',
     type: 'warning',
-  }
-  )
+  })
     .then(() => {
       deleteCategoryApi(id).then(res => {
         const data = res.data;
-        responseMessage(data);
+        RefreshList(data);
       });
     })
+    .catch(() => { })
 }
 
 //搜索分类

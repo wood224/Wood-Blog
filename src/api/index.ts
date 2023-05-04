@@ -79,3 +79,8 @@ export const getNoteInfoApi = (id: number) => {
 export const updateNoteApi = (id: number, data: object) => {
   return request.put(`/note/${id}`, data);
 }
+
+//删除笔记
+export const deleteNoteApi = (id: number) => {
+  return request.delete(`/note/${id}`);
+}
