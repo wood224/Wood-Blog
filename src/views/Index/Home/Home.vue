@@ -12,7 +12,7 @@
     </div>
     <div class="count">
       <el-card shadow="hover">
-
+        <div class="category-pie" ref="categoryPieRef"></div>
       </el-card>
     </div>
     <div class="new-notes"></div>
@@ -20,14 +20,47 @@
 </template>
 
 <script setup lang='ts'>
-import { ref } from 'vue';
-import { getHomeInfoApi } from '../../../api/index';
+import { onMounted, ref } from 'vue';
+import { getHomeInfoApi, getCategoryNoteCountApi } from '../../../api/index';
+import * as echarts from 'echarts';
+
+const categoryPieData = ref();
+const categoryPieRef = ref();
+const setCategoryPie = () => {
+  getCategoryNoteCountApi().then(res => {
+    const data = res.data;
+    categoryPieData.value = data;
+    const pieChart = echarts.init(categoryPieRef.value);
+    pieChart.setOption({
+      series: [
+        {
+          label: {
+            formatter: '{b}: {c}篇 ({d}%)'
+          },
+          type: 'pie',
+          data: categoryPieData.value.map((item: any) => {
+            return {
+              name: item.name,
+              value: item.count
+            }
+          })
+        }
+      ]
+    });
+  })
+
+}
 
 
 
 getHomeInfoApi().then(res => {
   console.log(res.data);
 })
+
+onMounted(() => {
+  setCategoryPie();
+})
+
 </script>
 
 <style scoped lang='scss'>
@@ -64,6 +97,11 @@ getHomeInfoApi().then(res => {
 
   .count {
     grid-area: count;
+
+    .category-pie {
+      width: 100%;
+      height: 100%;
+    }
   }
 
   .new-notes {

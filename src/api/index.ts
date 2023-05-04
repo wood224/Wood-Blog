@@ -60,6 +60,11 @@ export const searchCategoryApi = (data: object) => {
   return request.get('/category/search', { params: data });
 }
 
+//获取各分类下笔记数量
+export const getCategoryNoteCountApi = () => {
+  return request.get('/category/count');
+}
+
 //获取笔记
 export const getNoteListApi = (data: object) => {
   return request.get('/note', { params: data });
