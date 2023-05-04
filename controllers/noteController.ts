@@ -24,6 +24,9 @@ export const noteController = {
 
   //新增笔记
   addNote: async (req: Request, res: Response) => {
+    if (req.body.text === '') {
+      return res.status(410).send({ code: 410, msg: '文本内容不能为空！' });
+    }
     const form = {
       title: req.body.title,
       subtitle: req.body.subtitle,
@@ -51,7 +54,7 @@ export const noteController = {
       const row = await noteService.getInfo(id);
       res.send(row);
     } else {
-      res.status(410).send({ code: 410, msg: '出错了！' });
+      res.status(410).send({ code: 410, msg: '获取笔记内容出错了！' });
     }
   },
 
@@ -78,7 +81,22 @@ export const noteController = {
         res.status(410).send({ code: 410, msg: '删除失败！' });
       }
     } else {
-      res.status(410).send({ code: 410, msg: '出错了！' });
+      res.status(410).send({ code: 410, msg: '删除笔记出错了！' });
     }
+  },
+
+  //搜素笔记
+  searchNote: async (req: Request, res: Response) => {
+    console.log(req.query);
+    const title = String(req.query.title)
+    const limit = Number(req.query.limit);
+    const offset = Number(req.query.offset);
+    const { count, rows } = await noteService.searchNote(title, limit, offset);
+    const data = rows.filter(row => {
+      row.createTime = moment(row.createTime).format('YYYY-MM-DD HH:mm:ss');
+      row.updateTime = moment(row.updateTime).format('YYYY-MM-DD HH:mm:ss');
+      return true;
+    });
+    res.send({ count: count, noteList: data });
   }
 }

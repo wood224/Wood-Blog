@@ -125,7 +125,7 @@ router.post('/', noteController.addNote);
  * 
  * 
  */
-router.get('/:id', noteController.getInfo);
+router.get('/info/:id', noteController.getInfo);
 
 /**
  * 
@@ -184,4 +184,7 @@ router.put('/:id', noteController.updateNote);
  * 
  */
 router.delete('/:id', noteController.deleteNote);
+
+router.get('/search', noteController.searchNote);
+
 export default router;

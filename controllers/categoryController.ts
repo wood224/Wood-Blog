@@ -103,8 +103,6 @@ export const categoryController = {
 
   //搜索分类
   searchCategory: async (req: Request, res: Response) => {
-    console.log(req.query);
-
     const name = String(req.query.name)
     const limit = Number(req.query.limit);
     const offset = Number(req.query.offset);
@@ -117,7 +115,6 @@ export const categoryController = {
         introduction: row.categoryInfo.introduction,
         createTime: moment(row.categoryInfo.createTime).format('YYYY-MM-DD HH:mm:ss'),
         updateTime: moment(row.categoryInfo.updateTime).format('YYYY-MM-DD HH:mm:ss'),
-        isDelete: row.isDelete
       }
     })
     res.send({ count: count, categoryList: data });

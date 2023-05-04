@@ -2,6 +2,7 @@ import { AppDataSource } from "../mysql/db";
 import { Note } from "../entity/Note";
 import { NoteInfo } from "../entity/NoteInfo";
 import { Category } from "../entity/Category";
+import { Like } from "typeorm";
 
 const categoryRepository = AppDataSource.getRepository(Category)
 const noteRepository = AppDataSource.getRepository(Note);
@@ -18,7 +19,9 @@ export const noteService = {
   getNoteList: async (limit: number, offset: number) => {
     const count = await noteRepository.count();
     const rows = await noteRepository.createQueryBuilder('note')
-      .leftJoinAndSelect('note.category', 'category').where('note.is_delete=0 AND category.is_delete=0')
+      .leftJoinAndSelect('note.category', 'category')
+      .where('note.is_delete=0')
+      .andWhere('category.is_delete=0')
       .orderBy('note.id').limit(limit).offset(offset).getMany();
     return {
       count,
@@ -53,7 +56,9 @@ export const noteService = {
   //获取笔记内容
   getInfo: async (id: number) => {
     const row = await noteRepository.createQueryBuilder('note')
-      .innerJoinAndSelect('note.noteInfo', 'noteInfo').innerJoinAndSelect('note.category', 'category').where('note.id = :id', { id }).getOne();
+      .innerJoinAndSelect('note.noteInfo', 'noteInfo')
+      .innerJoinAndSelect('note.category', 'category')
+      .where('note.id = :id', { id }).getOne();
     return row;
   },
 
@@ -78,5 +83,21 @@ export const noteService = {
   deleteNote: async (id: number) => {
     const row = await noteRepository.update(id, { isDelete: 1 });
     return row;
+  },
+
+  //搜索笔记
+  searchNote: async (title: string, limit: number, offset: number) => {
+    const count = await noteRepository.count({ where: { title: Like(`%${title}%`) } })
+    const rows = await noteRepository.createQueryBuilder('note')
+      .leftJoinAndSelect('note.category', 'category')
+      .where('note.is_delete=0')
+      .andWhere('category.is_delete=0')
+      .andWhere('note.title LIKE :title', { title: `%${title}%` })
+      .orderBy("note.id").limit(limit).offset(offset).getMany();
+    console.log(rows);
+    return {
+      count,
+      rows
+    };
   }
 }
