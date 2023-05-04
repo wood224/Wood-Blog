@@ -24,20 +24,24 @@
         </div>
       </div>
       <div class="text">
-        <MdEditor class="editor" v-model="form.text" @onSave="onSave(ruleFormRef)"></MdEditor>
+        <MdEditor class="editor" v-model="form.text"></MdEditor>
+      </div>
+      <div class="btn">
+        <el-button type="primary" @click="submit(ruleFormRef)">提交</el-button>
       </div>
     </div>
   </MenuView>
 </template>
 
 <script setup lang='ts'>
-import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { onMounted, ref, watch } from 'vue';
+import { onBeforeRouteLeave, useRoute } from 'vue-router';
 import { getCategoryAllApi, addNoteApi, getNoteInfoApi, updateNoteApi } from '@/api';
 import { useIndexStore } from '@/store';
 import { FormInstance, FormRules } from 'element-plus';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
+import router from '@/router';
 
 const baseURL = __BaseURL__;
 
@@ -94,22 +98,49 @@ const rules = ref<FormRules>({
   ]
 });
 
-const onSave = async (formRules: FormInstance | undefined) => {
+const submit = async (formRules: FormInstance | undefined) => {
   if (!formRules) return;
+  if (form.value.text === '') return ElMessage.error('文本内容不能为空！');
   await formRules.validate((valid, fields) => {
     if (valid) {
       if (type.value === 1) {
         addNoteApi(form.value).then(res => {
-
         })
-      } if (type.value === 2) {
+      }
+      else if (type.value === 2) {
         updateNoteApi(id.value, form.value).then(res => {
 
         })
       }
+      changeCount.value = 0;
+      isChange.value = false;
+      router.push('/note/overview');
     }
   })
 }
+
+//修改未保存提示
+const changeCount = ref(0);   //修改次数，当为1时表示为初始化时的变化
+const isChange = ref(false);
+watch(form, () => {
+  if (changeCount.value <= 10) changeCount.value++;   //增加修改次数
+  isChange.value = changeCount.value > 1;
+}, { deep: true })
+onBeforeRouteLeave((to, from) => {
+  if (isChange.value) {
+    return ElMessageBox.confirm('有修改未提交，确定离开吗？', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消'
+    }).then(() => {
+      return true;
+    }).catch(() => {
+      return false;
+    });
+  }
+  else {
+    return true
+  }
+})
 
 onMounted(() => {
   store.setMenuViewTitle(type.value === 1 ? '新增' : '修改');
@@ -144,23 +175,17 @@ onMounted(() => {
 
   .text {
     flex: 1;
+    overflow: hidden;
 
     .editor {
       height: 100%;
     }
   }
-}
 
-.cover-img {
-  display: block;
-  width: 200px;
-  height: 200px;
-
-  .img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
+  .btn {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row-reverse;
   }
 }
 

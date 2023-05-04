@@ -26,6 +26,7 @@ import { Menus, Header } from './components';
   .view {
     display: flex;
     flex: 1;
+    overflow: hidden;
 
     .router-view {
       flex: 1;

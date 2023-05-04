@@ -18,7 +18,7 @@
   display: flex;
   justify-content: space-between;
   padding: 10px 50px;
-  border-bottom: 2 px solid rgb(0, 255, 255);
+  border-bottom: 2px solid rgb(0, 255, 255);
   width: 100%;
   height: 80px;
   background-color: var(--index-bg);

@@ -22,6 +22,7 @@
 }
 
 .el-menu .el-menu-item.is-active {
+  background-color: var(--index-blue);
   color: var(--menu-text-color);
 }
 

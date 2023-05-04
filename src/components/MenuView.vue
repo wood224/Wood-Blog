@@ -1,7 +1,7 @@
 <template>
   <div class="menu-view-wrapper">
     <div class="title">
-      <h1>{{ title }}</h1>
+      <span>{{ title }}</span>
     </div>
     <div class="container">
       <slot></slot>
@@ -32,9 +32,17 @@ const title = computed(() => {
   padding: 20px;
   background: #EFF0F4;
 
+  .title {
+    margin-bottom: 20px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
   .container {
-    margin-top: 20px;
     flex: 1;
+    overflow: hidden;
   }
 }
 </style>

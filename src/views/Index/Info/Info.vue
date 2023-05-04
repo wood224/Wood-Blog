@@ -185,7 +185,7 @@ watch(form, () => {
 }, { deep: true })
 onBeforeRouteLeave((to, from) => {
   if (isChange.value) {
-    return ElMessageBox.confirm('有保存未提交，确定离开吗？', '提示', {
+    return ElMessageBox.confirm('有修改未提交，确定离开吗？', '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消'
     }).then(() => {
