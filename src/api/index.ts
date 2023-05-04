@@ -57,7 +57,7 @@ export const deleteCategoryApi = (id: number) => {
 
 //搜索分类
 export const searchCategoryApi = (data: object) => {
-  return request.get('/category/search/', { params: data });
+  return request.get('/category/search', { params: data });
 }
 
 //获取笔记
@@ -72,7 +72,7 @@ export const addNoteApi = (data: object) => {
 
 //获取笔记内容
 export const getNoteInfoApi = (id: number) => {
-  return request.get(`/note/${id}`);
+  return request.get(`/note/info/${id}`);
 }
 
 //修改笔记
@@ -83,4 +83,9 @@ export const updateNoteApi = (id: number, data: object) => {
 //删除笔记
 export const deleteNoteApi = (id: number) => {
   return request.delete(`/note/${id}`);
+}
+
+//搜索笔记
+export const searchNoteApi = (data: object) => {
+  return request.get('/note/search', { params: data });
 }

@@ -5,10 +5,10 @@
         <div class="search">
           <div class="ipt">
             <el-input v-model="searchText" class="w-50 m-2" size="large" placeholder="搜索笔记名" :prefix-icon="Search"
-              maxlength="10" show-word-limit clearable @keyup.enter="searchCategory(pageOptions.limit)" />
+              maxlength="10" show-word-limit clearable @keyup.enter="searchNote(pageOptions.limit)" />
           </div>
           <div class="btn">
-            <el-button @click="searchCategory(pageOptions.limit)">搜索</el-button>
+            <el-button @click="searchNote(pageOptions.limit)">搜索</el-button>
           </div>
         </div>
         <div class="btn">
@@ -20,7 +20,11 @@
           <el-table-column type="index" width="50" />
           <el-table-column label="标题" prop="title" />
           <el-table-column label="副标题" prop="subtitle" />
-          <el-table-column label="分类" prop="category.name" />
+          <el-table-column label="分类">
+            <template #default="scope">
+              <span class="category-text">{{ scope.row.category.name }}</span>
+            </template>
+          </el-table-column>
           <el-table-column label="创建时间" prop="createTime" />
           <el-table-column label="更新时间" prop="updateTime" />
           <el-table-column label="操作" width="150">
@@ -43,7 +47,7 @@
 
 <script setup lang='ts'>
 import { reactive, ref } from 'vue';
-import { getNoteListApi, deleteNoteApi, searchCategoryApi } from '@/api/index';
+import { getNoteListApi, deleteNoteApi, searchNoteApi } from '@/api/index';
 import { Search, Plus } from '@element-plus/icons-vue'
 import { Note, NoteList } from '@/types/NoteType';
 import router from '@/router';
@@ -62,12 +66,7 @@ const getNoteList = (limit: number = pageOptions.limit, offset: number = 0) => {
   getNoteListApi({ limit: limit, offset: offset }).then(res => {
     const data = res.data;
     noteList.value.count = data.count;
-    noteList.value.list = data.noteList.map((item: Note) => {
-      return {
-        ...item,
-        coverImg: item.coverImg ? baseURL + item.coverImg : new URL('@/assets/image/defaultNote.png', import.meta.url),
-      }
-    })
+    noteList.value.list = data.noteList;
   })
 }
 getNoteList();
@@ -96,19 +95,14 @@ const removeNote = (id: number, name: string) => {
     .catch(() => { })
 }
 
-//搜索分类
-const searchCategory = (limit: number = pageOptions.limit, offset: number = 0) => {
-  pageOptions.offset = offset  //搜索时重置页数(偏移量)
+//搜索笔记
+const searchNote = (limit: number = pageOptions.limit, offset: number = 0) => {
+  pageOptions.offset = offset;  //搜索时重置页数(偏移量)
   if (searchText.value === '') return getNoteList(limit, 0);
-  searchCategoryApi({ name: searchText.value, limit: limit, offset: offset }).then(res => {
+  searchNoteApi({ title: searchText.value, limit: limit, offset: offset }).then(res => {
     const data = res.data;
     noteList.value.count = data.count;
-    noteList.value.list = data.noteList.map((item: any) => {
-      return {
-        ...item,
-        coverImg: item.coverImg ? baseURL + item.coverImg : '',
-      }
-    })
+    noteList.value.list = data.noteList;
   })
 }
 
@@ -116,7 +110,7 @@ const searchCategory = (limit: number = pageOptions.limit, offset: number = 0) =
 const currentChange = (page: number) => {
   pageOptions.offset = (page - 1) * 10;
   if (searchText.value) {
-    searchCategory(pageOptions.limit, pageOptions.offset);
+    searchNote(pageOptions.limit, pageOptions.offset);
   } else {
     getNoteList(pageOptions.limit, pageOptions.offset);
   }
@@ -149,30 +143,23 @@ const currentChange = (page: number) => {
   }
 
   .container {
-    .span {
-      cursor: pointer;
+    ::v-deep(.el-table) {
+      .span {
+        cursor: pointer;
 
-      &:hover {
-        color: var(--index-blue);
+        &.category-text {
+          font-weight: bold;
+        }
+
+        &:hover {
+          color: var(--index-blue);
+        }
       }
     }
   }
 
   .pages {
     margin: 10px auto 0;
-  }
-}
-
-.cover-img {
-  display: block;
-  width: 200px;
-  height: 200px;
-
-  .img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
   }
 }
 </style>

@@ -2,7 +2,6 @@ import { Category } from './CategoryType';
 
 export interface Note {
   id: number;
-  coverImg: string;
   title: string;
   subtitle: string;
   createTime: string;
