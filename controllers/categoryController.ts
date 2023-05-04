@@ -116,7 +116,18 @@ export const categoryController = {
         createTime: moment(row.categoryInfo.createTime).format('YYYY-MM-DD HH:mm:ss'),
         updateTime: moment(row.categoryInfo.updateTime).format('YYYY-MM-DD HH:mm:ss'),
       }
-    })
+    });
     res.send({ count: count, categoryList: data });
+  },
+
+  //获取各分类下笔记数量
+  getCategoryNoteCount: async (req: Request, res: Response) => {
+    const rows = await categoryService.getCategoryNoteCount();
+    const data = rows.filter(row => {
+      row.count = Number(row.count);
+      return true
+    });
+    res.send(data);
+
   }
 }

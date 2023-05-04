@@ -2,6 +2,7 @@ import { AppDataSource } from '../mysql/db';
 import { Category } from '../entity/Category';
 import { CategoryInfo } from '../entity/CategoryInfo';
 import { Like } from 'typeorm';
+import { Note } from '../entity/Note';
 
 const categoryRepository = AppDataSource.getRepository(Category);
 
@@ -83,5 +84,16 @@ export const categoryService = {
       count,
       rows
     };
+  },
+
+  //获取各分类下笔记数量
+  getCategoryNoteCount: async () => {
+    const rows = await categoryRepository.createQueryBuilder('category')
+      .innerJoin('category.notes', 'note', "note.is_delete = :isDelete", { isDelete: 0 })
+      .select(['category.name AS name', 'COUNT(note.id) AS count'])
+      .where('category.is_delete = :isDelete', { isDelete: 0 })
+      .groupBy('category.id')
+      .getRawMany();
+    return rows;
   }
 }

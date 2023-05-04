@@ -149,12 +149,9 @@ router.delete('/:id', categoryController.deleteCategory);
  * @apiVersion  1.0.0
  * 
  * 
- * @apiParam  {String} name name
- * 
- * @apiParamExample  {json} 请求示例:
- * {
- *    "name" : "v",
- * }
+ * @apiParam  {String} name 搜索词
+ * @apiParam  {Number} [limit] 每页个数
+ * @apiParam  {Number} [offset] 偏移量
  * 
  * 
  * @apiSuccess {Number} count 总数
@@ -183,4 +180,5 @@ router.delete('/:id', categoryController.deleteCategory);
  */
 router.get('/search', categoryController.searchCategory);
 
+router.get('/count', categoryController.getCategoryNoteCount);
 export default router;
