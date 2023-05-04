@@ -18,8 +18,8 @@ export const noteService = {
   getNoteList: async (limit: number, offset: number) => {
     const count = await noteRepository.count();
     const rows = await noteRepository.createQueryBuilder('note')
-      .leftJoinAndSelect('note.category', 'category').orderBy('note.id')
-      .limit(limit).offset(offset).getMany();
+      .leftJoinAndSelect('note.category', 'category').where('note.is_delete=0 AND category.is_delete=0')
+      .orderBy('note.id').limit(limit).offset(offset).getMany();
     return {
       count,
       rows,
@@ -71,6 +71,12 @@ export const noteService = {
       }
       return null;
     })
+    return row;
+  },
+
+  //删除笔记
+  deleteNote: async (id: number) => {
+    const row = await noteRepository.update(id, { isDelete: 1 });
     return row;
   }
 }

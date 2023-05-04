@@ -11,6 +11,9 @@ export class Category {
   @Column()
   name: string;
 
+  @Column({ name: 'is_delete' })
+  isDelete: number;
+
   @OneToOne(() => CategoryInfo, categoryInfo => categoryInfo.category, { cascade: true })
   categoryInfo: CategoryInfo;
 

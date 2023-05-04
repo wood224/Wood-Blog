@@ -16,7 +16,7 @@ export const categoryService = {
   getCategoryList: async (limit?: number, offset?: number) => {
     const count = await categoryRepository.count();
     const rows = await categoryRepository.createQueryBuilder('category')
-      .innerJoinAndSelect('category.categoryInfo', 'categoryInfo').orderBy("category.id")
+      .innerJoinAndSelect('category.categoryInfo', 'categoryInfo').where('category.is_delete=0').orderBy("category.id")
       .limit(limit).offset(offset).getMany();
     return {
       count,
@@ -69,7 +69,7 @@ export const categoryService = {
 
   //删除分类
   deleteCategory: async (id: number) => {
-    const row = await categoryRepository.delete(id);
+    const row = await categoryRepository.update(id, { isDelete: 1 });
     return row;
   },
 

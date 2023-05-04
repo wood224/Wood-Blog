@@ -17,7 +17,7 @@ export const noteController = {
     const data = rows.filter(row => {
       row.createTime = moment(row.createTime).format('YYYY-MM-DD HH:mm:ss');
       row.updateTime = moment(row.updateTime).format('YYYY-MM-DD HH:mm:ss');
-      return row.isDelete === 0;
+      return true;
     });
     res.send({ count: count, noteList: data });
   },
@@ -64,6 +64,21 @@ export const noteController = {
       res.send({ code: 200, msg: '修改成功！' });
     } else {
       res.status(410).send({ code: 410, msg: '修改失败！' });
+    }
+  },
+
+  //删除笔记
+  deleteNote: async (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    if (id) {
+      const row = await noteService.deleteNote(id);
+      if (row.affected === 1) {
+        res.send({ code: 200, msg: '删除成功！' });
+      } else {
+        res.status(410).send({ code: 410, msg: '删除失败！' });
+      }
+    } else {
+      res.status(410).send({ code: 410, msg: '出错了！' });
     }
   }
 }

@@ -16,24 +16,24 @@ export const categoryController = {
       const limit = Number(req.query.limit);
       const offset = Number(req.query.offset);
       const { count, rows } = await categoryService.getCategoryList(limit, offset);
-      const data = rows.map((item: any) => {
+      const data = rows.map(row => {
         return {
-          id: item.id,
-          name: item.name,
-          coverImg: item.categoryInfo.coverImg,
-          introduction: item.categoryInfo.introduction,
-          createTime: moment(item.categoryInfo.createTime).format('YYYY-MM-DD HH:mm:ss'),
-          updateTime: moment(item.categoryInfo.updateTime).format('YYYY-MM-DD HH:mm:ss'),
+          id: row.id,
+          name: row.name,
+          coverImg: row.categoryInfo.coverImg,
+          introduction: row.categoryInfo.introduction,
+          createTime: moment(row.categoryInfo.createTime).format('YYYY-MM-DD HH:mm:ss'),
+          updateTime: moment(row.categoryInfo.updateTime).format('YYYY-MM-DD HH:mm:ss'),
         }
       })
       res.send({ count: count, categoryList: data });
     } else {      //无参
       const { rows } = await categoryService.getCategoryList();
-      const data = rows.map((item: any) => {
+      const data = rows.map(row => {
         return {
-          id: item.id,
-          name: item.name,
-          coverImg: item.categoryInfo.coverImg,
+          id: row.id,
+          name: row.name,
+          coverImg: row.categoryInfo.coverImg,
         }
       })
       res.send(data);
@@ -109,14 +109,15 @@ export const categoryController = {
     const limit = Number(req.query.limit);
     const offset = Number(req.query.offset);
     const { count, rows } = await categoryService.searchCategory(name, limit, offset);
-    const data = rows.map((item: any) => {
+    const data = rows.map(row => {
       return {
-        id: item.id,
-        name: item.name,
-        coverImg: item.categoryInfo.coverImg,
-        introduction: item.categoryInfo.introduction,
-        createTime: moment(item.categoryInfo.createTime).format('YYYY-MM-DD HH:mm:ss'),
-        updateTime: moment(item.categoryInfo.updateTime).format('YYYY-MM-DD HH:mm:ss'),
+        id: row.id,
+        name: row.name,
+        coverImg: row.categoryInfo.coverImg,
+        introduction: row.categoryInfo.introduction,
+        createTime: moment(row.categoryInfo.createTime).format('YYYY-MM-DD HH:mm:ss'),
+        updateTime: moment(row.categoryInfo.updateTime).format('YYYY-MM-DD HH:mm:ss'),
+        isDelete: row.isDelete
       }
     })
     res.send({ count: count, categoryList: data });

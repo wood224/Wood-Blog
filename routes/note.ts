@@ -55,10 +55,10 @@ router.get('/', noteController.getNoteList);
  * @apiVersion  1.0.0
  * 
  * 
- * @apiParam  {String} title 标题
- * @apiParam  {String} subtitle 副标题
- * @apiParam  {String} text 内容
- * @apiParam  {Number} categoryId 所属分类id
+ * @apiBody  {String} title 标题
+ * @apiBody  {String} subtitle 副标题
+ * @apiBody  {String} text 内容
+ * @apiBody  {Number} categoryId 所属分类id
  * 
  * @apiParamExample  {json} 请求示例:
  * {
@@ -82,7 +82,106 @@ router.get('/', noteController.getNoteList);
  */
 router.post('/', noteController.addNote);
 
+/**
+ * 
+ * @api {get} /path/:id 获取笔记内容
+ * @apiGroup groupNote
+ * @apiVersion  1.0.0
+ * 
+ * 
+ * @apiParam  {Number} id id
+ * 
+ * 
+ * @apiSuccess  {Number} id id
+ * @apiSuccess  {String} title 标题
+ * @apiSuccess  {String} subtitle 副标题
+ * @apiSuccess  {String} createTime 创建时间
+ * @apiSuccess  {String} updateTime 修改时间
+ * @apiSuccess  {String} isDelete 是否被删除
+ * @apiSuccess  {Object} noteInfo 笔记信息
+ * @apiSuccess  {Number} noteInfo.id 笔记信息id
+ * @apiSuccess  {String} noteInfo.noteText 笔记内容
+ * @apiSuccess  {Object} category 所属分类
+ * @apiSuccess  {Number} category.id 所属分类id
+ * @apiSuccess  {String} category.name 所属分类名字
+ * 
+ * @apiSuccessExample {json} 成功响应:
+ * {
+ *    "id":1,
+ *    "title":"TypeORM是什么",
+ *    "subtitle":"TypeORM的介绍",
+ *    "createTime":"2023-04-24T09:21:26.000Z",
+ *    "updateTime":"2023-05-02T14:43:51.000Z",
+ *    "isDelete":0,
+ *    "noteInfo":{
+ *        "id":1,
+ *        "noteText":"# TypeORM是什么\n  TypeORM 是一个ORM框架，它可以运行在 NodeJS、Browser、Cordova、PhoneGap、Ionic、React Native、Expo 和 Electron 平台上，可以与 TypeScript 和 JavaScript (ES5,ES6,ES7,ES8)一起使用。 它的目标是始终支持最新的 JavaScript 特性并提供额外的特性以帮助你开发任何使用数据库的（不管是只有几张表的小型应用还是拥有多数据库的大型企业应用）应用程序。"
+ *    },
+ *    "category":{
+ *        "id":50,
+ *        "name":"TypeORM"
+ *    }
+ * }
+ * 
+ * 
+ */
 router.get('/:id', noteController.getInfo);
 
+/**
+ * 
+ * @api {put} /note/:id 修改笔记
+ * @apiGroup groupNote
+ * @apiVersion  1.0.0
+ * 
+ * @apiParam  {Number} id id
+ * @apiBody  {String} title 标题
+ * @apiBody  {String} subtitle 副标题
+ * @apiBody  {String} text 内容
+ * @apiBody  {Number} categoryId 所属分类id
+ * 
+ * @apiParamExample  {json} 请求示例:
+ * {
+ *    "id": 1,
+ *    "title": "test",
+ *    "subtitle": "",
+ *    "text": "# test",
+ *    "categoryId": 1
+ * }
+ * 
+ * 
+ * @apiSuccess {Number} code 状态码
+ * @apiSuccess {String} msg  消息
+ * 
+ * @apiSuccessExample {json} 成功响应:
+ * { 
+ *    "code": 200, 
+ *    "msg": "修改成功！" 
+ * }
+ * 
+ * 
+ */
 router.put('/:id', noteController.updateNote);
+
+/**
+ * 
+ * @api {delete} /note 删除笔记
+ * @apiGroup groupNote
+ * @apiVersion  1.0.0
+ * 
+ * 
+ * @apiParam  {Number} id id
+ * 
+ * 
+ * @apiSuccess {Number} code 状态码
+ * @apiSuccess {String} msg  消息
+ * 
+ * @apiSuccessExample {json} 成功响应:
+ * { 
+ *    "code": 200, 
+ *    "msg": "删除成功！" 
+ * }
+ * 
+ * 
+ */
+router.delete('/:id', noteController.deleteNote);
 export default router;
