@@ -94,3 +94,8 @@ export const deleteNoteApi = (id: number) => {
 export const searchNoteApi = (data: object) => {
   return request.get('/note/search', { params: data });
 }
+
+//获取5日内新增笔记
+export const newNotesApi = () => {
+  return request.get('/note/new');
+}

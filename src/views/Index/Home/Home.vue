@@ -12,16 +12,22 @@
     </div>
     <div class="count">
       <el-card shadow="hover">
+        <h1>各标题下笔记数量top5</h1>
         <div class="category-pie" ref="categoryPieRef"></div>
       </el-card>
     </div>
-    <div class="new-notes"></div>
+    <div class="new-notes">
+      <el-card shadow="hover">
+        <h1>5日内新增笔记数量</h1>
+        <div class="notes-line" ref="NotesLineRef"></div>
+      </el-card>
+    </div>
   </div>
 </template>
 
 <script setup lang='ts'>
 import { onMounted, ref } from 'vue';
-import { getHomeInfoApi, getCategoryNoteCountApi } from '../../../api/index';
+import { getHomeInfoApi, getCategoryNoteCountApi, newNotesApi } from '../../../api/index';
 import * as echarts from 'echarts';
 
 const categoryPieData = ref();
@@ -35,7 +41,8 @@ const setCategoryPie = () => {
       series: [
         {
           label: {
-            formatter: '{b}: {c}篇 ({d}%)'
+            fontSize: 16,
+            formatter: '{b}: {c}篇 ({d}%)',
           },
           type: 'pie',
           data: categoryPieData.value.map((item: any) => {
@@ -48,17 +55,48 @@ const setCategoryPie = () => {
       ]
     });
   })
-
 }
 
-
-
 getHomeInfoApi().then(res => {
-  console.log(res.data);
+
 })
+
+const NotesLineData = ref();
+const NotesLineRef = ref();
+const setNotesLine = () => {
+  newNotesApi().then(res => {
+    const data = res.data;
+    NotesLineData.value = data;
+    const lineChart = echarts.init(NotesLineRef.value);
+    lineChart.setOption({
+      tooltip: {
+        show: true,
+        trigger: 'axis',
+        valueFormatter: (value: any) => value + '篇'
+      },
+      xAxis: {
+        data: NotesLineData.value.map((item: any) => {
+          return item.date;
+        })
+      },
+      yAxis: {
+        type: 'value',
+      },
+      series: [
+        {
+          data: NotesLineData.value.map((item: any) => {
+            return item.count;
+          }),
+          type: 'line'
+        }
+      ]
+    })
+  })
+}
 
 onMounted(() => {
   setCategoryPie();
+  setNotesLine()
 })
 
 </script>
@@ -92,20 +130,28 @@ onMounted(() => {
 
   .times {
     grid-area: times;
+    margin-right: 5px;
 
   }
 
   .count {
     grid-area: count;
+    margin-left: 5px;
 
     .category-pie {
+      flex: 1;
       width: 100%;
-      height: 100%;
     }
   }
 
   .new-notes {
     grid-area: notes;
+    margin-top: 10px;
+
+    .notes-line {
+      width: 100%;
+      flex: 1;
+    }
   }
 }
 </style>
