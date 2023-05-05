@@ -35,18 +35,19 @@
 
 <script setup lang='ts'>
 import { onMounted, ref, watch } from 'vue';
-import { onBeforeRouteLeave, useRoute } from 'vue-router';
+import { onBeforeRouteLeave, useRouter, useRoute } from 'vue-router';
 import { getCategoryAllApi, addNoteApi, getNoteInfoApi, updateNoteApi } from '@/api';
 import { useIndexStore } from '@/store';
 import { FormInstance, FormRules } from 'element-plus';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
-import router from '@/router';
 
 const baseURL = __BaseURL__;
 
 const store = useIndexStore();
 const route = useRoute();
+const router = useRouter();
+
 const type = ref(route.query.type ? Number(route.query.type) : 1);    // 1：新增  2：修改
 const id = ref(Number(route.query.id));
 
@@ -126,6 +127,7 @@ watch(form, () => {
   if (changeCount.value <= 10) changeCount.value++;   //增加修改次数
   isChange.value = changeCount.value > 1;
 }, { deep: true })
+
 onBeforeRouteLeave((to, from) => {
   if (isChange.value) {
     return ElMessageBox.confirm('有修改未提交，确定离开吗？', '提示', {

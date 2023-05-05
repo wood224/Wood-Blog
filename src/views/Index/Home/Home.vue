@@ -26,18 +26,20 @@
 </template>
 
 <script setup lang='ts'>
-import { onMounted, ref } from 'vue';
+import { onActivated, onBeforeMount, onBeforeUnmount, onMounted, ref } from 'vue';
 import { getHomeInfoApi, getCategoryNoteCountApi, newNotesApi } from '../../../api/index';
 import * as echarts from 'echarts';
+import { onBeforeRouteLeave } from 'vue-router';
 
 const categoryPieData = ref();
 const categoryPieRef = ref();
+const pieChart = ref();
 const setCategoryPie = () => {
   getCategoryNoteCountApi().then(res => {
     const data = res.data;
     categoryPieData.value = data;
-    const pieChart = echarts.init(categoryPieRef.value);
-    pieChart.setOption({
+    pieChart.value = echarts.init(categoryPieRef.value);
+    pieChart.value.setOption({
       series: [
         {
           label: {
@@ -63,12 +65,13 @@ getHomeInfoApi().then(res => {
 
 const NotesLineData = ref();
 const NotesLineRef = ref();
+const lineChart = ref()
 const setNotesLine = () => {
   newNotesApi().then(res => {
     const data = res.data;
     NotesLineData.value = data;
-    const lineChart = echarts.init(NotesLineRef.value);
-    lineChart.setOption({
+    lineChart.value = echarts.init(NotesLineRef.value);
+    lineChart.value.setOption({
       tooltip: {
         show: true,
         trigger: 'axis',
@@ -96,7 +99,14 @@ const setNotesLine = () => {
 
 onMounted(() => {
   setCategoryPie();
-  setNotesLine()
+  setNotesLine();
+})
+
+onBeforeRouteLeave(() => {
+  if (lineChart.value)
+    lineChart.value.dispose();
+  if (pieChart.value)
+    pieChart.value.dispose();
 })
 
 </script>

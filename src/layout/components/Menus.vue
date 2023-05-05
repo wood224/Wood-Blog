@@ -15,23 +15,23 @@
             <el-menu-item v-for="(child, childIndex) in item.children" :key="childIndex"
               :index="`${index}-${childIndex}`">
               <template #title>
-                <router-link class="link" :to="`/${item.path}/${child.path}`" v-if="child.meta">
+                <span @click="addTab(child, 'note')" class="link" v-if="child.meta">
                   <div class="icon" v-if="typeof (child.meta.icon) === 'string'">
                     <i class="fa" :class="child.meta.icon"></i>
                   </div>
                   <span>{{ child.meta.title }}</span>
-                </router-link>
+                </span>
               </template>
             </el-menu-item>
           </el-sub-menu>
           <el-menu-item v-else :index="`${index}`">
             <template #title>
-              <router-link class="link" :to="'/' + item.path">
+              <span @click="addTab(item)" class="link">
                 <div class="icon" v-if="typeof (item.meta?.icon) === 'string'">
                   <i class="fa" :class="item.meta?.icon"></i>
                 </div>
                 <span>{{ item.meta?.title }}</span>
-              </router-link>
+              </span>
             </template>
           </el-menu-item>
         </template>
@@ -41,10 +41,11 @@
 </template>
 
 <script setup lang='ts'>
-import { computed, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { computed, onMounted, ref } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 
 const router = useRouter();
+const route = useRoute();
 
 const menuList = computed(() => {
   if (router.options.routes[0].children) {
@@ -54,6 +55,21 @@ const menuList = computed(() => {
 
 const isCollapse = ref(false);
 
+const emit = defineEmits(['addTab'])
+const addTab = (route: any, parentName?: string) => {
+  let fullPath = '';
+  if (parentName) {
+    fullPath = `/${parentName}/${route.path}`
+  }
+  else {
+    fullPath = `/${route.path}`
+  }
+  emit('addTab', route.meta.title, fullPath);
+}
+
+onMounted(() => {
+  emit('addTab', route.meta.title, route.fullPath);
+})
 </script>
 
 <style scoped lang='scss'>

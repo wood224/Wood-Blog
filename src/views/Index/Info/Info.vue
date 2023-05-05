@@ -205,6 +205,7 @@ onBeforeRouteLeave((to, from) => {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
 
   .left {
     display: flex;

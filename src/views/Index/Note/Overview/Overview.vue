@@ -30,7 +30,8 @@
           <el-table-column label="操作" width="150">
             <template #default="scope">
               <div>
-                <el-button size="small" type="primary" @click="editorNote(2, scope.row.id)">编辑</el-button>
+                <el-button size="small" type="primary"
+                  @click="editorNote(2, scope.row.id, scope.row.title)">编辑</el-button>
                 <el-button size="small" type="danger" @click="removeNote(scope.row.id, scope.row.title)">删除</el-button>
               </div>
             </template>
@@ -49,10 +50,14 @@
 import { reactive, ref } from 'vue';
 import { getNoteListApi, deleteNoteApi, searchNoteApi } from '@/api/index';
 import { Search, Plus } from '@element-plus/icons-vue'
-import { Note, NoteList } from '@/types/NoteType';
-import router from '@/router';
+import { NoteList } from '@/types/NoteType';
+import { useIndexStore } from '@/store'
+import { useRouter } from 'vue-router';
 
 const baseURL = __BaseURL__;
+
+const router = useRouter();
+const store = useIndexStore();
 
 const searchText = ref('');
 
@@ -71,8 +76,10 @@ const getNoteList = (limit: number = pageOptions.limit, offset: number = 0) => {
 }
 getNoteList();
 
-const editorNote = (type: number, id?: number) => {
-  router.push({ path: '/note/editor', query: { type: type, id: id } });
+//编辑笔记
+const editorNote = (type: number, id?: number, title?: string) => {
+  store.setIsEditor(true, type, id);
+  // router.push({ path: '/note/editor', query: { type: type, id: id } });
 }
 
 

@@ -21,9 +21,8 @@
   background-color: #337ecc;
 }
 
-.el-menu .el-menu-item.is-active {
-  background-color: var(--index-blue);
-  color: var(--menu-text-color);
+.el-menu-item.is-active {
+  color: white !important;
 }
 
 /* 菜单 */
@@ -76,3 +75,10 @@
 }
 
 /* ElMessageBox.confirm的确认按钮样式 */
+
+/* tab标签页 */
+.el-tabs__header {
+  margin-bottom: 0 !important;
+}
+
+/* tab标签页 */
