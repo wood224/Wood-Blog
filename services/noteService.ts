@@ -2,7 +2,7 @@ import { AppDataSource } from "../mysql/db";
 import { Note } from "../entity/Note";
 import { NoteInfo } from "../entity/NoteInfo";
 import { Category } from "../entity/Category";
-import { Like } from "typeorm";
+import { Between, Like, MoreThanOrEqual } from "typeorm";
 
 const categoryRepository = AppDataSource.getRepository(Category)
 const noteRepository = AppDataSource.getRepository(Note);
@@ -71,6 +71,10 @@ export const noteService = {
         note.subtitle = subtitle;
         note.category.id = categoryId;
         note.noteInfo.noteText = text;
+        /**
+         * 修改其它字段
+         */
+        note.updateTime = new Date();
         const row = await transactionalEntityManager.save(note);
         return row;
       }
@@ -90,13 +94,25 @@ export const noteService = {
     const count = await noteRepository.count({ where: { title: Like(`%${title}%`) } })
     const rows = await noteRepository.createQueryBuilder('note')
       .leftJoinAndSelect('note.category', 'category')
-      .where('note.is_delete=0')
-      .andWhere('category.is_delete=0')
+      .where({ isDelete: 0 })
+      .andWhere('category.isDelete = :isDelete', { isDelete: 0 })
       .andWhere('note.title LIKE :title', { title: `%${title}%` })
       .orderBy("note.id").limit(limit).offset(offset).getMany();
     return {
       count,
       rows
     };
+  },
+
+  //5日内新增笔记数量
+  newNotes: async (startDate: Date, endDate: Date) => {
+    const rows = await noteRepository.createQueryBuilder('note')
+      .where({ createTime: Between(startDate, endDate) })
+      .andWhere({ isDelete: 0 })
+      .select(['DATE_FORMAT(createtime, "%Y-%m-%d") AS date', 'COUNT(*) AS count'])
+      .groupBy('date')
+      .orderBy("date")
+      .getRawMany();
+    return rows;
   }
 }

@@ -1,6 +1,7 @@
 import 'reflect-metadata';
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { AfterUpdate, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Note } from './Note';
+import { AppDataSource } from '../mysql/db';
 
 @Entity()
 export class NoteInfo {

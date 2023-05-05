@@ -58,6 +58,7 @@ export const categoryService = {
             categoryInfo.coverImg = coverImg;
           }
           categoryInfo.introduction = introduction;
+          categoryInfo.updateTime = new Date();
         }
         row2 = await transactionalEntityManager.save(categoryInfo);
       }
@@ -93,6 +94,8 @@ export const categoryService = {
       .select(['category.name AS name', 'COUNT(note.id) AS count'])
       .where('category.is_delete = :isDelete', { isDelete: 0 })
       .groupBy('category.id')
+      .limit(5)
+      .orderBy('count', 'DESC')
       .getRawMany();
     return rows;
   }
