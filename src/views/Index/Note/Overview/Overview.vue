@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="container">
-        <el-table :data="noteList.list" border stripe>
+        <el-table :data="noteList.list" border stripe height="100%">
           <el-table-column type="index" width="50" />
           <el-table-column label="标题" prop="title" />
           <el-table-column label="副标题" prop="subtitle" />
@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang='ts'>
-import { reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { getNoteListApi, deleteNoteApi, searchNoteApi } from '@/api/index';
 import { Search, Plus } from '@element-plus/icons-vue'
 import { NoteList } from '@/types/NoteType';
@@ -63,10 +63,7 @@ const searchText = ref('');
 
 //获取笔记列表
 const noteList = ref(new NoteList());
-const pageOptions = reactive({
-  limit: 10,
-  offset: 0
-})
+const pageOptions = reactive(store.pageOptions);
 const getNoteList = (limit: number = pageOptions.limit, offset: number = 0) => {
   getNoteListApi({ limit: limit, offset: offset }).then(res => {
     const data = res.data;
@@ -128,6 +125,7 @@ const currentChange = (page: number) => {
 .overview-wrapper {
   display: flex;
   flex-direction: column;
+  height: 100%;
 
   .top {
     display: flex;
@@ -150,6 +148,8 @@ const currentChange = (page: number) => {
   }
 
   .container {
+    height: calc(100% - 80px - 42px);
+
     ::v-deep(.el-table) {
       .span {
         cursor: pointer;

@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="container">
-        <el-table :data="categoryList.list" border stripe>
+        <el-table :data="categoryList.list" border stripe height="100%">
           <el-table-column type="index" width="50" />
           <el-table-column label="图片">
             <template #default="scope">
@@ -82,8 +82,11 @@ import { getCategoryApi, addCategoryApi, updateCategoryApi, deleteCategoryApi, s
 import { Search, Plus } from '@element-plus/icons-vue'
 import { Category, CategoryList } from '@/types/CategoryType';
 import { FormInstance, FormRules, UploadInstance, UploadProps } from 'element-plus';
+import { useIndexStore } from '@/store';
 
 const baseURL = __BaseURL__;
+
+const store = useIndexStore()
 
 //刷新列表
 const RefreshList = (data: any) => {
@@ -97,10 +100,7 @@ const searchText = ref('');
 
 //获取分类列表
 const categoryList = ref(new CategoryList());
-const pageOptions = reactive({
-  limit: 10,
-  offset: 0
-})
+const pageOptions = reactive(store.pageOptions);
 const getCategoryList = (limit: number, offset: number) => {
   getCategoryApi({ limit: limit, offset: offset }).then(res => {
     const data = res.data;
@@ -250,11 +250,13 @@ const handleCoverChange: UploadProps['onChange'] = (uploadFile) => {
 .category-wrapper {
   display: flex;
   flex-direction: column;
+  height: 100%;
 
   .top {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-shrink: 0;
     padding: 0 20px;
     width: 100%;
     height: 80px;
@@ -272,6 +274,8 @@ const handleCoverChange: UploadProps['onChange'] = (uploadFile) => {
   }
 
   .container {
+    height: calc(100% - 80px - 42px);
+
     .table-cover-img {
       width: 50px;
       height: 50px;
