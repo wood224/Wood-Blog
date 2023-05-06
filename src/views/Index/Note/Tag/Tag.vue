@@ -60,7 +60,6 @@
 import { onActivated, reactive, ref } from 'vue';
 import { getTagListApi, searchTagApi, deleteTagApi, addTagApi, updateTagApi } from '@/api/index';
 import { Search, Plus } from '@element-plus/icons-vue'
-import { Category, CategoryList } from '@/types/CategoryType';
 import { FormInstance, FormRules } from 'element-plus';
 import { TagList } from '@/types/TagType';
 import { useIndexStore } from '@/store';
