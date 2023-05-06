@@ -1,10 +1,10 @@
 import { AppDataSource } from "../mysql/db";
 import { Note } from "../entity/Note";
 import { NoteInfo } from "../entity/NoteInfo";
-import { Category } from "../entity/Category";
 import { Between, Like } from "typeorm";
+import { categoryService } from "./categoryService";
+import { tagService } from "./tagService";
 
-const categoryRepository = AppDataSource.getRepository(Category)
 const noteRepository = AppDataSource.getRepository(Note);
 const noteInfoRepository = AppDataSource.getRepository(NoteInfo);
 
@@ -20,9 +20,11 @@ export const noteService = {
     const count = await noteRepository.count({ where: { isDelete: 0 } });
     const rows = await noteRepository.createQueryBuilder('note')
       .leftJoinAndSelect('note.category', 'category')
-      .where('note.is_delete=0')
-      .andWhere('category.is_delete=0')
-      .orderBy('note.id').limit(limit).offset(offset).getMany();
+      .leftJoinAndSelect('note.tags', 'tag')
+      .where({ isDelete: 0 })
+      .andWhere('(tag.is_delete = :isDelete OR tag.id IS NULL)', { isDelete: 0 })
+      .andWhere('category.is_delete = :isDelete', { isDelete: 0 })
+      .orderBy('note.id').take(limit).skip(offset).getMany();
     return {
       count,
       rows,
@@ -30,14 +32,16 @@ export const noteService = {
   },
 
   //添加笔记
-  addNote: async (title: string, subtitle: string, categoryId: number, text: string) => {
+  addNote: async (title: string, subtitle: string, categoryId: number, tagIds: number[], text: string) => {
     const row = await AppDataSource.transaction(async transactionalEntityManager => {
-      const category = await categoryRepository.findOne({ where: { id: categoryId } });
+      const category = await categoryService.getIdCategory(categoryId);
       if (category !== null) {
+        const tags = await tagService.getTags(tagIds);
         const note = new Note();
         note.title = title;
         note.subtitle = subtitle;
         note.category = category;
+        note.tags = tags;
         const saveNoteData = await transactionalEntityManager.save(note);
 
         const noteInfo = new NoteInfo();
@@ -58,22 +62,24 @@ export const noteService = {
     const row = await noteRepository.createQueryBuilder('note')
       .innerJoinAndSelect('note.noteInfo', 'noteInfo')
       .innerJoinAndSelect('note.category', 'category')
-      .where('note.id = :id', { id }).getOne();
+      .leftJoinAndSelect('note.tags', 'tag')
+      .where('note.id = :id', { id })
+      .andWhere('(tag.is_delete = :isDelete OR tag.id IS NULL)', { isDelete: 0 })
+      .getOne();
     return row;
   },
 
   //修改笔记
-  updateNote: async (id: number, title: string, subtitle: string, categoryId: number, text: string) => {
+  updateNote: async (id: number, title: string, subtitle: string, categoryId: number, tagIds: number[], text: string) => {
     const row = await AppDataSource.transaction(async transactionalEntityManager => {
       const note = await transactionalEntityManager.findOne(Note, { where: { id }, relations: ['category', 'noteInfo'] });
       if (note) {
+        const tags = await tagService.getTags(tagIds);
         note.title = title;
         note.subtitle = subtitle;
         note.category.id = categoryId;
         note.noteInfo.noteText = text;
-        /**
-         * 修改其它字段
-         */
+        note.tags = tags;
         note.updateTime = new Date();
         const row = await transactionalEntityManager.save(note);
         return row;
@@ -104,9 +110,8 @@ export const noteService = {
     const count = await noteRepository.count({ where: { title: Like(`%${title}%`), isDelete: 0 } })
     const rows = await noteRepository.createQueryBuilder('note')
       .leftJoinAndSelect('note.category', 'category')
-      .where({ isDelete: 0 })
+      .where({ title: Like(`%${title}%`), isDelete: 0, })
       .andWhere('category.isDelete = :isDelete', { isDelete: 0 })
-      .andWhere('note.title LIKE :title', { title: `%${title}%` })
       .orderBy("note.id").limit(limit).offset(offset).getMany();
     return {
       count,
@@ -124,5 +129,18 @@ export const noteService = {
       .orderBy("date")
       .getRawMany();
     return rows;
+  },
+
+  //给笔记添加标签
+  noteAddTags: async (id: number, tagIds: number[]) => {
+    const note = await noteRepository.findOne({ where: { id } });
+    const tags = await tagService.getTags(tagIds);
+    if (note) {
+      note.tags = tags;
+      const row = await noteRepository.save(note);
+      return row;
+    } else {
+      return null;
+    }
   }
 }

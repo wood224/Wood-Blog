@@ -13,11 +13,18 @@ export const categoryService = {
     return rows;
   },
 
+  //根据 id 获取分类
+  getIdCategory: async (id: number) => {
+    const category = await categoryRepository.findOne({ where: { id: id } });
+    return category;
+  },
+
   //获取分类列表
   getCategoryList: async (limit?: number, offset?: number) => {
     const count = await categoryRepository.count({ where: { isDelete: 0 } });
     const rows = await categoryRepository.createQueryBuilder('category')
-      .innerJoinAndSelect('category.categoryInfo', 'categoryInfo').where('category.is_delete=0').orderBy("category.id")
+      .innerJoinAndSelect('category.categoryInfo', 'categoryInfo')
+      .where('category.is_delete=0').orderBy("category.id")
       .limit(limit).offset(offset).getMany();
     return {
       count,
@@ -86,7 +93,8 @@ export const categoryService = {
   searchCategory: async (name: string, limit: number, offset: number) => {
     const count = await categoryRepository.count({ where: { name: Like(`%${name}%`), isDelete: 0 } })
     const rows = await categoryRepository.createQueryBuilder('category')
-      .innerJoinAndSelect('category.categoryInfo', 'categoryInfo').where('category.name LIKE :name', { name: `%${name}%` })
+      .innerJoinAndSelect('category.categoryInfo', 'categoryInfo')
+      .where({ name: Like(`%${name}%`), isDelete: 0 })
       .orderBy("category.id").limit(limit).offset(offset).getMany();
     return {
       count,

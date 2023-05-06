@@ -14,6 +14,7 @@ import indexRouter from './routes/index';
 import categoryRouter from './routes/category';
 import adminRouter from './routes/admin';
 import noteRouter from './routes/note';
+import tagRouter from './routes/tag';
 
 const app = express();
 
@@ -71,6 +72,7 @@ app.use('/', indexRouter);
 app.use('/category', categoryRouter);
 app.use('/admin', adminRouter);
 app.use('/note', noteRouter);
+app.use('/tag', tagRouter);
 
 app.use('/apidoc', express.static(path.join(__dirname, 'apidoc')));
 

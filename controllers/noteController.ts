@@ -30,12 +30,13 @@ export const noteController = {
     const form = {
       title: req.body.title,
       subtitle: req.body.subtitle,
-      text: req.body.text,
-      categoryId: req.body.categoryId
+      categoryId: req.body.categoryId,
+      tagIds: req.body.tagIds,
+      text: req.body.text
     }
     const result = await noteController.check(form.title);
     if (result) {       //如果不存在
-      const row = await noteService.addNote(form.title, form.subtitle, form.categoryId, form.text);
+      const row = await noteService.addNote(form.title, form.subtitle, form.categoryId, form.tagIds, form.text);
       if (row) {
         res.send({ code: 200, msg: '添加成功！' });
       } else {
@@ -62,7 +63,7 @@ export const noteController = {
   updateNote: async (req: Request, res: Response) => {
     const id = Number(req.params.id);
     const body = req.body;
-    const row = await noteService.updateNote(id, body.title, body.subtitle, body.categoryId, body.text);
+    const row = await noteService.updateNote(id, body.title, body.subtitle, body.categoryId, body.tagIds, body.text);
     if (row) {
       res.send({ code: 200, msg: '修改成功！' });
     } else {
@@ -116,5 +117,5 @@ export const noteController = {
       return rows.find(item => item.date === dateStr) || { date: dateStr, count: '0' };
     })
     res.send(data);
-  }
+  },
 }
