@@ -110,7 +110,7 @@ const setTagTopBar = () => {
     barChart.setOption({
       tooltip: {
         trigger: 'axis',
-        valueFormatter: (value: any) => value + '个'
+        valueFormatter: (value: any) => value + '篇'
       },
       xAxis: {
         data: tagBarData.value.map((item: any) => {
@@ -118,7 +118,7 @@ const setTagTopBar = () => {
         })
       },
       yAxis: {
-        name: '个',
+        name: '篇',
         type: 'value',
       },
       series: [
