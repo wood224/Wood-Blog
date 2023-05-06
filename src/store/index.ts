@@ -7,10 +7,11 @@ export const useIndexStore = defineStore('index', {
     editorType: 1,
     editorId: 0,
     editorTitle: '',
+    editorChange: false,
     pageOptions: {
       limit: 10,
       offset: 0
-    }
+    },
   }),
   getters: {
 
@@ -24,6 +25,9 @@ export const useIndexStore = defineStore('index', {
       this.editorType = type ?? 1;
       this.editorId = id ?? 0;
       this.editorTitle = title ?? '';
+    },
+    setEditorChange(isChange: boolean) {
+      this.editorChange = isChange;
     },
     setPageOptionsLimit(limit: number) {
       this.pageOptions.limit = limit;

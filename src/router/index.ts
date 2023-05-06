@@ -34,7 +34,7 @@ const routes = [
             meta: {
               title: '编辑'
             },
-            component: () => import('../views/Index/Note/Editor/Editor.vue'),
+            component: () => import('@/views/Index/Note/Editor/Editor.vue'),
           },
           {
             path: 'overview',
@@ -42,7 +42,7 @@ const routes = [
             meta: {
               title: '笔记总览',
             },
-            component: () => import('../views/Index/Note/Overview/Overview.vue')
+            component: () => import('@/views/Index/Note/Overview/Overview.vue')
           },
           {
             path: 'category',
@@ -50,7 +50,7 @@ const routes = [
             meta: {
               title: '分类管理',
             },
-            component: () => import('../views/Index/Note/Category/Category.vue')
+            component: () => import('@/views/Index/Note/Category/Category.vue')
           },
           {
             path: 'tag',
@@ -58,7 +58,7 @@ const routes = [
             meta: {
               title: '标签管理',
             },
-            component: () => import('../views/Index/Note/Tag/Tag.vue')
+            component: () => import('@/views/Index/Note/Tag/Tag.vue')
           },
         ]
       },
@@ -70,14 +70,14 @@ const routes = [
           title: '个人信息',
           children: [],
         },
-        component: () => import('../views/Index/Info/Info.vue')
+        component: () => import('@/views/Index/Info/Info.vue')
       },
     ]
   },
   {
     path: '/login',
     name: 'login',
-    component: () => import('../views/Login/Login.vue')
+    component: () => import('@/views/Login/Login.vue')
   }
 ]
 

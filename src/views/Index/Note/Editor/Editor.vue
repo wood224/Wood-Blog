@@ -138,7 +138,8 @@ const submit = async (formRules: FormInstance | undefined) => {
         })
       }
       changeCount.value = 0;
-      isChange.value = false;
+      // isChange.value = false;
+      store.setEditorChange(false);
     }
   })
 }
@@ -148,11 +149,14 @@ const changeCount = ref(0);   //修改次数，当为1时表示为初始化时�
 const isChange = ref(false);
 watch(form, () => {
   if (changeCount.value <= 10) changeCount.value++;   //增加修改次数
-  isChange.value = changeCount.value > 1;
+  // isChange.value = changeCount.value > 1;
+  store.setEditorChange(changeCount.value > 1);
 }, { deep: true })
 
 onBeforeRouteLeave((to, from) => {
-  if (isChange.value) {
+  console.log(store.editorChange);
+
+  if (store.editorChange) {
     return ElMessageBox.confirm('有修改未提交，确定离开吗？', '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消'
