@@ -1,7 +1,8 @@
 import 'reflect-metadata';
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { NoteInfo } from './NoteInfo';
 import { Category } from './Category';
+import { Tag } from './Tag';
 
 @Entity()
 export class Note {
@@ -29,4 +30,18 @@ export class Note {
   @ManyToOne(() => Category, category => category.notes)
   @JoinColumn({ name: 'category_id' })
   category: Category;
+
+  @ManyToMany(() => Tag)
+  @JoinTable({
+    name: 'note_tag',
+    joinColumn: {
+      name: 'nid',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'tid',
+      referencedColumnName: 'id'
+    }
+  })
+  tags: Tag[];
 }

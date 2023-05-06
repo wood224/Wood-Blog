@@ -90,8 +90,8 @@ export const categoryController = {
   //删除分类
   deleteCategory: async (req: Request, res: Response) => {
     if (req.params) {
-      const row = await categoryService.deleteCategory(Number(req.params.id));
-      if (row.affected && row.affected === 1) {
+      const { row1, row2 } = await categoryService.deleteCategory(Number(req.params.id));
+      if (row1.affected === 1) {
         res.send({ code: 200, msg: '删除成功！' });
       } else {
         res.status(410).send({ code: 410, msg: '删除失败！' });

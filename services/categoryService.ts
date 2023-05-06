@@ -2,7 +2,7 @@ import { AppDataSource } from '../mysql/db';
 import { Category } from '../entity/Category';
 import { CategoryInfo } from '../entity/CategoryInfo';
 import { Like } from 'typeorm';
-import { Note } from '../entity/Note';
+import { noteService } from './noteService';
 
 const categoryRepository = AppDataSource.getRepository(Category);
 
@@ -15,7 +15,7 @@ export const categoryService = {
 
   //获取分类列表
   getCategoryList: async (limit?: number, offset?: number) => {
-    const count = await categoryRepository.count();
+    const count = await categoryRepository.count({ where: { isDelete: 0 } });
     const rows = await categoryRepository.createQueryBuilder('category')
       .innerJoinAndSelect('category.categoryInfo', 'categoryInfo').where('category.is_delete=0').orderBy("category.id")
       .limit(limit).offset(offset).getMany();
@@ -71,13 +71,20 @@ export const categoryService = {
 
   //删除分类
   deleteCategory: async (id: number) => {
-    const row = await categoryRepository.update(id, { isDelete: 1 });
-    return row;
+    const rows = await AppDataSource.transaction(async transactionalEntityManager => {
+      const row1 = await transactionalEntityManager.update(Category, id, { isDelete: 1 });
+      const row2 = await noteService.deleteCategoryNote(id);
+      return {
+        row1,
+        row2
+      }
+    })
+    return rows;
   },
 
   //搜索分类
   searchCategory: async (name: string, limit: number, offset: number) => {
-    const count = await categoryRepository.count({ where: { name: Like(`%${name}%`) } })
+    const count = await categoryRepository.count({ where: { name: Like(`%${name}%`), isDelete: 0 } })
     const rows = await categoryRepository.createQueryBuilder('category')
       .innerJoinAndSelect('category.categoryInfo', 'categoryInfo').where('category.name LIKE :name', { name: `%${name}%` })
       .orderBy("category.id").limit(limit).offset(offset).getMany();

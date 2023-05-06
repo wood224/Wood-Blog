@@ -2,7 +2,7 @@ import { AppDataSource } from "../mysql/db";
 import { Note } from "../entity/Note";
 import { NoteInfo } from "../entity/NoteInfo";
 import { Category } from "../entity/Category";
-import { Between, Like, MoreThanOrEqual } from "typeorm";
+import { Between, Like } from "typeorm";
 
 const categoryRepository = AppDataSource.getRepository(Category)
 const noteRepository = AppDataSource.getRepository(Note);
@@ -17,7 +17,7 @@ export const noteService = {
 
   //获取笔记列表
   getNoteList: async (limit: number, offset: number) => {
-    const count = await noteRepository.count();
+    const count = await noteRepository.count({ where: { isDelete: 0 } });
     const rows = await noteRepository.createQueryBuilder('note')
       .leftJoinAndSelect('note.category', 'category')
       .where('note.is_delete=0')
@@ -89,9 +89,19 @@ export const noteService = {
     return row;
   },
 
+  //删除分类下的所有笔记
+  deleteCategoryNote: async (categoryId: number) => {
+    const row = await noteInfoRepository.createQueryBuilder()
+      .update(Note)
+      .set({ isDelete: 1 })
+      .where('category_id = :id', { id: categoryId })
+      .execute()
+    return row;
+  },
+
   //搜索笔记
   searchNote: async (title: string, limit: number, offset: number) => {
-    const count = await noteRepository.count({ where: { title: Like(`%${title}%`) } })
+    const count = await noteRepository.count({ where: { title: Like(`%${title}%`), isDelete: 0 } })
     const rows = await noteRepository.createQueryBuilder('note')
       .leftJoinAndSelect('note.category', 'category')
       .where({ isDelete: 0 })
