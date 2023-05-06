@@ -26,20 +26,20 @@
 </template>
 
 <script setup lang='ts'>
-import { onActivated, onBeforeMount, onBeforeUnmount, onMounted, ref } from 'vue';
-import { getHomeInfoApi, getCategoryNoteCountApi, newNotesApi } from '../../../api/index';
+import { onMounted, ref } from 'vue';
+import { getCategoryNoteCountApi, newNotesApi } from '../../../api/index';
 import * as echarts from 'echarts';
 import { onBeforeRouteLeave } from 'vue-router';
 
 const categoryPieData = ref();
 const categoryPieRef = ref();
-const pieChart = ref();
+let pieChart: any;
 const setCategoryPie = () => {
   getCategoryNoteCountApi().then(res => {
     const data = res.data;
     categoryPieData.value = data;
-    pieChart.value = echarts.init(categoryPieRef.value);
-    pieChart.value.setOption({
+    pieChart = echarts.init(categoryPieRef.value);
+    pieChart.setOption({
       series: [
         {
           label: {
@@ -59,21 +59,16 @@ const setCategoryPie = () => {
   })
 }
 
-getHomeInfoApi().then(res => {
-
-})
-
 const NotesLineData = ref();
 const NotesLineRef = ref();
-const lineChart = ref()
+let lineChart: any;
 const setNotesLine = () => {
   newNotesApi().then(res => {
     const data = res.data;
     NotesLineData.value = data;
-    lineChart.value = echarts.init(NotesLineRef.value);
-    lineChart.value.setOption({
+    lineChart = echarts.init(NotesLineRef.value);
+    lineChart.setOption({
       tooltip: {
-        show: true,
         trigger: 'axis',
         valueFormatter: (value: any) => value + '篇'
       },
@@ -103,10 +98,10 @@ onMounted(() => {
 })
 
 onBeforeRouteLeave(() => {
-  if (lineChart.value)
-    lineChart.value.dispose();
-  if (pieChart.value)
-    pieChart.value.dispose();
+  if (lineChart)
+    lineChart.dispose();
+  if (pieChart)
+    pieChart.dispose();
 })
 
 </script>

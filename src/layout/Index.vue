@@ -3,7 +3,8 @@
     <Header></Header>
     <div class="view">
       <Menus @add-tab="addTab"></Menus>
-      <el-tabs v-model="tabsValue" type="card" class="tabs" closable @tab-click="tabClick" @tab-remove="removeTab">
+      <el-tabs v-model="tabsValue" type="card" class="tabs" :closable="tabsData.length > 1" @tab-click="tabClick"
+        @tab-remove="removeTab">
         <el-tab-pane v-for="item in tabsData" :key="item.name" :label="item.name" :name="item.name">
           <template v-if="tabsValue === item.name">
             <router-view #default="{ Component }" class="router-view">
