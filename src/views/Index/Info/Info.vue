@@ -53,7 +53,7 @@ import { nextTick, ref, watch } from 'vue';
 import { FormInstance, FormRules, UploadInstance, UploadProps } from 'element-plus';
 import { getInfoApi, updateInfoApi } from '@/api/index';
 import { onBeforeRouteLeave } from 'vue-router';
-import { Tag } from '@/types/TagType';
+import { TechnologyTag } from '@/types/TechnologyTagType';
 import { Info } from '@/types/InfoType';
 
 const baseURL = __BaseURL__;
@@ -115,7 +115,7 @@ const handleTagClose = (index: number) => {
 //编辑 tag
 const tagEditRefs = ref(null);
 const editInputText = ref('');
-const handleTagClick = (item: Tag, index: number) => {
+const handleTagClick = (item: TechnologyTag, index: number) => {
   item.editVisible = true;
   editInputText.value = item.name;
   nextTick(() => {
@@ -126,7 +126,7 @@ const handleTagClick = (item: Tag, index: number) => {
 const editEnterPress = (e: Event) => {
   (e.target as HTMLElement).blur();
 }
-const editTechnology = (item: Tag) => {
+const editTechnology = (item: TechnologyTag) => {
   item.name = editInputText.value
   if (editInputText.value === '') return item.editVisible = false;
   item.editVisible = false;

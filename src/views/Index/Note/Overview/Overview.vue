@@ -19,10 +19,16 @@
         <el-table :data="noteList.list" border stripe height="100%">
           <el-table-column type="index" width="50" />
           <el-table-column label="标题" prop="title" />
-          <el-table-column label="副标题" prop="subtitle" />
           <el-table-column label="分类">
             <template #default="scope">
               <span class="category-text">{{ scope.row.category.name }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="Tag">
+            <template #default="scope">
+              <el-tag v-for="item in scope.row.tags" disable-transitions>
+                {{ item.name }}
+              </el-tag>
             </template>
           </el-table-column>
           <el-table-column label="创建时间" prop="createTime" />
@@ -47,14 +53,12 @@
 </template>
 
 <script setup lang='ts'>
-import { onMounted, reactive, ref } from 'vue';
+import { onActivated, onMounted, reactive, ref } from 'vue';
 import { getNoteListApi, deleteNoteApi, searchNoteApi } from '@/api/index';
 import { Search, Plus } from '@element-plus/icons-vue'
 import { NoteList } from '@/types/NoteType';
 import { useIndexStore } from '@/store'
 import { useRouter } from 'vue-router';
-
-const baseURL = __BaseURL__;
 
 const router = useRouter();
 const store = useIndexStore();
@@ -71,7 +75,6 @@ const getNoteList = (limit: number = pageOptions.limit, offset: number = 0) => {
     noteList.value.list = data.noteList;
   })
 }
-getNoteList();
 
 //编辑笔记
 const editorNote = (type: number, id?: number, title?: string) => {
@@ -119,6 +122,10 @@ const currentChange = (page: number) => {
     getNoteList(pageOptions.limit, pageOptions.offset);
   }
 }
+
+onActivated(() => {
+  getNoteList();
+})
 </script>
 
 <style scoped lang='scss'>

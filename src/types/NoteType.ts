@@ -1,5 +1,5 @@
 import { Category } from './CategoryType';
-
+import { Tag } from './TagType';
 export interface Note {
   id: number;
   title: string;
@@ -8,6 +8,7 @@ export interface Note {
   updateTime: string;
   isDelete: number;
   category: Category;
+  tags: Tag[];
 }
 
 export class NoteList {

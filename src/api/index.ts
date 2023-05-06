@@ -25,10 +25,7 @@ export const updateInfoApi = (data: object) => {
 // //   return request.get('/menu');
 // // }
 
-//获取首页信息
-export const getHomeInfoApi = () => {
-  return request.get('/home');
-}
+//---------------------------------------------------------------------------//
 
 //获取分类(分页)
 export const getCategoryApi = (data: object) => {
@@ -65,6 +62,8 @@ export const getCategoryNoteCountApi = () => {
   return request.get('/category/count');
 }
 
+//---------------------------------------------------------------------------//
+
 //获取笔记
 export const getNoteListApi = (data: object) => {
   return request.get('/note', { params: data });
@@ -98,4 +97,31 @@ export const searchNoteApi = (data: object) => {
 //获取5日内新增笔记
 export const newNotesApi = () => {
   return request.get('/note/new');
+}
+
+//---------------------------------------------------------------------------//
+
+//获取标签列表
+export const getTagListApi = (data?: object) => {
+  return request.get('/tag', { params: data ?? {} });
+}
+
+//添加标签
+export const addTagApi = (data: object) => {
+  return request.post('/tag', data);
+}
+
+//修改标签
+export const updateTagApi = (data: object) => {
+  return request.put('/tag', data);
+}
+
+//删除标签
+export const deleteTagApi = (id: number) => {
+  return request.delete(`/tag/${id}`);
+}
+
+//搜索标签
+export const searchTagApi = (data: object) => {
+  return request.get('/tag/search', { params: data });
 }

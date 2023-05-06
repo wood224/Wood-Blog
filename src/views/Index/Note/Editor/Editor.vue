@@ -11,14 +11,24 @@
               <el-input v-model="form.subtitle" placeholder="副标题" maxlength="50" show-word-limit></el-input>
             </el-form-item>
             <el-form-item prop="categoryId">
-              <el-select class="category-select" v-model="form.categoryId" placeholder="所属分类">
-                <el-option v-for="item in categoryList" :key="item.id" :label="item.name" :value="item.id">
-                  <div class="category">
-                    <img :src="item.coverImg" alt="">
-                    <span>{{ item.name }}</span>
-                  </div>
-                </el-option>
-              </el-select>
+              <div class="select-group">
+                <el-select class="select" v-model="form.categoryId" placeholder="所属分类">
+                  <el-option v-for="item in categoryList" :key="item.id" :label="item.name" :value="item.id">
+                    <div class="category">
+                      <img :src="item.coverImg" alt="">
+                      <span>{{ item.name }}</span>
+                    </div>
+                  </el-option>
+                </el-select>
+                <el-select class="select" multiple collapse-tags collapse-tags-tooltip :max-collapse-tags="4"
+                  v-model="form.tagIds" placeholder="添加标签" style="max-width: 544px">
+                  <el-option v-for="item in tagList" :key="item.id" :label="item.name" :value="item.id">
+                    <div class="tag">
+                      <span>{{ item.name }}</span>
+                    </div>
+                  </el-option>
+                </el-select>
+              </div>
             </el-form-item>
           </el-form>
         </div>
@@ -36,7 +46,7 @@
 <script setup lang='ts'>
 import { onMounted, ref, watch } from 'vue';
 import { onBeforeRouteLeave, useRouter, useRoute } from 'vue-router';
-import { getCategoryAllApi, addNoteApi, getNoteInfoApi, updateNoteApi } from '@/api';
+import { getCategoryAllApi, addNoteApi, getNoteInfoApi, updateNoteApi, getTagListApi } from '@/api';
 import { useIndexStore } from '@/store';
 import { FormInstance, FormRules } from 'element-plus';
 import MdEditor from 'md-editor-v3';
@@ -66,10 +76,21 @@ getCategoryAllApi().then(res => {
   });
 })
 
+const tagList = ref([{ id: 0, name: '' }])
+getTagListApi().then(res => {
+  const data = res.data;
+  tagList.value = data.map((item: any) => {
+    return {
+      ...item,
+    }
+  });
+});
+
 const form = ref({
   title: '',
   subtitle: '',
   categoryId: '',
+  tagIds: [],
   text: ''
 });
 const getInfo = () => {
@@ -79,6 +100,9 @@ const getInfo = () => {
     form.value.title = data.title;
     form.value.subtitle = data.subtitle;
     form.value.categoryId = data.category.id;
+    form.value.tagIds = data.tags.map((tag: any) => {
+      return tag.id
+    });
     form.value.text = data.noteInfo.noteText;
   })
 }
@@ -115,7 +139,6 @@ const submit = async (formRules: FormInstance | undefined) => {
       }
       changeCount.value = 0;
       isChange.value = false;
-      router.push('/note/overview');
     }
   })
 }
@@ -169,8 +192,13 @@ onMounted(() => {
     .right {
       flex: 1;
 
-      .category-select {
+      .select-group {
+        display: flex;
         width: 100%;
+
+        .select {
+          flex: 1;
+        }
       }
     }
   }

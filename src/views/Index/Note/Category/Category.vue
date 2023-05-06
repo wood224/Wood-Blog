@@ -125,6 +125,7 @@ const dialogAdd = () => {
   dialogView.value = true;
 }
 
+//修改分类
 const updateCategory = (data: any) => {
   dialogTitle.value = '修改';
   dialogType.value = 2;
