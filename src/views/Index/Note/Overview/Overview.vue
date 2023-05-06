@@ -53,7 +53,7 @@
 </template>
 
 <script setup lang='ts'>
-import { onActivated, onMounted, reactive, ref } from 'vue';
+import { onActivated, reactive, ref } from 'vue';
 import { getNoteListApi, deleteNoteApi, searchNoteApi } from '@/api/index';
 import { Search, Plus } from '@element-plus/icons-vue'
 import { NoteList } from '@/types/NoteType';

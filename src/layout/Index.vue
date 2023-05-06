@@ -18,9 +18,6 @@
 
 <script setup lang='ts'>
 import { Menus, Header } from './components';
-import { ref, watch } from 'vue';
-import { onBeforeRouteUpdate, useRouter } from 'vue-router';
-import { useIndexStore } from '@/store'
 </script>
 
 <style scoped lang='scss'>

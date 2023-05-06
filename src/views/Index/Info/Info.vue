@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang='ts'>
-import { nextTick, ref, watch } from 'vue';
+import { nextTick, onActivated, ref, watch } from 'vue';
 import { FormInstance, FormRules, UploadInstance, UploadProps } from 'element-plus';
 import { getInfoApi, updateInfoApi } from '@/api/index';
 import { onBeforeRouteLeave } from 'vue-router';
@@ -106,7 +106,6 @@ const getInfo = () => {
     };
   })
 }
-getInfo();
 
 const handleTagClose = (index: number) => {
   form.value.technology.splice(index, 1);
@@ -198,6 +197,11 @@ onBeforeRouteLeave((to, from) => {
     return true
   }
 })
+
+onActivated(() => {
+  getInfo();
+});
+
 </script>
 
 <style scoped lang='scss'>

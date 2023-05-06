@@ -22,12 +22,18 @@
         <div class="notes-line" ref="NotesLineRef"></div>
       </el-card>
     </div>
+    <div class="tag-top">
+      <el-card shadow="hover">
+        <h1>标签数量top5</h1>
+        <div class="tag-bar" ref="tagBarRef"></div>
+      </el-card>
+    </div>
   </div>
 </template>
 
 <script setup lang='ts'>
-import { onActivated, onMounted, ref } from 'vue';
-import { getCategoryNoteCountApi, newNotesApi } from '../../../api/index';
+import { onActivated, ref } from 'vue';
+import { getCategoryNoteCountApi, newNotesApi, getTagTopApi } from '../../../api/index';
 import * as echarts from 'echarts';
 import { onBeforeRouteLeave } from 'vue-router';
 
@@ -78,6 +84,7 @@ const setNotesLine = () => {
         })
       },
       yAxis: {
+        name: '篇',
         type: 'value',
       },
       series: [
@@ -92,9 +99,44 @@ const setNotesLine = () => {
   })
 }
 
+const tagBarData = ref()
+const tagBarRef = ref();
+let barChart: any;
+const setTagTopBar = () => {
+  getTagTopApi().then(res => {
+    const data = res.data;
+    tagBarData.value = data
+    barChart = echarts.init(tagBarRef.value);
+    barChart.setOption({
+      tooltip: {
+        trigger: 'axis',
+        valueFormatter: (value: any) => value + '个'
+      },
+      xAxis: {
+        data: tagBarData.value.map((item: any) => {
+          return item.name;
+        })
+      },
+      yAxis: {
+        name: '个',
+        type: 'value',
+      },
+      series: [
+        {
+          data: tagBarData.value.map((item: any) => {
+            return item.count;
+          }),
+          type: 'bar'
+        }
+      ]
+    })
+  })
+}
+
 onActivated(() => {
   setCategoryPie();
   setNotesLine();
+  setTagTopBar();
 })
 
 onBeforeRouteLeave(() => {
@@ -102,6 +144,8 @@ onBeforeRouteLeave(() => {
     lineChart.dispose();
   if (pieChart)
     pieChart.dispose();
+  if (barChart)
+    barChart.dispose();
 })
 
 </script>
@@ -115,7 +159,7 @@ onBeforeRouteLeave(() => {
   grid-template-columns: 50% 50%;
   grid-template-areas:
     "times count"
-    "notes notes";
+    "notes tag";
 
   ::v-deep(.el-card) {
     width: 100%;
@@ -136,7 +180,6 @@ onBeforeRouteLeave(() => {
   .times {
     grid-area: times;
     margin-right: 5px;
-
   }
 
   .count {
@@ -152,8 +195,20 @@ onBeforeRouteLeave(() => {
   .new-notes {
     grid-area: notes;
     margin-top: 10px;
+    margin-right: 5px;
 
     .notes-line {
+      width: 100%;
+      flex: 1;
+    }
+  }
+
+  .tag-top {
+    grid-area: tag;
+    margin-top: 10px;
+    margin-left: 5px;
+
+    .tag-bar {
       width: 100%;
       flex: 1;
     }

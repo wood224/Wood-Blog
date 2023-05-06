@@ -66,25 +66,30 @@ const categoryList = ref([{
   name: '',
   coverImg: '',
 }])
-getCategoryAllApi().then(res => {
-  const data = res.data;
-  categoryList.value = data.map((item: any) => {
-    return {
-      ...item,
-      coverImg: item.coverImg ? baseURL + item.coverImg : new URL('@/assets/image/defaultCategory.png', import.meta.url),
-    }
-  });
-})
+const initCategoryList = () => {
+  getCategoryAllApi().then(res => {
+    const data = res.data;
+    categoryList.value = data.map((item: any) => {
+      return {
+        ...item,
+        coverImg: item.coverImg ? baseURL + item.coverImg : new URL('@/assets/image/defaultCategory.png', import.meta.url),
+      }
+    });
+  })
+}
 
 const tagList = ref([{ id: 0, name: '' }])
-getTagListApi().then(res => {
-  const data = res.data;
-  tagList.value = data.map((item: any) => {
-    return {
-      ...item,
-    }
+const initTagList = () => {
+  getTagListApi().then(res => {
+    const data = res.data;
+    tagList.value = data.map((item: any) => {
+      return {
+        ...item,
+      }
+    });
   });
-});
+}
+
 
 const form = ref({
   title: '',
@@ -125,30 +130,25 @@ const rules = ref<FormRules>({
 const submit = async (formRules: FormInstance | undefined) => {
   if (!formRules) return;
   if (form.value.text === '') return ElMessage.error('文本内容不能为空！');
-  await formRules.validate((valid, fields) => {
+  await formRules.validate(async (valid, fields) => {
     if (valid) {
       if (type.value === 1) {
-        addNoteApi(form.value).then(res => {
-        })
+        await addNoteApi(form.value)
       }
       else if (type.value === 2) {
-        updateNoteApi(id.value, form.value).then(res => {
-
-        })
+        await updateNoteApi(id.value, form.value)
       }
       changeCount.value = 0;
-      // isChange.value = false;
       store.setEditorChange(false);
+      router.push('/note/overview');
     }
   })
 }
 
 //修改未保存提示
 const changeCount = ref(0);   //修改次数，当为1时表示为初始化时的变化
-const isChange = ref(false);
 watch(form, () => {
   if (changeCount.value <= 10) changeCount.value++;   //增加修改次数
-  // isChange.value = changeCount.value > 1;
   store.setEditorChange(changeCount.value > 1);
 }, { deep: true })
 
@@ -157,6 +157,8 @@ onMounted(() => {
 })
 
 onActivated(() => {
+  initCategoryList();
+  initTagList();
   type.value = route.query.type ? Number(route.query.type) : 1;    // 1：新增  2：修改
   id.value = Number(route.query.id);
   if (store.editorType === 2) {

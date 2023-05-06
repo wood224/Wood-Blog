@@ -125,3 +125,8 @@ export const deleteTagApi = (id: number) => {
 export const searchTagApi = (data: object) => {
   return request.get('/tag/search', { params: data });
 }
+
+//获取标签排行
+export const getTagTopApi = () => {
+  return request.get('/tag/top');
+}
