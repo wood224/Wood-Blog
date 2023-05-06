@@ -32,7 +32,8 @@ const routes = [
             path: 'editor',
             name: 'editor',
             meta: {
-              title: '编辑'
+              title: '编辑',
+              hidden: true,
             },
             component: () => import('@/views/Index/Note/Editor/Editor.vue'),
           },

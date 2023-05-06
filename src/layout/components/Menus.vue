@@ -15,23 +15,23 @@
             <el-menu-item v-for="(child, childIndex) in item.children" :key="childIndex"
               :index="`${index}-${childIndex}`">
               <template #title>
-                <span @click="addTab(child, 'note')" class="link" v-if="child.meta">
+                <router-link :to="`/${item.path}/${child.path}`" class="link" v-if="child.meta">
                   <div class="icon" v-if="typeof (child.meta.icon) === 'string'">
                     <i class="fa" :class="child.meta.icon"></i>
                   </div>
                   <span>{{ child.meta.title }}</span>
-                </span>
+                </router-link>
               </template>
             </el-menu-item>
           </el-sub-menu>
           <el-menu-item v-else :index="`${index}`">
             <template #title>
-              <span @click="addTab(item)" class="link">
+              <router-link :to="'/' + item.path" class="link">
                 <div class="icon" v-if="typeof (item.meta?.icon) === 'string'">
                   <i class="fa" :class="item.meta?.icon"></i>
                 </div>
                 <span>{{ item.meta?.title }}</span>
-              </span>
+              </router-link>
             </template>
           </el-menu-item>
         </template>
@@ -55,21 +55,7 @@ const menuList = computed(() => {
 
 const isCollapse = ref(false);
 
-const emit = defineEmits(['addTab'])
-const addTab = (route: any, parentName?: string) => {
-  let fullPath = '';
-  if (parentName) {
-    fullPath = `/${parentName}/${route.path}`
-  }
-  else {
-    fullPath = `/${route.path}`
-  }
-  emit('addTab', route.meta.title, fullPath);
-}
 
-onMounted(() => {
-  emit('addTab', route.meta.title, route.fullPath);
-})
 </script>
 
 <style scoped lang='scss'>

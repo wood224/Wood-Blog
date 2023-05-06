@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang='ts'>
-import { onMounted, ref } from 'vue';
+import { onActivated, onMounted, ref } from 'vue';
 import { getCategoryNoteCountApi, newNotesApi } from '../../../api/index';
 import * as echarts from 'echarts';
 import { onBeforeRouteLeave } from 'vue-router';
@@ -92,7 +92,7 @@ const setNotesLine = () => {
   })
 }
 
-onMounted(() => {
+onActivated(() => {
   setCategoryPie();
   setNotesLine();
 })

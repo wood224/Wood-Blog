@@ -10,14 +10,18 @@
 </template>
 
 <script setup lang='ts'>
-import { computed, ref } from 'vue';
+import { computed, onActivated, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useIndexStore } from '@/store/index'
 
 const store = useIndexStore();
 
 const route = useRoute();
-store.setMenuViewTitle(route.meta.title as string);
+
+onActivated(() => {
+  store.setMenuViewTitle(route.meta.title as string);
+})
+
 const title = computed(() => {
   return store.menuViewTitle;
 });

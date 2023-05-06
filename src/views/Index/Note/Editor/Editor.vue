@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang='ts'>
-import { onMounted, ref, watch } from 'vue';
+import { onActivated, onMounted, ref, watch } from 'vue';
 import { onBeforeRouteLeave, useRouter, useRoute } from 'vue-router';
 import { getCategoryAllApi, addNoteApi, getNoteInfoApi, updateNoteApi, getTagListApi } from '@/api';
 import { useIndexStore } from '@/store';
@@ -106,7 +106,6 @@ const getInfo = () => {
     form.value.text = data.noteInfo.noteText;
   })
 }
-getInfo();
 
 //表单校验
 const ruleFormRef = ref<FormInstance>();
@@ -153,14 +152,34 @@ watch(form, () => {
   store.setEditorChange(changeCount.value > 1);
 }, { deep: true })
 
-onBeforeRouteLeave((to, from) => {
-  console.log(store.editorChange);
+onMounted(() => {
+  store.setMenuViewTitle(type.value === 1 ? '新增' : '修改');
+})
 
+onActivated(() => {
+  type.value = route.query.type ? Number(route.query.type) : 1;    // 1：新增  2：修改
+  id.value = Number(route.query.id);
+  if (store.editorType === 2) {
+    getInfo();
+  }
+  else {
+    form.value = {
+      title: '',
+      subtitle: '',
+      categoryId: '',
+      tagIds: [],
+      text: ''
+    };
+  }
+});
+
+onBeforeRouteLeave(async () => {
   if (store.editorChange) {
-    return ElMessageBox.confirm('有修改未提交，确定离开吗？', '提示', {
+    return await ElMessageBox.confirm('有修改未提交，确定离开吗？', '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消'
     }).then(() => {
+      store.setEditorChange(false);
       return true;
     }).catch(() => {
       return false;
@@ -169,10 +188,6 @@ onBeforeRouteLeave((to, from) => {
   else {
     return true
   }
-})
-
-onMounted(() => {
-  store.setMenuViewTitle(type.value === 1 ? '新增' : '修改');
 })
 </script>
 
