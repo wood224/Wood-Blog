@@ -19,7 +19,7 @@ export class Tag {
   @Column({ name: 'is_delete' })
   isDelete: number;
 
-  @ManyToMany(() => Note)
+  @ManyToMany(() => Note, note => note.tags)
   notes: Note[];
 }
 

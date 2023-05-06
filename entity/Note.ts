@@ -31,7 +31,7 @@ export class Note {
   @JoinColumn({ name: 'category_id' })
   category: Category;
 
-  @ManyToMany(() => Tag)
+  @ManyToMany(() => Tag, tag => tag.notes)
   @JoinTable({
     name: 'note_tag',
     joinColumn: {

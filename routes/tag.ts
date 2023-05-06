@@ -12,4 +12,6 @@ router.delete('/:id', tagController.deleteTag);
 
 router.get('/search', tagController.searchTag)
 
+router.get('/top', tagController.getTagTop);
+
 export default router;

@@ -1,8 +1,10 @@
 import { AppDataSource } from "../mysql/db";
 import { Tag } from "../entity/Tag";
+import { NoteTag } from "../entity/NoteTag";
 import { In, Like } from "typeorm";
 
 const tagRepository = AppDataSource.getRepository(Tag);
+
 
 export const tagService = {
   //检查标签
@@ -55,5 +57,19 @@ export const tagService = {
       .where({ name: Like(`%${name}%`), isDelete: 0 })
       .orderBy("tag.id").limit(limit).offset(offset).getMany();
     return { count, rows };
+  },
+
+  //获取标签排行榜
+  getTagTop: async () => {
+    const rows = await AppDataSource.createQueryBuilder()
+      .select(['COUNT(*) AS count', 'tid', 'tag.name AS name'])
+      .from(NoteTag, 'note_tag')
+      .innerJoin(Tag, 'tag', 'tag.id = note_tag.tid')
+      .where('tag.is_delete = :isDelete', { isDelete: 0 })
+      .groupBy('tid')
+      .limit(5)
+      .orderBy('count', 'DESC')
+      .getRawMany()
+    return rows;
   }
 }

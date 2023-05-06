@@ -9,8 +9,8 @@ export class NoteTag {
   id: number;
 
   @ManyToOne(() => Note)
-  note: Note;
+  n: Note;
 
   @ManyToOne(() => Tag)
-  tag: Tag;
+  t: Tag;
 }

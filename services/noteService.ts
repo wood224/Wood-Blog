@@ -110,9 +110,11 @@ export const noteService = {
     const count = await noteRepository.count({ where: { title: Like(`%${title}%`), isDelete: 0 } })
     const rows = await noteRepository.createQueryBuilder('note')
       .leftJoinAndSelect('note.category', 'category')
+      .leftJoinAndSelect('note.tags', 'tag')
       .where({ title: Like(`%${title}%`), isDelete: 0, })
-      .andWhere('category.isDelete = :isDelete', { isDelete: 0 })
-      .orderBy("note.id").limit(limit).offset(offset).getMany();
+      .andWhere('(tag.is_delete = :isDelete OR tag.id IS NULL)', { isDelete: 0 })
+      .andWhere('category.is_delete = :isDelete', { isDelete: 0 })
+      .orderBy('note.id').take(limit).skip(offset).getMany();
     return {
       count,
       rows

@@ -95,4 +95,16 @@ export const tagController = {
     });
     res.send({ count: count, tagList: data });
   },
+
+  //获取标签排行榜
+  getTagTop: async (req: Request, res: Response) => {
+    const rows = await tagService.getTagTop();
+    const data = rows.map(row => {
+      return {
+        ...row,
+        count: Number(row.count)
+      }
+    });
+    res.send(data)
+  }
 }
