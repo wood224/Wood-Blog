@@ -140,7 +140,7 @@ const submit = async (formRules: FormInstance | undefined) => {
       }
       changeCount.value = 0;
       store.setEditorChange(false);
-      router.push('/note/overview');
+      // router.push('/note/overview');
     }
   })
 }
@@ -161,6 +161,7 @@ onActivated(() => {
   initTagList();
   type.value = route.query.type ? Number(route.query.type) : 1;    // 1：新增  2：修改
   id.value = Number(route.query.id);
+
   if (store.editorType === 2) {
     getInfo();
   }
@@ -174,23 +175,6 @@ onActivated(() => {
     };
   }
 });
-
-onBeforeRouteLeave(async () => {
-  if (store.editorChange) {
-    return await ElMessageBox.confirm('有修改未提交，确定离开吗？', '提示', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消'
-    }).then(() => {
-      store.setEditorChange(false);
-      return true;
-    }).catch(() => {
-      return false;
-    });
-  }
-  else {
-    return true
-  }
-})
 </script>
 
 <style scoped lang='scss'>

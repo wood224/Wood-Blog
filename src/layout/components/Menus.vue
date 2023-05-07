@@ -15,23 +15,23 @@
             <el-menu-item v-for="(child, childIndex) in item.children" :key="childIndex"
               :index="`${index}-${childIndex}`">
               <template #title>
-                <router-link :to="`/${item.path}/${child.path}`" class="link" v-if="child.meta">
+                <span @click="addTab(child, '/note')" class="link" v-if="child.meta">
                   <div class="icon" v-if="typeof (child.meta.icon) === 'string'">
                     <i class="fa" :class="child.meta.icon"></i>
                   </div>
                   <span>{{ child.meta.title }}</span>
-                </router-link>
+                </span>
               </template>
             </el-menu-item>
           </el-sub-menu>
           <el-menu-item v-else :index="`${index}`">
             <template #title>
-              <router-link :to="'/' + item.path" class="link">
+              <span @click="addTab(item)" class="link">
                 <div class="icon" v-if="typeof (item.meta?.icon) === 'string'">
                   <i class="fa" :class="item.meta?.icon"></i>
                 </div>
                 <span>{{ item.meta?.title }}</span>
-              </router-link>
+              </span>
             </template>
           </el-menu-item>
         </template>
@@ -55,6 +55,13 @@ const menuList = computed(() => {
 
 const isCollapse = ref(false);
 
+const emit = defineEmits(['addTab']);
+const addTab = (route: any, parentPath?: string) => {
+  const name = route.meta.title;
+  const fullPath = '/' + route.path
+  const path = parentPath ? parentPath + fullPath : fullPath;
+  emit('addTab', name, path);
+}
 
 </script>
 

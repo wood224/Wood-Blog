@@ -46,6 +46,9 @@ const setCategoryPie = () => {
     categoryPieData.value = data;
     pieChart = echarts.init(categoryPieRef.value);
     pieChart.setOption({
+      tooltip: {
+        formatter: '{b}: {c}篇 ({d}%)',
+      },
       series: [
         {
           label: {

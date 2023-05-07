@@ -79,10 +79,10 @@ const getNoteList = (limit: number = pageOptions.limit, offset: number = 0) => {
 //编辑笔记
 const editorNote = (type: number, id?: number, title?: string) => {
   store.setIsEditor(true, type, id);
-  router.push({ path: '/note/editor', query: { type: type, id: id } });
+  // router.push({ path: '/note/editor', query: { type: type, id: id } });
 }
 
-//删除分类
+//删除笔记
 const removeNote = (id: number, name: string) => {
   ElMessageBox.confirm(`确认删除笔记 《${name}》 吗？`, '提示', {
     confirmButtonText: '确认删除',

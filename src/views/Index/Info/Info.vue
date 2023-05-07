@@ -89,6 +89,7 @@ const showInput = () => {
 const imgFile = ref<File | null>(null);
 const form = ref<Info>(new Info());
 //获取个人信息
+const isInit = ref(false);
 const getInfo = () => {
   getInfoApi().then(res => {
     const data = res.data;
@@ -104,6 +105,7 @@ const getInfo = () => {
         }) : []
       }
     };
+    isInit.value = true;
   })
 }
 
@@ -181,6 +183,7 @@ const isChange = ref(false);
 watch(form, () => {
   if (changeCount.value <= 10) changeCount.value++;   //增加修改次数
   isChange.value = changeCount.value > 1;
+  isInit.value = isChange.value;
 }, { deep: true })
 onBeforeRouteLeave((to, from) => {
   if (isChange.value) {
@@ -197,9 +200,11 @@ onBeforeRouteLeave((to, from) => {
     return true
   }
 })
+getInfo();
 
 onActivated(() => {
-  getInfo();
+  // getInfo();
+  // changeCount.value = 0;
 });
 
 </script>
