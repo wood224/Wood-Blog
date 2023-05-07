@@ -3,9 +3,27 @@
     <div class="overview-wrapper">
       <div class="top">
         <div class="search">
+          <div class="select-group">
+            <el-select class="select" v-model="searchCategoryId" placeholder="搜索分类">
+              <el-option v-for="item in categoryList" :key="item.id" :label="item.name" :value="item.id">
+                <div class="category">
+                  <img :src="item.coverImg" alt="">
+                  <span>{{ item.name }}</span>
+                </div>
+              </el-option>
+            </el-select>
+            <el-select class="select" multiple collapse-tags collapse-tags-tooltip :max-collapse-tags="2"
+              v-model="searchTagIds" placeholder="搜索标签" style="max-width: 544px">
+              <el-option v-for="item in tagList" :key="item.id" :label="item.name" :value="item.id">
+                <div class="tag">
+                  <span>{{ item.name }}</span>
+                </div>
+              </el-option>
+            </el-select>
+          </div>
           <div class="ipt">
-            <el-input v-model="searchText" class="w-50 m-2" size="large" placeholder="搜索笔记名" :prefix-icon="Search"
-              maxlength="10" show-word-limit clearable @keyup.enter="searchNote(pageOptions.limit)" />
+            <el-input v-model="searchText" placeholder="搜索笔记名" :prefix-icon="Search" maxlength="10" show-word-limit
+              clearable @keyup.enter="searchNote(pageOptions.limit)" />
           </div>
           <div class="btn">
             <el-button @click="searchNote(pageOptions.limit)">搜索</el-button>
@@ -54,11 +72,13 @@
 
 <script setup lang='ts'>
 import { onActivated, reactive, ref } from 'vue';
-import { getNoteListApi, deleteNoteApi, searchNoteApi } from '@/api/index';
+import { getNoteListApi, deleteNoteApi, searchNoteApi, getCategoryAllApi, getTagListApi } from '@/api/index';
 import { Search, Plus } from '@element-plus/icons-vue'
 import { NoteList } from '@/types/NoteType';
 import { useIndexStore } from '@/store'
 import { useRouter } from 'vue-router';
+
+const baseURL = __BaseURL__;
 
 const router = useRouter();
 const store = useIndexStore();
@@ -101,11 +121,49 @@ const removeNote = (id: number, name: string) => {
     .catch(() => { })
 }
 
+const searchCategoryId = ref(0);
+const categoryList = ref([{
+  id: 0,
+  name: '全部分类',
+  coverImg: '',
+}])
+const initCategoryList = () => {
+  categoryList.value = [{
+    id: 0,
+    name: '全部分类',
+    coverImg: '',
+  }]
+  getCategoryAllApi().then(res => {
+    const data = res.data;
+    const temp = data.map((item: any) => {
+      return {
+        ...item,
+        coverImg: item.coverImg ? baseURL + item.coverImg : new URL('@/assets/image/defaultCategory.png', import.meta.url),
+      }
+    })
+    categoryList.value.push(...temp);
+  })
+}
+
+const searchTagIds = ref([]);
+const tagList = ref([{ id: 0, name: '' }])
+const initTagList = () => {
+  getTagListApi().then(res => {
+    const data = res.data;
+    tagList.value = data;
+  });
+}
+
 //搜索笔记
 const searchNote = (limit: number = pageOptions.limit, offset: number = 0) => {
   pageOptions.offset = offset;  //搜索时重置页数(偏移量)
-  if (searchText.value === '') return getNoteList(limit, 0);
-  searchNoteApi({ title: searchText.value, limit: limit, offset: offset }).then(res => {
+  searchNoteApi({
+    title: searchText.value,
+    limit: limit,
+    offset: offset,
+    categoryId: searchCategoryId.value === 0 ? NaN : searchCategoryId.value,
+    tagIds: searchTagIds.value
+  }).then(res => {
     const data = res.data;
     noteList.value.count = data.count;
     noteList.value.list = data.noteList;
@@ -123,6 +181,9 @@ const currentChange = (page: number) => {
 }
 
 onActivated(() => {
+  initCategoryList();
+  initTagList();
+  if (searchText.value || searchCategoryId || searchTagIds.value) return searchNote()
   getNoteList();
 })
 </script>
@@ -145,6 +206,15 @@ onActivated(() => {
     .search {
       display: flex;
       align-items: center;
+
+      .select-group {
+        display: flex;
+        width: 100%;
+
+        .select {
+          flex: 1;
+        }
+      }
 
       .ipt {
         margin-right: 6px;
@@ -173,6 +243,23 @@ onActivated(() => {
 
   .pages {
     margin: 10px auto 0;
+  }
+}
+
+.el-select-dropdown__item {
+  padding: 10px;
+  box-sizing: content-box;
+
+  .category {
+    display: flex;
+    align-items: center;
+    height: 30px;
+
+    img {
+      margin-right: 8px;
+      height: 100%;
+      object-fit: contain;
+    }
   }
 }
 </style>

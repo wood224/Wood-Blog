@@ -18,6 +18,9 @@
         <el-form-item label="个性签名" prop="signature">
           <el-input v-model="form.signature" maxlength="50" type="textarea" show-word-limit />
         </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="form.email" maxlength="40" show-word-limit />
+        </el-form-item>
         <el-form-item label="技术栈" prop="technology">
           <div class="technology">
             <template v-for="(item, index) in form.technology" v-if="form.technology" :key="index">
