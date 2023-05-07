@@ -41,8 +41,8 @@ import { categoryController } from '../controllers/categoryController';
  * @apiSuccessExample {json} 成功响应(无参):
  * [
  *    {
- *      id: 33, 
- *      name: 'Vue3',
+ *      "id": 33, 
+ *      "name": 'Vue3',
  *      "coverImg" : "/uploads/category/1681191866260-Vue3.png"
  *    }
  * ]
@@ -180,5 +180,26 @@ router.delete('/:id', categoryController.deleteCategory);
  */
 router.get('/search', categoryController.searchCategory);
 
+/**
+ * 
+ * @api {get} /category/count 各分类下笔记数量top5
+ * @apiGroup groupCategory
+ * @apiVersion  1.0.0
+ * 
+ * 
+ * @apiSuccess {Number} count 数量
+ * @apiSuccess {String} name 名字
+ * 
+ * @apiSuccessExample {json} 成功响应:
+ * {
+ *     [
+ *        {
+ *          "count": 1, 
+ *          "name": "TypeScript"
+ *        }
+ *     ]     
+ * }
+ * 
+ */
 router.get('/count', categoryController.getCategoryNoteCount);
 export default router;

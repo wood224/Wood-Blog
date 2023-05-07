@@ -234,5 +234,26 @@ router.delete('/:id', noteController.deleteNote);
  */
 router.get('/search', noteController.searchNote);
 
+/**
+ * 
+ * @api {get} /note/new 获取5日内新增笔记数量
+ * @apiGroup groupNote
+ * @apiVersion  1.0.0
+ * 
+ * 
+ * @apiSuccess {String} count 数量
+ * @apiSuccess {String} date 日期
+ * 
+ * @apiSuccessExample {json} 成功响应:
+ * {
+ *     [
+ *        {
+ *          "count": "2", 
+ *          "date": "2023-01-01"
+ *        }
+ *     ]     
+ * }
+ * 
+ */
 router.get('/new', noteController.newNotes);
 export default router;
