@@ -21,6 +21,7 @@ export const noteService = {
     const rows = await noteRepository.createQueryBuilder('note')
       .leftJoinAndSelect('note.category', 'category')
       .leftJoinAndSelect('note.tags', 'tag')
+      .leftJoinAndSelect('category.categoryInfo', 'categoryInfo')
       .where({ isDelete: 0 })
       .andWhere('(tag.is_delete = :isDelete OR tag.id IS NULL)', { isDelete: 0 })
       .andWhere('category.is_delete = :isDelete', { isDelete: 0 })
@@ -110,6 +111,7 @@ export const noteService = {
     const queryBuilder = noteRepository.createQueryBuilder('note')
       .leftJoinAndSelect('note.category', 'category')
       .leftJoinAndSelect('note.tags', 'tag')
+      .leftJoinAndSelect('category.categoryInfo', 'categoryInfo')
       .where({ isDelete: 0 })
     if (title !== '') {
       queryBuilder.andWhere({ title: Like(`%${title}%`) })

@@ -13,13 +13,17 @@ export const noteController = {
   getNoteList: async (req: Request, res: Response) => {
     const limit = Number(req.query.limit);
     const offset = Number(req.query.offset);
-    const { count, rows } = await noteService.getNoteList(limit, offset);
-    const data = rows.filter(row => {
-      row.createTime = moment(row.createTime).format('YYYY-MM-DD HH:mm:ss');
-      row.updateTime = moment(row.updateTime).format('YYYY-MM-DD HH:mm:ss');
-      return true;
-    });
-    res.send({ count: count, noteList: data });
+    if ((limit && offset) || (limit && offset === 0)) {
+      const { count, rows } = await noteService.getNoteList(limit, offset);
+      const data = rows.filter(row => {
+        row.createTime = moment(row.createTime).format('YYYY-MM-DD HH:mm:ss');
+        row.updateTime = moment(row.updateTime).format('YYYY-MM-DD HH:mm:ss');
+        return true;
+      });
+      res.send({ count: count, noteList: data });
+    } else {
+      res.status(410).send(({ code: 410, msg: '出错了！' }));
+    }
   },
 
   //新增笔记
