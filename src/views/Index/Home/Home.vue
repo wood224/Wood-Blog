@@ -12,7 +12,7 @@
     </div>
     <div class="count">
       <el-card shadow="hover">
-        <h1>各标题下笔记数量top5</h1>
+        <h1>各分类下笔记数量top5</h1>
         <div class="category-pie" ref="categoryPieRef"></div>
       </el-card>
     </div>
