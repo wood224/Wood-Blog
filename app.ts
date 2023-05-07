@@ -15,6 +15,7 @@ import categoryRouter from './routes/category';
 import adminRouter from './routes/admin';
 import noteRouter from './routes/note';
 import tagRouter from './routes/tag';
+import frontApiRouter from './routes/frontApi';
 
 const app = express();
 
@@ -29,7 +30,7 @@ app.all('*', (req: Request, res: Response, next: NextFunction) => {
 
 //token校验
 app.use((req: Request, res: Response, next: NextFunction) => {
-  if (req.url.includes('login') || req.url.includes('captcha')) {
+  if (req.url.includes('login') || req.url.includes('captcha') || req.url.includes('front/api')) {
     return next();
   }
 
@@ -73,6 +74,8 @@ app.use('/category', categoryRouter);
 app.use('/admin', adminRouter);
 app.use('/note', noteRouter);
 app.use('/tag', tagRouter);
+app.use('/front/api', frontApiRouter);
+
 
 app.use('/apidoc', express.static(path.join(__dirname, 'apidoc')));
 

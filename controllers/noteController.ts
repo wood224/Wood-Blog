@@ -88,11 +88,14 @@ export const noteController = {
 
   //搜素笔记
   searchNote: async (req: Request, res: Response) => {
-    console.log(req.query);
     const title = String(req.query.title)
     const limit = Number(req.query.limit);
     const offset = Number(req.query.offset);
-    const { count, rows } = await noteService.searchNote(title, limit, offset);
+    const categoryId = Number(req.query.categoryId);
+    const tempIds = req.query.tagIds as string[]
+    const tagIds = tempIds?.map(Number);
+
+    const { count, rows } = await noteService.searchNote(title, limit, offset, categoryId, tagIds);
     const data = rows.filter(row => {
       row.createTime = moment(row.createTime).format('YYYY-MM-DD HH:mm:ss');
       row.updateTime = moment(row.updateTime).format('YYYY-MM-DD HH:mm:ss');

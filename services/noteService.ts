@@ -1,7 +1,7 @@
 import { AppDataSource } from "../mysql/db";
 import { Note } from "../entity/Note";
 import { NoteInfo } from "../entity/NoteInfo";
-import { Between, Like } from "typeorm";
+import { Between, In, Like } from "typeorm";
 import { categoryService } from "./categoryService";
 import { tagService } from "./tagService";
 
@@ -106,15 +106,22 @@ export const noteService = {
   },
 
   //搜索笔记
-  searchNote: async (title: string, limit: number, offset: number) => {
-    const count = await noteRepository.count({ where: { title: Like(`%${title}%`), isDelete: 0 } })
-    const rows = await noteRepository.createQueryBuilder('note')
+  searchNote: async (title: string, limit: number, offset: number, categoryId?: number, tagIds?: number[]) => {
+    const queryBuilder = noteRepository.createQueryBuilder('note')
       .leftJoinAndSelect('note.category', 'category')
       .leftJoinAndSelect('note.tags', 'tag')
-      .where({ title: Like(`%${title}%`), isDelete: 0, })
-      .andWhere('(tag.is_delete = :isDelete OR tag.id IS NULL)', { isDelete: 0 })
-      .andWhere('category.is_delete = :isDelete', { isDelete: 0 })
-      .orderBy('note.id').take(limit).skip(offset).getMany();
+      .where({ isDelete: 0 })
+    if (title !== '') {
+      queryBuilder.andWhere({ title: Like(`%${title}%`) })
+    }
+    if (categoryId) {
+      queryBuilder.andWhere('category.id = :categoryId', { categoryId })
+    }
+    if (tagIds && tagIds.length > 0) {
+      queryBuilder.andWhere('tag.id In (:tagIds)', { tagIds })
+    }
+    const count = await queryBuilder.getCount()
+    const rows = await queryBuilder.orderBy('note.id').take(limit).skip(offset).getMany();
     return {
       count,
       rows

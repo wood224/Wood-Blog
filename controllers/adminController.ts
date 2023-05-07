@@ -65,13 +65,11 @@ export const adminController = {
 
   //获取个人信息
   getInfo: async (req: Request, res: Response) => {
-    const token = req.headers.authorization?.split(' ')[1];
-    if (token) {
-      const payload = jwt.verify(token);
-      const row = await adminService.getInfo(payload.id);
+    const type = req.query.type
+    if (type === 'front') {
+      const row = await adminService.getInfo();
       if (row) {
         const data = {
-          id: payload.id,
           avatar: row.avatar ? row.avatar : '',
           name: row.name,
           signature: row.signature,
@@ -80,7 +78,25 @@ export const adminController = {
         return res.send(data);
       }
     }
-    res.status(410).send({ code: 410, msg: '出错了！请重新登录。' });
+    else {
+      const token = req.headers.authorization?.split(' ')[1];
+      if (token) {
+        const payload = jwt.verify(token);
+        const row = await adminService.getInfo(payload.id);
+        if (row) {
+          const data = {
+            id: payload.id,
+            avatar: row.avatar ? row.avatar : '',
+            name: row.name,
+            signature: row.signature,
+            technology: row.technology,
+            email: row.email
+          }
+          return res.send(data);
+        }
+      }
+      res.status(410).send({ code: 410, msg: '出错了！请重新登录。' });
+    }
   },
 
   //修改个人信息

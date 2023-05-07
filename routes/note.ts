@@ -26,6 +26,10 @@ import { noteController } from '../controllers/noteController';
  * @apiSuccess {Object} noteList.category 所属分类
  * @apiSuccess {Number} noteList.category.id 所属分类id
  * @apiSuccess {String} noteList.category.name 所属分类名字
+ * @apiSuccess {Object[]} noteList.tags 标签数组
+ * @apiSuccess {Number} noteList.tags.id 标签id
+ * @apiSuccess {String} noteList.tags.name 标签名字
+ * 
  * 
  * @apiSuccessExample {json} 成功响应:
  * {
@@ -41,7 +45,13 @@ import { noteController } from '../controllers/noteController';
  *          "category":{
  *              "id":83,
  *              "name":"Test"
- *          }
+ *          },
+ *          "tags":[
+ *              {
+ *                "id" : 6,
+ *                "name" : "TypeScript",
+ *              }
+ *          ]
  *        }
  *     ] 
  * }
@@ -197,6 +207,8 @@ router.delete('/:id', noteController.deleteNote);
  * @apiParam  {String} title 搜索词
  * @apiParam  {Number} limit 每页个数
  * @apiParam  {Number} offset 偏移量
+ * @apiParam  {Number} [categoryId] 搜索分类id
+ * @apiParam  {Number[]} tagIds 搜索标签id数组
  * 
  * 
  * @apiSuccess {Number} count 总数
@@ -210,6 +222,9 @@ router.delete('/:id', noteController.deleteNote);
  * @apiSuccess {Object} noteList.category 所属分类
  * @apiSuccess {Number} noteList.category.id 所属分类id
  * @apiSuccess {String} noteList.category.name 所属分类名字
+ * @apiSuccess {Object[]} noteList.tags 标签数组
+ * @apiSuccess {Number} noteList.tags.id 标签id
+ * @apiSuccess {String} noteList.tags.name 标签名字
  * 
  * @apiSuccessExample {json} 成功响应:
  * {
@@ -225,7 +240,13 @@ router.delete('/:id', noteController.deleteNote);
  *          "category":{
  *              "id":83,
  *              "name":"Test"
- *          }
+ *          },
+ *         "tags":[
+ *              {
+ *                "id" : 6,
+ *                "name" : "TypeScript",
+ *              }
+ *          ]
  *        }
  *     ] 
  * }

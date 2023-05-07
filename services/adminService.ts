@@ -25,9 +25,14 @@ export const adminService = {
   },
 
   //获取个人信息
-  getInfo: async (id: number) => {
-    const row = await adminInfoRepository.findOne({ where: { admin: { id } }, relations: ['admin'] });
-    return row;
+  getInfo: async (id?: number) => {
+    if (id) {
+      const row = await adminInfoRepository.findOne({ where: { admin: { id } }, relations: ['admin'] });
+      return row;
+    } else {
+      const rows = await adminInfoRepository.find()
+      return rows[0];   //获取第一条数据
+    }
   },
 
   //修改个人信息

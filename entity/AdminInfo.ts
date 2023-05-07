@@ -19,6 +19,9 @@ export class AdminInfo {
   @Column()
   technology: string;
 
+  @Column()
+  email: string;
+
   @OneToOne(() => Admin)
   @JoinColumn({ name: 'admin_id' })
   admin: Admin;
