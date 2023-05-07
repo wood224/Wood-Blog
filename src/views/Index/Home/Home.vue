@@ -112,7 +112,6 @@ const setTagTopBar = () => {
     barChart = echarts.init(tagBarRef.value);
     barChart.setOption({
       tooltip: {
-        trigger: 'axis',
         valueFormatter: (value: any) => value + '篇'
       },
       xAxis: {
