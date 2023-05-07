@@ -4,7 +4,7 @@
       <div class="top">
         <div class="search">
           <div class="ipt">
-            <el-input v-model="searchText" class="w-50 m-2" size="large" placeholder="搜索分类名" :prefix-icon="Search"
+            <el-input v-model="searchText" class="w-50 m-2" size="large" placeholder="搜索标签名" :prefix-icon="Search"
               maxlength="10" show-word-limit clearable @keyup.enter="searchTag(pageOptions.limit)" />
           </div>
           <div class="btn">
