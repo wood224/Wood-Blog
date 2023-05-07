@@ -26,7 +26,7 @@ import { noteController } from '../controllers/noteController';
  * @apiSuccess {Object} noteList.category 所属分类
  * @apiSuccess {Number} noteList.category.id 所属分类id
  * @apiSuccess {String} noteList.category.name 所属分类名字
- * @apiSuccess {Object} noteList.category.categoryInfo 所属分类名字
+ * @apiSuccess {Object} noteList.category.categoryInfo 所属分类信息
  * @apiSuccess {String} noteList.category.categoryInfo.coverImg 所属分类封面
  * @apiSuccess {String} noteList.category.categoryInfo.introduction 所属分类简介
  * @apiSuccess {Object[]} noteList.tags 标签数组
@@ -229,6 +229,9 @@ router.delete('/:id', noteController.deleteNote);
  * @apiSuccess {Object} noteList.category 所属分类
  * @apiSuccess {Number} noteList.category.id 所属分类id
  * @apiSuccess {String} noteList.category.name 所属分类名字
+ * @apiSuccess {Object} noteList.category.categoryInfo 所属分类信息
+ * @apiSuccess {String} noteList.category.categoryInfo.coverImg 所属分类封面
+ * @apiSuccess {String} noteList.category.categoryInfo.introduction 所属分类简介
  * @apiSuccess {Object[]} noteList.tags 标签数组
  * @apiSuccess {Number} noteList.tags.id 标签id
  * @apiSuccess {String} noteList.tags.name 标签名字

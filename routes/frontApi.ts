@@ -99,7 +99,7 @@ router.get('/categoryList', categoryController.getCategoryList);
  * @apiSuccess {Object} noteList.category 所属分类
  * @apiSuccess {Number} noteList.category.id 所属分类id
  * @apiSuccess {String} noteList.category.name 所属分类名字
- * @apiSuccess {Object} noteList.category.categoryInfo 所属分类名字
+ * @apiSuccess {Object} noteList.category.categoryInfo 所属分类信息
  * @apiSuccess {String} noteList.category.categoryInfo.coverImg 所属分类封面
  * @apiSuccess {String} noteList.category.categoryInfo.introduction 所属分类简介
  * @apiSuccess {Object[]} noteList.tags 标签数组
