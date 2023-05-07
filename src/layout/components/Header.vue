@@ -32,12 +32,17 @@ const menuList = computed(() => {
 
 <style scoped lang="scss">
 .header-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 200px;
+  width: 100%;
   height: 70px;
   background-color: white;
+  // z-index: 99;
 
 
   .left {
@@ -75,7 +80,7 @@ const menuList = computed(() => {
           }
 
           &:hover {
-            color: var(--ty-color);
+            color: var(--ty-blue);
 
             &::after {
               bottom: 4px;
@@ -86,13 +91,14 @@ const menuList = computed(() => {
           &::after {
             content: '';
             position: absolute;
+            z-index: 100;
             left: 0;
             bottom: -4px;
             width: 100%;
             height: 3px;
             opacity: 0;
             transition: .2s;
-            background-color: var(--ty-color);
+            background-color: var(--ty-blue);
           }
         }
       }

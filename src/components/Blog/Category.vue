@@ -27,122 +27,21 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { getCategoryListApi } from '../../api';
 
 interface menu {
   id: number,
   name: string,
+  coverImg: string,
 }
 const list = ref<menu[]>([]);
-const arr = [
-  {
-    id: 0,
-    name: '全部'
-  },
-  {
-    id: 1,
-    name: 'vue'
-  }, {
-    id: 2,
-    name: 'JavaScript'
-  }, {
-    id: 3,
-    name: 'CSS'
-  }, {
-    id: 4,
-    name: 'HTML'
-  }, {
-    id: 1,
-    name: 'vue'
-  }, {
-    id: 2,
-    name: 'JavaScript'
-  }, {
-    id: 3,
-    name: 'CSS'
-  }, {
-    id: 4,
-    name: 'HTML'
-  }, {
-    id: 1,
-    name: 'vue'
-  }, {
-    id: 2,
-    name: 'JavaScript'
-  }, {
-    id: 3,
-    name: 'CSS'
-  }, {
-    id: 4,
-    name: 'HTML'
-  }, {
-    id: 1,
-    name: 'vue'
-  }, {
-    id: 2,
-    name: 'JavaScript'
-  }, {
-    id: 3,
-    name: 'CSS'
-  }, {
-    id: 4,
-    name: 'HTML'
-  }, {
-    id: 0,
-    name: '全部'
-  },
-  {
-    id: 1,
-    name: 'vue'
-  }, {
-    id: 2,
-    name: 'JavaScript'
-  }, {
-    id: 3,
-    name: 'CSS'
-  }, {
-    id: 4,
-    name: 'HTML'
-  }, {
-    id: 1,
-    name: 'vue'
-  }, {
-    id: 2,
-    name: 'JavaScript'
-  }, {
-    id: 3,
-    name: 'CSS'
-  }, {
-    id: 4,
-    name: 'HTML'
-  }, {
-    id: 1,
-    name: 'vue'
-  }, {
-    id: 2,
-    name: 'JavaScript'
-  }, {
-    id: 3,
-    name: 'CSS'
-  }, {
-    id: 4,
-    name: 'HTML'
-  }, {
-    id: 1,
-    name: 'vue'
-  }, {
-    id: 2,
-    name: 'JavaScript'
-  }, {
-    id: 3,
-    name: 'CSS'
-  }, {
-    id: 4,
-    name: 'HTML'
-  }
-]
-arr.forEach((item) => {
-  return list.value.push(item);
-})
+const getCategoryList = () => {
+  getCategoryListApi().then(res => {
+    const data = res.data;
+    list.value = data;
+  })
+}
+getCategoryList();
 
 const isDevelopment = ref(false);
 const development = () => {

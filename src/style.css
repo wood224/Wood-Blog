@@ -1,7 +1,12 @@
 :root {
   --animate-duration: 0.8s !important;
   --animate-delay: 5s !important;
-  --ty-color: #66ccff;
+  --ty-blue: #66ccff;
+  --title-color: #000;
+  --title-size: 20px;
+  --title-font-weight: bold;
+  --subtitle-color: #7b7b7b;
+  --subtitle-size: 16px;
 }
 
 * {
@@ -41,4 +46,12 @@ li {
 
 .right-leave-to {
   transform: translateX(100%);
+}
+
+.hover-action {
+  cursor: pointer;
+
+  &:hover {
+    color: var(--ty-blue) !important;
+  }
 }

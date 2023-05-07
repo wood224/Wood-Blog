@@ -11,9 +11,9 @@ import { Header, Main } from './components/index'
 
 <style lang="scss">
 .blog-wrapper {
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(to right bottom, #9EFBD3, #57E9F2, #45D4FB) no-repeat;
+  padding-top: 70px;
+  min-height: 100vh;
+  background: linear-gradient(to right, #00ecbc, #007adf) no-repeat;
   background-size: cover;
 }
 </style>

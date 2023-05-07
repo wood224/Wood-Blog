@@ -2,12 +2,14 @@
   <div class="index-wrapper">
     <Snow :num="num" :speed="speed"></Snow>
     <div class="card">
-      <div class="avatar"></div>
+      <div class="avatar">
+        <img :src="BaseURL + cardInfo.avatar" alt="">
+      </div>
       <div class="name">
         <span>{{ cardInfo.name }}</span>
       </div>
       <div class="signature">
-        <span>{{ cardInfo.signature }}</span>
+        <span>{{ actionSignature }}</span>
       </div>
       <div class="technology">
         <span>技术栈：{{ cardInfo.technology }}</span>
@@ -31,20 +33,47 @@
 <script setup lang='ts'>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { getInfoApi } from '../../api'
 
-const num = ref(50);
-const speed = ref(1);
-
-const cardInfo = ref({
-  name: 'wood224',
-  signature: '愿你长寿，我的朋友',
-  technology: 'Vue vite NodeJS Express TypeScript MySQL Canvas',
-})
+const BaseURL = __BaseURL__;
 
 const router = useRouter();
 const goBlog = () => {
   router.push('/blog');
 }
+
+const num = ref(50);
+const speed = ref(1);
+
+const cardInfo = ref({
+  avatar: '',
+  name: 'wood224',
+  signature: '愿你长寿，我的朋友',
+  technology: 'Vue vite NodeJS Express TypeScript MySQL Canvas',
+})
+const getInfo = () => {
+  getInfoApi().then(res => {
+    const data = res.data;
+    cardInfo.value = {
+      ...data,
+      technology: data.technology.split(',').join(' ')
+    }
+    const test = setInterval(() => {
+      if (cardInfo.value.signature[count.value]) {
+        actionSignature.value += cardInfo.value.signature[count.value];
+        count.value++;
+      }
+      else {
+        clearInterval(test);
+      }
+    }, 500)
+  })
+}
+getInfo();
+
+const actionSignature = ref('');
+const count = ref(0);
+
 </script>
 
 <style scoped lang='scss'>
@@ -64,7 +93,7 @@ const goBlog = () => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 10px 20px;
+    padding: 30px 10px 10px;
     width: 300px;
     height: 500px;
     background: rgba($color: #000000, $alpha: 0.5);
@@ -80,21 +109,60 @@ const goBlog = () => {
     .avatar {
       width: 150px;
       height: 150px;
-      border-radius: 50%;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+
+      }
     }
 
     .name {
       margin: 10px 0 5px;
+      width: 100%;
       font-size: 28px;
       font-weight: bold;
     }
 
     .signature {
       margin-bottom: 10px;
+      width: 100%;
+
+      span {
+        position: relative;
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 2px;
+          height: 100%;
+          background-color: white;
+          animation: flashing 1s linear infinite;
+        }
+
+        @keyframes flashing {
+
+          0%,
+          100% {
+            opacity: 1;
+          }
+
+          50% {
+            opacity: 0;
+          }
+        }
+
+      }
     }
 
     .technology {
       margin: 10px 0;
+      width: 100%;
+      word-wrap: break-word;
     }
 
     .btn-list {
@@ -112,7 +180,7 @@ const goBlog = () => {
         font-weight: bold;
         transition: 0.25s;
         overflow: hidden;
-        color: var(--ty-color);
+        color: var(--ty-blue);
         cursor: pointer;
 
 
@@ -125,7 +193,7 @@ const goBlog = () => {
           width: 0;
           height: 100%;
           border-radius: inherit;
-          background-color: var(--ty-color);
+          background-color: var(--ty-blue);
           transition: 0.25s;
         }
 

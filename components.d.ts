@@ -10,12 +10,15 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     About: typeof import('./src/components/About.vue')['default']
-    Category: typeof import('./src/components/Category.vue')['default']
+    Category: typeof import('./src/components/Blog/Category.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElCard: typeof import('element-plus/es')['ElCard']
     ElIcon: typeof import('element-plus/es')['ElIcon']
+    ElPagination: typeof import('element-plus/es')['ElPagination']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     Home: typeof import('./src/components/Home.vue')['default']
     Login: typeof import('./src/components/Index/Login.vue')['default']
+    NoteList: typeof import('./src/components/Blog/NoteList.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Snow: typeof import('./src/components/Index/Snow.vue')['default']

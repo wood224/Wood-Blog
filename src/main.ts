@@ -1,8 +1,12 @@
 import { createApp } from 'vue'
 import './style.css'
 import 'animate.css'
+import 'font-awesome/css/font-awesome.min.css'
+import './css/element.css'
 import App from './App.vue'
 import router from './router'
+import { createPinia } from 'pinia';
+
 
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 
@@ -21,6 +25,7 @@ VMdPreview.use(vuepressTheme, {
   Prism,
 });
 
+const pinia = createPinia();
 
 const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
@@ -28,5 +33,6 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 // 引入v-md-editor预览组件
 app.use(VMdPreview);
+app.use(pinia);
 app.use(router);
 app.mount('#app');

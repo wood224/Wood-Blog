@@ -12,12 +12,4 @@
 
 </script>
 
-<style lang="scss">
-.app-wrapper {
-  width: 100vw;
-  height: 100vh;
-  max-width: 100vw;
-  max-height: 100vh;
-  // overflow: hidden;
-}
-</style>
+<style lang="scss"></style>
