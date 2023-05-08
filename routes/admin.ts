@@ -74,6 +74,7 @@ router.get('/captcha', captchaController.generateCaptcha);
  * @apiSuccess {String} name  名字
  * @apiSuccess {String} signature  个性签名
  * @apiSuccess {String} technology  技术栈
+ * @apiSuccess {String} email  邮箱
  * 
  * @apiSuccessExample {json} 成功响应:
  * {
@@ -81,7 +82,8 @@ router.get('/captcha', captchaController.generateCaptcha);
  *     "avatar":"/uploads/avatar/1682162872498-wood224.png",
  *     "name":"wood224",
  *     "signature":"愿你长寿，我的朋友。",
- *     "technology":"Vue,ECharts,Element-Plus,Express,TypeScript,typeORM,Canvas,MySQL"
+ *     "technology":"Vue,ECharts,Element-Plus,Express,TypeScript,typeORM,Canvas,MySQL",
+ *     "email": "*****@**.com"
  * }
  * 
  * 
@@ -109,6 +111,7 @@ router.get('/info', adminController.getInfo);
  *     name : "111",
  *     signature : "2222",
  *     technology : "3,4,5,6,7",
+ *     email: "*****@**.com"
  * }
  * 
  * @apiSuccess (200) {Number} code 状态码

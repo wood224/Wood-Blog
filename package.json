@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon -e ts --exec ts-node ./bin/www",
-    "apidoc": "apidoc -i routes/ -o apidoc/ -d"
+    "apidoc": "apidoc -i routes/ -o apidoc/ "
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

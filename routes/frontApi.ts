@@ -10,12 +10,12 @@ const router = express.Router();
 
 /**
  * 
- * @api {get} /front/api/info 获取个人信息
+ * @api {get} /front/api/info/ 获取个人信息
  * @apiGroup groupFront
  * @apiVersion  1.0.0
  * 
  * 
- * @apiParam  {String} type 请求标识
+ * @apiQuery  {String} type 请求标识
  * 
  * @apiParamExample  {json} 请求示例:
  * {
@@ -47,7 +47,7 @@ router.get('/info', adminController.getInfo);
  * 
  * 
  * @apiSuccess {Number} count 总数
- * @apiSuccess {Object} categoryList 分类列表
+ * @apiSuccess {Object[]} categoryList 分类列表
  * @apiSuccess {Number} categoryList.id id
  * @apiSuccess {String} categoryList.name 名字
  * @apiSuccess {String} categoryList.coverImg 封面图片路径
@@ -58,7 +58,7 @@ router.get('/info', adminController.getInfo);
  * @apiSuccessExample {json} 成功响应(有参):
  * {
  *    "count" : 1,
- *    "categoryList":[{
+ *    "categoryList": [{
  *        "id" : 33,
  *        "name" : "Vue3",
  *        "coverImg" : "/uploads/category/1681191866260-Vue3.png",
@@ -71,7 +71,7 @@ router.get('/info', adminController.getInfo);
  * [
  *    {
  *      "id": 33, 
- *      "name": 'Vue3',
+ *      "name": "Vue3",
  *      "coverImg" : "/uploads/category/1681191866260-Vue3.png"
  *    }
  * ]
@@ -85,11 +85,11 @@ router.get('/categoryList', categoryController.getCategoryList);
  * @apiGroup groupFront
  * @apiVersion  1.0.0
  * 
- * @apiParam  {Number} limit 每页个数
- * @apiParam  {Number} offset 偏移量
+ * @apiQuery  {Number} limit 每页个数
+ * @apiQuery  {Number} offset 偏移量
  * 
  * @apiSuccess {Number} count 总数
- * @apiSuccess {Object} noteList 笔记列表
+ * @apiSuccess {Object[]} noteList 笔记列表
  * @apiSuccess {Number} noteList.id id
  * @apiSuccess {String} noteList.title 标题
  * @apiSuccess {String} noteList.subtitle 副标题
@@ -110,7 +110,7 @@ router.get('/categoryList', categoryController.getCategoryList);
  * @apiSuccessExample {json} 成功响应:
  * {
  *     "count":1,
- *     "noteList":[
+ *     "noteList": [
  *        {
  *          "id":2,
  *          "title":"test",
@@ -126,7 +126,7 @@ router.get('/categoryList', categoryController.getCategoryList);
  *                  "introduction": "test"
  *              }
  *          },
- *          "tags":[
+ *          "tags": [
  *              {
  *                "id" : 6,
  *                "name" : "TypeScript",

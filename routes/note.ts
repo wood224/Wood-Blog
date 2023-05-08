@@ -12,11 +12,11 @@ import { noteController } from '../controllers/noteController';
  * @apiGroup groupNote
  * @apiVersion  1.0.0
  * 
- * @apiParam  {Number} limit 每页个数
- * @apiParam  {Number} offset 偏移量
+ * @apiQuery  {Number} limit 每页个数
+ * @apiQuery  {Number} offset 偏移量
  * 
  * @apiSuccess {Number} count 总数
- * @apiSuccess {Object} noteList 笔记列表
+ * @apiSuccess {Object[]} noteList 笔记列表
  * @apiSuccess {Number} noteList.id id
  * @apiSuccess {String} noteList.title 标题
  * @apiSuccess {String} noteList.subtitle 副标题
@@ -37,7 +37,7 @@ import { noteController } from '../controllers/noteController';
  * @apiSuccessExample {json} 成功响应:
  * {
  *     "count":1,
- *     "noteList":[
+ *     "noteList": [
  *        {
  *          "id":2,
  *          "title":"test",
@@ -53,7 +53,7 @@ import { noteController } from '../controllers/noteController';
  *                  "introduction": "test"
  *              }
  *          },
- *          "tags":[
+ *          "tags": [
  *              {
  *                "id" : 6,
  *                "name" : "TypeScript",
@@ -183,7 +183,7 @@ router.put('/:id', noteController.updateNote);
 
 /**
  * 
- * @api {delete} /note 删除笔记
+ * @api {delete} /note/:id 删除笔记
  * @apiGroup groupNote
  * @apiVersion  1.0.0
  * 
@@ -211,15 +211,15 @@ router.delete('/:id', noteController.deleteNote);
  * @apiVersion  1.0.0
  * 
  * 
- * @apiParam  {String} title 搜索词
- * @apiParam  {Number} limit 每页个数
- * @apiParam  {Number} offset 偏移量
- * @apiParam  {Number} [categoryId] 搜索分类id
- * @apiParam  {Number[]} tagIds 搜索标签id数组
+ * @apiQuery  {String} title 搜索词
+ * @apiQuery  {Number} limit 每页个数
+ * @apiQuery  {Number} offset 偏移量
+ * @apiQuery  {Number} [categoryId] 搜索分类id
+ * @apiQuery  {Number[]} tagIds 搜索标签id数组
  * 
  * 
  * @apiSuccess {Number} count 总数
- * @apiSuccess {Object} noteList 笔记列表
+ * @apiSuccess {Object[]} noteList 笔记列表
  * @apiSuccess {Number} noteList.id id
  * @apiSuccess {String} noteList.title 标题
  * @apiSuccess {String} noteList.subtitle 副标题
@@ -239,7 +239,7 @@ router.delete('/:id', noteController.deleteNote);
  * @apiSuccessExample {json} 成功响应:
  * {
  *     "count":1,
- *     "noteList":[
+ *     "noteList": [
  *        {
  *          "id":2,
  *          "title":"test",
@@ -251,7 +251,7 @@ router.delete('/:id', noteController.deleteNote);
  *              "id":83,
  *              "name":"Test"
  *          },
- *         "tags":[
+ *         "tags": [
  *              {
  *                "id" : 6,
  *                "name" : "TypeScript",

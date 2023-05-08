@@ -46,6 +46,7 @@ export const adminService = {
         adminInfo.name = form.name;
         adminInfo.signature = form.signature;
         adminInfo.technology = form.technology;
+        adminInfo.email = form.email;
       }
       const row = adminInfoRepository.save(adminInfo);
       return row;

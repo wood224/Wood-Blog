@@ -13,12 +13,12 @@ import { tagController } from '../controllers/tagController';
  * @apiVersion  1.0.0
  * 
  * 
- * @apiParam  {Number} [limit] 数量
- * @apiParam  {Number} [offset] 偏移量
+ * @apiQuery  {Number} [limit] 数量
+ * @apiQuery  {Number} [offset] 偏移量
  * 
  * 
  * @apiSuccess {Number} count 总数
- * @apiSuccess {Object} tagList 标签列表
+ * @apiSuccess {Object[]} tagList 标签列表
  * @apiSuccess {Number} tagList.id id
  * @apiSuccess {String} tagList.name 名字
  * @apiSuccess {String} tagList.createTime 创建时间
@@ -42,7 +42,7 @@ import { tagController } from '../controllers/tagController';
  * [
  *    {
  *      "id": 1, 
- *      "name": 'Vue3',
+ *      "name": "Vue3",
  *    }
  * ]
  * 
@@ -140,13 +140,13 @@ router.delete('/:id', tagController.deleteTag);
  * @apiVersion  1.0.0
  * 
  * 
- * @apiParam  {String} name 搜索词
- * @apiParam  {Number} limit 每页个数
- * @apiParam  {Number} offset 偏移量
+ * @apiQuery  {String} name 搜索词
+ * @apiQuery  {Number} limit 每页个数
+ * @apiQuery  {Number} offset 偏移量
  * 
  * 
  * @apiSuccess {Number} count 总数
- * @apiSuccess {Object} tagList 标签列表
+ * @apiSuccess {Object[]} tagList 标签列表
  * @apiSuccess {Number} tagList.id id
  * @apiSuccess {String} tagList.name 名字
  * @apiSuccess {String} tagList.createTime 创建时间
@@ -156,7 +156,7 @@ router.delete('/:id', tagController.deleteTag);
  * @apiSuccessExample {json} 成功响应:
  * {
  *     "count":1,
- *     "tagList":[
+ *     "tagList": [
  *        {
  *          "id":2,
  *          "name":"test",

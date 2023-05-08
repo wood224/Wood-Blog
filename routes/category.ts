@@ -18,7 +18,7 @@ import { categoryController } from '../controllers/categoryController';
  * 
  * 
  * @apiSuccess {Number} count 总数
- * @apiSuccess {Object} categoryList 分类列表
+ * @apiSuccess {Object[]} categoryList 分类列表
  * @apiSuccess {Number} categoryList.id id
  * @apiSuccess {String} categoryList.name 名字
  * @apiSuccess {String} categoryList.coverImg 封面图片路径
@@ -29,7 +29,7 @@ import { categoryController } from '../controllers/categoryController';
  * @apiSuccessExample {json} 成功响应(有参):
  * {
  *    "count" : 1,
- *    "categoryList":[{
+ *    "categoryList": [{
  *        "id" : 33,
  *        "name" : "Vue3",
  *        "coverImg" : "/uploads/category/1681191866260-Vue3.png",
@@ -42,7 +42,7 @@ import { categoryController } from '../controllers/categoryController';
  * [
  *    {
  *      "id": 33, 
- *      "name": 'Vue3',
+ *      "name": "Vue3",
  *      "coverImg" : "/uploads/category/1681191866260-Vue3.png"
  *    }
  * ]
@@ -63,9 +63,9 @@ router.get('/', categoryController.getCategoryList);
  * 
  * @apiParamExample  {multipart/form-data} 请求示例:
  * {
- *    name : "Vue3",
- *    introduction : "Vue3",
- *    coverImg : File
+ *    "name" : "Vue3",
+ *    "introduction" : "Vue3",
+ *    "coverImg" : File
  * }
  * 
  * 
@@ -155,7 +155,7 @@ router.delete('/:id', categoryController.deleteCategory);
  * 
  * 
  * @apiSuccess {Number} count 总数
- * @apiSuccess {Object} categoryList 分类列表
+ * @apiSuccess {Object[]} categoryList 分类列表
  * @apiSuccess {Number} categoryList.id id
  * @apiSuccess {String} categoryList.name 名字
  * @apiSuccess {String} categoryList.coverImg 封面图片路径
@@ -166,7 +166,7 @@ router.delete('/:id', categoryController.deleteCategory);
  * @apiSuccessExample {json} 成功响应:
  * {
  *    "count" : 1,
- *    "categoryList":[{
+ *    "categoryList": [{
  *        "id" : 33,
  *        "name" : "Vue3",
  *        "coverImg" : "/uploads/category/1681191866260-Vue3.png",
