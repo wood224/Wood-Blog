@@ -159,6 +159,7 @@ const confirm = async (formRules: FormInstance | undefined) => {
       formData.append('signature', form.value.signature);
       //reduce 方法拼接数组为字符串(需要去掉最后一位分隔符)
       formData.append('technology', form.value.technology.reduce((acc, val) => acc.concat(val.name, ','), '').slice(0, -1));
+      formData.append('email', form.value.email)
       updateInfoApi(formData).then(res => {
         changeCount.value = 0;
         isChange.value = false;
