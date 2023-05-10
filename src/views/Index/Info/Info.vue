@@ -206,11 +206,13 @@ onBeforeRouteLeave((to, from) => {
 })
 getInfo();
 
+const firstLoad = ref(true);
 onActivated(() => {
-  // getInfo();
-  // changeCount.value = 0;
+  if (!firstLoad.value) {
+    changeCount.value = 1;
+  }
+  firstLoad.value = false;
 });
-
 </script>
 
 <style scoped lang='scss'>
