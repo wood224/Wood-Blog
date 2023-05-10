@@ -4,15 +4,24 @@ import { NoteInfo } from "../entity/NoteInfo";
 import { Between, In, Like } from "typeorm";
 import { categoryService } from "./categoryService";
 import { tagService } from "./tagService";
+import { ArchiveService } from "./ArchiveService";
 
 const noteRepository = AppDataSource.getRepository(Note);
 const noteInfoRepository = AppDataSource.getRepository(NoteInfo);
+
+const archiveType = 1;   //所属归档 type
 
 export const noteService = {
   //检查标题
   check: async (title: string) => {
     const rows = await noteRepository.find({ where: { title: title } });
     return rows;
+  },
+
+  //根据 id 获取笔记
+  getIdNote: async (id: number) => {
+    const note = await noteRepository.findOne({ where: { id: id } });
+    return note;
   },
 
   //获取笔记列表
@@ -50,6 +59,8 @@ export const noteService = {
         noteInfo.note = saveNoteData;
         const row = await transactionalEntityManager.save(noteInfo);
 
+        const archiveRow = await ArchiveService.addArchive(saveNoteData.title, archiveType, saveNoteData.id);
+
         return row;
       }
       return null;
@@ -83,6 +94,9 @@ export const noteService = {
         note.tags = tags;
         note.updateTime = new Date();
         const row = await transactionalEntityManager.save(note);
+
+        const archiveRow = await ArchiveService.addArchive(row.title, archiveType, row.id, true);
+
         return row;
       }
       return null;

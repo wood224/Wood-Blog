@@ -2,15 +2,23 @@ import { AppDataSource } from "../mysql/db";
 import { Tag } from "../entity/Tag";
 import { NoteTag } from "../entity/NoteTag";
 import { In, Like } from "typeorm";
+import { ArchiveService } from "./ArchiveService";
 
 const tagRepository = AppDataSource.getRepository(Tag);
 
+const archiveType = 3;   //所属归档 type
 
 export const tagService = {
   //检查标签
   check: async (name: string) => {
     const rows = await tagRepository.find({ where: { name: name } });
     return rows;
+  },
+
+  //根据 id 获取笔记
+  getIdTag: async (id: number) => {
+    const tag = await tagRepository.findOne({ where: { id: id } });
+    return tag;
   },
 
   //根据 id 数组批量查询标签
@@ -35,12 +43,19 @@ export const tagService = {
   //添加标签
   addTag: async (name: string) => {
     const row = await tagRepository.save({ name: name });
+
+    const archiveRow = await ArchiveService.addArchive(row.name, archiveType, row.id);
+
     return row;
   },
 
   //修改标签
   updateTag: async (id: number, name: string) => {
     const row = await tagRepository.update(id, { name: name });
+    console.log(row);
+
+    // const archiveRow = await ArchiveService.addArchive(row);
+
     return row;
   },
 

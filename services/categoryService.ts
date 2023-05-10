@@ -3,8 +3,11 @@ import { Category } from '../entity/Category';
 import { CategoryInfo } from '../entity/CategoryInfo';
 import { Like } from 'typeorm';
 import { noteService } from './noteService';
+import { ArchiveService } from './ArchiveService';
 
 const categoryRepository = AppDataSource.getRepository(Category);
+
+const archiveType = 2;   //所属归档 type
 
 export const categoryService = {
   //查询分类
@@ -45,6 +48,8 @@ export const categoryService = {
       categoryInfo.category = saveCategoryData;
       const row = await transactionalEntityManager.save(categoryInfo);
 
+      const archiveRow = await ArchiveService.addArchive(saveCategoryData.name, archiveType, saveCategoryData.id);
+
       return row;
     })
     return row;
@@ -68,7 +73,10 @@ export const categoryService = {
           categoryInfo.updateTime = new Date();
         }
         row2 = await transactionalEntityManager.save(categoryInfo);
+
+        const archiveRow = await ArchiveService.addArchive(row1.name, archiveType, row1.id, true);
       }
+
       return {
         row1, row2
       }

@@ -3,7 +3,7 @@ const path = require('path');
 const util = require('util');
 const rename = util.promisify(fs.rename); //转为promise
 
-const allowedDirs = ['category', 'note', 'avatar'];
+const allowedDirs = ['category', 'note', 'avatar', 'friendLink'];
 const allowedSuffixes = ['jpg', 'png'];
 const maxSize = 4 * 1024 * 1024;          //4MB
 
@@ -25,7 +25,7 @@ function checkFile(tempPath: string) {
   return suffix;
 }
 
-//保存文件
+//保存文件    参数：(要保存的目录名，文件路径，文件名)
 export async function saveToUploads(dirname: string, tempPath: string, name: string) {
   if (!allowedDirs.includes(dirname)) return '';
   const suffix = checkFile(tempPath);
