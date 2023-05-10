@@ -32,8 +32,8 @@
         </el-table>
       </div>
       <div class="pages">
-        <el-pagination layout="prev, pager, next" :current-page="(pageOptions.offset / 10) + 1" :total="tagList.count"
-          @current-change="currentChange" />
+        <el-pagination layout="prev, pager, next" :current-page="(pageOptions.offset / pageOptions.limit) + 1"
+          :total="tagList.count" @current-change="currentChange" />
       </div>
     </div>
 
@@ -78,7 +78,10 @@ const searchText = ref('');
 
 //获取标签列表
 const tagList = ref(new TagList());
-const pageOptions = reactive(store.pageOptions);
+const pageOptions = reactive({
+  limit: 10,
+  offset: 0
+});
 const getTagList = (limit: number = pageOptions.limit, offset: number = 0) => {
   getTagListApi({ limit: limit, offset: offset }).then(res => {
     const data = res.data;
@@ -176,7 +179,7 @@ const searchTag = (limit: number = pageOptions.limit, offset: number = 0) => {
 
 //分页函数
 const currentChange = (page: number) => {
-  pageOptions.offset = (page - 1) * 10;
+  pageOptions.offset = (page - 1) * pageOptions.limit;
   if (searchText.value) {
     searchTag(pageOptions.limit, pageOptions.offset);
   } else {
@@ -184,8 +187,9 @@ const currentChange = (page: number) => {
   }
 }
 
+getTagList(pageOptions.limit, pageOptions.offset);
+
 onActivated(() => {
-  getTagList();
 })
 </script>
 

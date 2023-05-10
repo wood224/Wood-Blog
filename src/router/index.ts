@@ -72,6 +72,24 @@ const routes = [
           children: [],
         },
         component: () => import('@/views/Index/Info/Info.vue')
+      }, {
+        path: 'archive',
+        name: 'archive',
+        meta: {
+          icon: 'fa-camera-retro',
+          title: '归档',
+          children: [],
+        },
+        component: () => import('@/views/Index/Archive/Archive.vue')
+      }, {
+        path: 'friend',
+        name: 'friend',
+        meta: {
+          icon: 'fa-link',
+          title: '友链',
+          children: [],
+        },
+        component: () => import('@/views/Index/Friend/Friend.vue')
       },
     ]
   },

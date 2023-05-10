@@ -63,8 +63,8 @@
         </el-table>
       </div>
       <div class="pages">
-        <el-pagination layout="prev, pager, next" :current-page="(pageOptions.offset / 10) + 1" :total="noteList.count"
-          @current-change="currentChange" />
+        <el-pagination layout="prev, pager, next" :current-page="(pageOptions.offset / pageOptions.limit) + 1"
+          :total="noteList.count" @current-change="currentChange" />
       </div>
     </div>
   </MenuView>
@@ -87,7 +87,10 @@ const searchText = ref('');
 
 //获取笔记列表
 const noteList = ref(new NoteList());
-const pageOptions = reactive(store.pageOptions);
+const pageOptions = reactive({
+  limit: 10,
+  offset: 0
+});
 const getNoteList = (limit: number = pageOptions.limit, offset: number = 0) => {
   getNoteListApi({ limit: limit, offset: offset }).then(res => {
     const data = res.data;
@@ -172,7 +175,7 @@ const searchNote = (limit: number = pageOptions.limit, offset: number = 0) => {
 
 //分页函数
 const currentChange = (page: number) => {
-  pageOptions.offset = (page - 1) * 10;
+  pageOptions.offset = (page - 1) * pageOptions.limit;
   if (searchText.value) {
     searchNote(pageOptions.limit, pageOptions.offset);
   } else {
@@ -184,7 +187,7 @@ onActivated(() => {
   initCategoryList();
   initTagList();
   if (searchText.value || searchCategoryId || searchTagIds.value) return searchNote()
-  getNoteList();
+  getNoteList(pageOptions.limit, pageOptions.offset);
 })
 </script>
 
@@ -224,7 +227,8 @@ onActivated(() => {
   }
 
   .container {
-    height: calc(100% - 80px - 42px);
+    height: 0;
+    flex: 1;
 
     ::v-deep(.el-table) {
       .span {

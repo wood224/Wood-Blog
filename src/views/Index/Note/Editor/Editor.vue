@@ -98,18 +98,17 @@ const form = ref({
   tagIds: [],
   text: ''
 });
-const getInfo = () => {
+const getInfo = async () => {
   if (!id.value || type.value === 1) return
-  getNoteInfoApi(id.value).then(res => {
-    const data = res.data;
-    form.value.title = data.title;
-    form.value.subtitle = data.subtitle;
-    form.value.categoryId = data.category.id;
-    form.value.tagIds = data.tags.map((tag: any) => {
-      return tag.id
-    });
-    form.value.text = data.noteInfo.noteText;
-  })
+  const { data } = await getNoteInfoApi(id.value)
+  form.value.title = data.title;
+  form.value.subtitle = data.subtitle;
+  form.value.categoryId = data.category.id;
+  form.value.tagIds = data.tags.map((tag: any) => {
+    return tag.id
+  });
+  form.value.text = data.noteInfo.noteText;
+  isInit.value = true;
 }
 
 //表单校验
@@ -146,21 +145,25 @@ const submit = async (formRules: FormInstance | undefined) => {
 }
 
 //修改未保存提示
+const isInit = ref(false);   //是否为数据初始化
 const changeCount = ref(0);   //修改次数，当为1时表示为初始化时的变化
 watch(form, () => {
   if (changeCount.value <= 10) changeCount.value++;   //增加修改次数
+  if (isInit.value) {
+    changeCount.value = 1;
+    isInit.value = false
+  };
   store.setEditorChange(changeCount.value > 1);
-}, { deep: true })
 
-onMounted(() => {
-  store.setMenuViewTitle(type.value === 1 ? '新增' : '修改');
-})
+}, { deep: true })
 
 onActivated(() => {
   initCategoryList();
   initTagList();
   type.value = route.query.type ? Number(route.query.type) : 1;    // 1：新增  2：修改
   id.value = Number(route.query.id);
+
+  store.setMenuViewTitle(type.value === 1 ? '新增' : '修改');
 
   if (store.editorType === 2) {
     getInfo();

@@ -40,8 +40,8 @@
         </el-table>
       </div>
       <div class="pages">
-        <el-pagination layout="prev, pager, next" :current-page="(pageOptions.offset / 10) + 1"
-          :total="categoryList.count" @current-change="currentChange" />
+        <el-pagination layout="prev, pager, next" :current-page="(pageOptions.offset / pageOptions.limit) + 1"
+          :total="categoryList.count" @current-change="currentChange" :page-size="pageOptions.limit" />
       </div>
     </div>
 
@@ -77,7 +77,7 @@
 </template>
 
 <script setup lang='ts'>
-import { reactive, ref } from 'vue';
+import { onActivated, reactive, ref } from 'vue';
 import { getCategoryApi, addCategoryApi, updateCategoryApi, deleteCategoryApi, searchCategoryApi } from '@/api/index';
 import { Search, Plus } from '@element-plus/icons-vue'
 import { Category, CategoryList } from '@/types/CategoryType';
@@ -100,7 +100,10 @@ const searchText = ref('');
 
 //获取分类列表
 const categoryList = ref(new CategoryList());
-const pageOptions = reactive(store.pageOptions);
+const pageOptions = reactive({
+  limit: 9,
+  offset: 0
+});
 const getCategoryList = (limit: number, offset: number) => {
   getCategoryApi({ limit: limit, offset: offset }).then(res => {
     const data = res.data;
@@ -225,7 +228,7 @@ const searchCategory = (limit: number = pageOptions.limit, offset: number = 0) =
 
 //分页函数
 const currentChange = (page: number) => {
-  pageOptions.offset = (page - 1) * 10;
+  pageOptions.offset = (page - 1) * pageOptions.limit;
   if (searchText.value) {
     searchCategory(pageOptions.limit, pageOptions.offset);
   } else {
@@ -245,6 +248,7 @@ const handleCoverChange: UploadProps['onChange'] = (uploadFile) => {
   imgFile.value = uploadFile.raw!;
   form.value.coverImg = URL.createObjectURL(uploadFile.raw!);
 }
+
 </script>
 
 <style scoped lang='scss'>
@@ -275,7 +279,8 @@ const handleCoverChange: UploadProps['onChange'] = (uploadFile) => {
   }
 
   .container {
-    height: calc(100% - 80px - 42px);
+    height: 0;
+    flex: 1;
 
     .table-cover-img {
       width: 50px;
