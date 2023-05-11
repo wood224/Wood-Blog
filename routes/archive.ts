@@ -85,7 +85,7 @@ router.get('/search', archiveController.searchArchive);
 
 /**
  * 
- * @api {delete} /archive/:id 删除分类
+ * @api {delete} /archive/:id 删除归档
  * @apiGroup groupArchive
  * @apiVersion  1.0.0
  * 
