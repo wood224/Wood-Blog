@@ -83,9 +83,10 @@ export const tagController = {
   //搜索标签
   searchTag: async (req: Request, res: Response) => {
     const name = String(req.query.name)
+    const searchStr = `%${name.split('').join('%')}%`    //模糊搜索字符串
     const limit = Number(req.query.limit);
     const offset = Number(req.query.offset);
-    const { count, rows } = await tagService.searchTag(name, limit, offset);
+    const { count, rows } = await tagService.searchTag(searchStr, limit, offset);
     const data = rows.map(row => {
       return {
         ...row,

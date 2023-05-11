@@ -16,6 +16,8 @@ import adminRouter from './routes/admin';
 import noteRouter from './routes/note';
 import tagRouter from './routes/tag';
 import archiveRouter from './routes/archive';
+import friendLinkRouter from './routes/friendLink';
+
 import frontApiRouter from './routes/frontApi';
 
 const app = express();
@@ -76,6 +78,8 @@ app.use('/admin', adminRouter);
 app.use('/note', noteRouter);
 app.use('/tag', tagRouter);
 app.use('/archive', archiveRouter)
+app.use('/friendLink', friendLinkRouter);
+
 app.use('/front/api', frontApiRouter);
 
 

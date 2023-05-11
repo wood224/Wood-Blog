@@ -93,13 +93,14 @@ export const noteController = {
   //搜素笔记
   searchNote: async (req: Request, res: Response) => {
     const title = String(req.query.title)
+    const searchStr = `%${title.split('').join('%')}%`    //模糊搜索字符串
     const limit = Number(req.query.limit);
     const offset = Number(req.query.offset);
     const categoryId = Number(req.query.categoryId);
     const tempIds = req.query.tagIds as string[]
     const tagIds = tempIds?.map(Number);
 
-    const { count, rows } = await noteService.searchNote(title, limit, offset, categoryId, tagIds);
+    const { count, rows } = await noteService.searchNote(searchStr, limit, offset, categoryId, tagIds);
     const data = rows.filter(row => {
       row.createTime = moment(row.createTime).format('YYYY-MM-DD HH:mm:ss');
       row.updateTime = moment(row.updateTime).format('YYYY-MM-DD HH:mm:ss');
