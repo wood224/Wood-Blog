@@ -130,3 +130,20 @@ export const searchTagApi = (data: object) => {
 export const getTagTopApi = () => {
   return request.get('/tag/top');
 }
+
+//---------------------------------------------------------------------------//
+
+//获取归档列表
+export const getArchiveListApi = (data?: object) => {
+  return request.get('/archive', { params: data ?? {} });
+}
+
+//搜索归档
+export const searchArchiveApi = (data: object) => {
+  return request.get('/archive/search/', { params: data });
+}
+
+//删除归档
+export const deleteArchiveApi = (id: number) => {
+  return request.delete(`/archive/${id}`);
+}

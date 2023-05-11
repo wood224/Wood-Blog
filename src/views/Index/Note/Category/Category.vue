@@ -77,9 +77,9 @@
 </template>
 
 <script setup lang='ts'>
-import { onActivated, reactive, ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { getCategoryApi, addCategoryApi, updateCategoryApi, deleteCategoryApi, searchCategoryApi } from '@/api/index';
-import { Search, Plus } from '@element-plus/icons-vue'
+import { Search, Plus } from '@element-plus/icons-vue';
 import { Category, CategoryList } from '@/types/CategoryType';
 import { FormInstance, FormRules, UploadInstance, UploadProps } from 'element-plus';
 import { useIndexStore } from '@/store';
