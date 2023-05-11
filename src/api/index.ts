@@ -147,3 +147,25 @@ export const searchArchiveApi = (data: object) => {
 export const deleteArchiveApi = (id: number) => {
   return request.delete(`/archive/${id}`);
 }
+
+//---------------------------------------------------------------------------//
+
+//获取友链列表
+export const getFriendListApi = (data?: object) => {
+  return request.get('/friendLink', { params: data ?? {} });
+}
+
+//添加友链
+export const addFriendApi = (data: object) => {
+  return request.post('/friendLink', data, { headers: { 'Content-Type': 'multipart/form-data' } });
+}
+
+//修改友链
+export const updateFriendApi = (data: object) => {
+  return request.put('/friendLink', data, { headers: { 'Content-Type': 'multipart/form-data' } });
+}
+
+//删除友链
+export const deleteFriendApi = (id: number) => {
+  return request.delete(`/friendLink/${id}`);
+}

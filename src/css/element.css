@@ -82,3 +82,15 @@
 }
 
 /* tab标签页 */
+
+/* 下拉菜单 */
+.el-popper .update {
+  color: #337ecc;
+}
+
+.el-popper .remove {
+  color: #c45656;
+
+}
+
+/* 下拉菜单 */

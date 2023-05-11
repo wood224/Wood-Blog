@@ -39,7 +39,7 @@
 
 <script setup lang='ts'>
 import { deleteArchiveApi, getArchiveListApi, searchArchiveApi } from '@/api';
-import { Archive, ArchiveList } from '@/types/archiveType';
+import { Archive, ArchiveList } from '@/types/ArchiveType';
 import { reactive, ref } from 'vue';
 import { Search } from '@element-plus/icons-vue';
 
