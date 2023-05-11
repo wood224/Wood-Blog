@@ -1,8 +1,5 @@
 import 'reflect-metadata';
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { Category } from './Category';
-import { Note } from './Note';
-import { Tag } from './Tag';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Archive {

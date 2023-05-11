@@ -4,7 +4,7 @@ import { NoteInfo } from "../entity/NoteInfo";
 import { Between, In, Like } from "typeorm";
 import { categoryService } from "./categoryService";
 import { tagService } from "./tagService";
-import { ArchiveService } from "./ArchiveService";
+import { archiveService } from "./archiveService";
 
 const noteRepository = AppDataSource.getRepository(Note);
 const noteInfoRepository = AppDataSource.getRepository(NoteInfo);
@@ -59,7 +59,7 @@ export const noteService = {
         noteInfo.note = saveNoteData;
         const row = await transactionalEntityManager.save(noteInfo);
 
-        const archiveRow = await ArchiveService.addArchive(saveNoteData.title, archiveType, saveNoteData.id);
+        const archiveRow = await archiveService.addArchive(saveNoteData.title, archiveType, saveNoteData.id);
 
         return row;
       }
@@ -95,7 +95,7 @@ export const noteService = {
         note.updateTime = new Date();
         const row = await transactionalEntityManager.save(note);
 
-        const archiveRow = await ArchiveService.addArchive(row.title, archiveType, row.id, true);
+        const archiveRow = await archiveService.addArchive(row.title, archiveType, row.id, true);
 
         return row;
       }

@@ -3,7 +3,7 @@ import { Category } from '../entity/Category';
 import { CategoryInfo } from '../entity/CategoryInfo';
 import { Like } from 'typeorm';
 import { noteService } from './noteService';
-import { ArchiveService } from './ArchiveService';
+import { archiveService } from './archiveService';
 
 const categoryRepository = AppDataSource.getRepository(Category);
 
@@ -48,7 +48,7 @@ export const categoryService = {
       categoryInfo.category = saveCategoryData;
       const row = await transactionalEntityManager.save(categoryInfo);
 
-      const archiveRow = await ArchiveService.addArchive(saveCategoryData.name, archiveType, saveCategoryData.id);
+      const archiveRow = await archiveService.addArchive(saveCategoryData.name, archiveType, saveCategoryData.id);
 
       return row;
     })
@@ -74,7 +74,7 @@ export const categoryService = {
         }
         row2 = await transactionalEntityManager.save(categoryInfo);
 
-        const archiveRow = await ArchiveService.addArchive(row1.name, archiveType, row1.id, true);
+        const archiveRow = await archiveService.addArchive(row1.name, archiveType, row1.id, true);
       }
 
       return {

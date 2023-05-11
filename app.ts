@@ -15,6 +15,7 @@ import categoryRouter from './routes/category';
 import adminRouter from './routes/admin';
 import noteRouter from './routes/note';
 import tagRouter from './routes/tag';
+import archiveRouter from './routes/archive';
 import frontApiRouter from './routes/frontApi';
 
 const app = express();
@@ -74,6 +75,7 @@ app.use('/category', categoryRouter);
 app.use('/admin', adminRouter);
 app.use('/note', noteRouter);
 app.use('/tag', tagRouter);
+app.use('/archive', archiveRouter)
 app.use('/front/api', frontApiRouter);
 
 

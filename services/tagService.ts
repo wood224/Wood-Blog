@@ -2,7 +2,7 @@ import { AppDataSource } from "../mysql/db";
 import { Tag } from "../entity/Tag";
 import { NoteTag } from "../entity/NoteTag";
 import { In, Like } from "typeorm";
-import { ArchiveService } from "./ArchiveService";
+import { archiveService } from "./archiveService";
 
 const tagRepository = AppDataSource.getRepository(Tag);
 
@@ -44,7 +44,7 @@ export const tagService = {
   addTag: async (name: string) => {
     const row = await tagRepository.save({ name: name });
 
-    const archiveRow = await ArchiveService.addArchive(row.name, archiveType, row.id);
+    const archiveRow = await archiveService.addArchive(row.name, archiveType, row.id);
 
     return row;
   },

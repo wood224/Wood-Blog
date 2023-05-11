@@ -1,20 +1,16 @@
 import { AppDataSource } from '../mysql/db';
-import { Archive } from './../entity/Archive';
-import { noteService } from './noteService';
-import { categoryService } from './categoryService';
-import { tagService } from './tagService';
-
-import { Note } from '../entity/Note';
-import { Category } from '../entity/Category';
-import { Tag } from '../entity/Tag';
+import { Archive } from '../entity/Archive';
+import { Like } from 'typeorm';
 
 const archiveRepository = AppDataSource.getRepository(Archive);
 
-export const ArchiveService = {
+export const archiveService = {
   //获取归档列表
   getArchiveList: async (limit?: number, offset?: number) => {
     const count = await archiveRepository.count();
-    const rows = await archiveRepository.find();
+    const rows = await archiveRepository.createQueryBuilder()
+      .take(limit).skip(offset)
+      .getMany();
     return {
       count,
       rows
@@ -29,6 +25,26 @@ export const ArchiveService = {
     archive.pid = pid;
     archive.update = update ?? false;
     const row = await archiveRepository.save(archive);
+    return row;
+  },
+
+  //搜索归档
+  searchArchive: async (name: string, limit: number, offset: number) => {
+    const count = await archiveRepository.count({ where: { name: Like(`%${name}%`) } })
+    const rows = await archiveRepository.createQueryBuilder()
+      .where({ name: Like(`%${name}%`) })
+      .orderBy("archive.id")
+      .take(limit).skip(offset)
+      .getMany();
+    return {
+      count,
+      rows
+    };
+  },
+
+  //删除归档
+  deleteArchive: async (id: number) => {
+    const row = await archiveRepository.delete(id);
     return row;
   }
 }
