@@ -1,4 +1,5 @@
 import express, { NextFunction, Request, Response } from 'express';
+import cors from 'cors';
 const session = require('express-session');
 const formData = require('express-form-data');
 const os = require('os');
@@ -22,14 +23,24 @@ import frontApiRouter from './routes/frontApi';
 
 const app = express();
 
-app.all('*', (req: Request, res: Response, next: NextFunction) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:5173');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.header('Access-Control-Expose-Headers', 'Authorization');
-  next();
-})
+const corsOptions = {
+  origin: 'http://127.0.0.1:5173',
+  optionsSuccessStatus: 200,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Authorization']
+}
+app.use(cors(corsOptions));
+
+// app.all('*', (req: Request, res: Response, next: NextFunction) => {
+//   res.header('Access-Control-Allow-Origin', 'http://localhost:5173,http://localhost:224');
+//   res.header('Access-Control-Allow-Credentials', 'true');
+//   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//   res.header('Access-Control-Expose-Headers', 'Authorization');
+//   next();
+// })
 
 //token校验
 app.use((req: Request, res: Response, next: NextFunction) => {
