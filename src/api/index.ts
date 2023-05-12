@@ -14,3 +14,8 @@ export const getCategoryListApi = () => {
 export const getNoteListApi = (data: object) => {
   return request.get('/noteList', { params: data });
 }
+
+//获取 笔记、分类、标签 的总数
+export const getAllCountApi = () => {
+  return request.get('/allCount');
+}

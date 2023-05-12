@@ -1,6 +1,9 @@
 <template>
   <div class="header-wrapper">
-    <div class="left">Wood's Blog</div>
+    <div class="left">
+      <img src="/WoodBlogLogo.svg" alt="">
+      Wood Blog
+    </div>
     <div class="right">
       <div class="btn">
         <div class="link-list">
@@ -19,8 +22,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { useRoute, useRouter } from 'vue-router'
+import { computed } from 'vue';
+import { useRouter } from 'vue-router'
 const router = useRouter();
 
 const menuList = computed(() => {
@@ -42,12 +45,21 @@ const menuList = computed(() => {
   width: 100%;
   height: 70px;
   background-color: white;
-  // z-index: 99;
+  z-index: 99;
 
 
   .left {
-    font-family: 'STLiti';
+    display: flex;
+    align-items: center;
+    height: 100%;
     font-size: 50px;
+    font-family: 'STLiti';
+    cursor: default;
+
+    img {
+      height: 90%;
+      object-fit: contain;
+    }
   }
 
   .right {

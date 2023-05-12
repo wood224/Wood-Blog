@@ -1,7 +1,13 @@
 <template>
   <div class="home-wrapper">
-    <Category></Category>
-    <NoteList :count="count" :noteList="noteList"></NoteList>
+    <div class="container">
+      <div class="note-list">
+        <NoteList :count="count" :noteList="noteList"></NoteList>
+      </div>
+      <div class="info">
+        <Info></Info>
+      </div>
+    </div>
     <div class="pages">
       <el-card>
         <el-pagination background layout="prev, pager, next" :page-size="6" :total="count"
@@ -22,7 +28,10 @@ const store = useIndexStore();
 
 const count = ref(0);
 const noteList = ref();
-const pageOptions = reactive(store.pageOptions);
+const pageOptions = reactive({
+  limit: 6,
+  offset: 0,
+});
 const getNoteList = (limit: number, offset: number) => {
   getNoteListApi({ limit, offset }).then(res => {
     const data = res.data;
@@ -61,6 +70,21 @@ const handleCurrentChange = (value: number) => {
 <style scoped lang="scss">
 .home-wrapper {
   height: 100%;
+
+  .container {
+    display: flex;
+    width: 100%;
+
+    .note-list {
+      flex: 1;
+      margin-right: 10px;
+      width: 80%;
+    }
+
+    .info {
+      width: 300px
+    }
+  }
 
   .pages {
     display: flex;

@@ -25,6 +25,12 @@ li {
   list-style: none;
 }
 
+button {
+  background: none;
+  font-size: inherit;
+  cursor: pointer;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s ease;

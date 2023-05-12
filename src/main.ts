@@ -1,10 +1,11 @@
-import { createApp } from 'vue'
-import './style.css'
-import 'animate.css'
-import 'font-awesome/css/font-awesome.min.css'
-import './css/element.css'
-import App from './App.vue'
-import router from './router'
+import { createApp } from 'vue';
+import './style.css';
+import 'animate.css';
+import 'font-awesome/css/font-awesome.min.css';
+import './css/element.css';
+import './icon/iconfont.css';
+import App from './App.vue';
+import router from './router';
 import { createPinia } from 'pinia';
 
 

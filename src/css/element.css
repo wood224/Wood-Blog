@@ -1,3 +1,8 @@
 .el-card {
   border-radius: 10px !important;
 }
+
+.el-popper img {
+  width: 100%;
+  object-fit: contain;
+}

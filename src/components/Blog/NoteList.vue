@@ -58,8 +58,10 @@ onMounted(() => {
 
   .note {
     display: flex;
+    width: 100%;
 
     .img {
+      flex-shrink: 0;
       margin-right: 20px;
       width: 120px;
       height: 120px;
@@ -72,6 +74,7 @@ onMounted(() => {
     }
 
     .info {
+      width: 0;
       flex: 1;
       height: 100%;
       line-height: 30px;
@@ -79,7 +82,7 @@ onMounted(() => {
       .head {
         display: flex;
         align-items: center;
-
+        width: 100%;
 
         div {
           flex: 1;
@@ -126,6 +129,24 @@ onMounted(() => {
 ::v-deep(.el-card) {
   &+.el-card {
     margin-top: 10px;
+  }
+}
+
+@media screen and (max-width:992px) {
+  .note-list-wrapper {
+    .note {
+      .img {
+        display: none;
+      }
+
+      .info {
+        .head {
+          .subtitle {
+            display: none;
+          }
+        }
+      }
+    }
   }
 }
 </style>

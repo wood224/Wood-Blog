@@ -2,8 +2,8 @@
   <div class="index-wrapper">
     <Snow :num="num" :speed="speed"></Snow>
     <div class="card">
-      <div class="avatar">
-        <img :src="BaseURL + cardInfo.avatar" alt="">
+      <div class="avatar" v-if="cardInfo.avatar">
+        <img :src="BaseURL + cardInfo.avatar" alt="" />
       </div>
       <div class="name">
         <span>{{ cardInfo.name }}</span>
@@ -33,46 +33,37 @@
 <script setup lang='ts'>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { getInfoApi } from '../../api'
+import { useIndexStore } from '../../store';
 
 const BaseURL = __BaseURL__;
 
+const store = useIndexStore();
 const router = useRouter();
 const goBlog = () => {
   router.push('/blog');
 }
 
-const num = ref(50);
-const speed = ref(1);
+const cardInfo = ref(store.info);
+const actionSignature = ref('');
+const count = ref(0);
 
-const cardInfo = ref({
-  avatar: '',
-  name: 'wood224',
-  signature: '愿你长寿，我的朋友',
-  technology: 'Vue vite NodeJS Express TypeScript MySQL Canvas',
-})
-const getInfo = () => {
-  getInfoApi().then(res => {
-    const data = res.data;
-    cardInfo.value = {
-      ...data,
-      technology: data.technology.split(',').join(' ')
+const getInfo = async () => {
+  cardInfo.value = await store.setInfo();
+  const iptInterval = setInterval(() => {
+    if (cardInfo.value.signature[count.value]) {
+      actionSignature.value += cardInfo.value.signature[count.value];
+      count.value++;
     }
-    const test = setInterval(() => {
-      if (cardInfo.value.signature[count.value]) {
-        actionSignature.value += cardInfo.value.signature[count.value];
-        count.value++;
-      }
-      else {
-        clearInterval(test);
-      }
-    }, 500)
-  })
+    else {
+      clearInterval(iptInterval);
+    }
+  }, 500)
 }
 getInfo();
 
-const actionSignature = ref('');
-const count = ref(0);
+const num = ref(50);
+const speed = ref(1);
+
 
 </script>
 
