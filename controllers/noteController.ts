@@ -6,7 +6,13 @@ export const noteController = {
   //检查标题
   check: async (title: string) => {
     const rows = await noteService.check(title);
-    return rows.length === 0;
+    return rows;
+  },
+
+  //获取笔记数量
+  getNoteCount: async () => {
+    const count = await noteService.getNoteCount();
+    return count;
   },
 
   //获取笔记列表
@@ -38,10 +44,20 @@ export const noteController = {
       tagIds: req.body.tagIds,
       text: req.body.text
     }
-    const result = await noteController.check(form.title);
+    const rows = await noteController.check(form.title);
+    const result = rows.length === 0;
     if (result) {       //如果不存在
       const row = await noteService.addNote(form.title, form.subtitle, form.categoryId, form.tagIds, form.text);
       if (row) {
+        res.send({ code: 200, msg: '添加成功！' });
+      } else {
+        res.status(410).send({ code: 410, msg: '添加失败！' });
+      }
+    }
+    else if (rows[0].isDelete === 1) {
+      const row1 = await noteService.updateNote(rows[0].id, form.title, form.subtitle, form.categoryId, form.tagIds, form.text);
+      const row2 = await noteService.restoreNote(rows[0].id);
+      if (row1 && row2) {
         res.send({ code: 200, msg: '添加成功！' });
       } else {
         res.status(410).send({ code: 410, msg: '添加失败！' });

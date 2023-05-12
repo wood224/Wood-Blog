@@ -15,7 +15,7 @@ export const tagService = {
     return rows;
   },
 
-  //根据 id 获取笔记
+  //根据 id 获取标签
   getIdTag: async (id: number) => {
     const tag = await tagRepository.findOne({ where: { id: id } });
     return tag;
@@ -25,6 +25,12 @@ export const tagService = {
   getTags: async (ids: number[]) => {
     const tags = await tagRepository.find({ where: { id: In(ids) } })
     return tags;
+  },
+
+  //获取标签数量
+  getTagCount: async () => {
+    const count = tagRepository.count({ where: { isDelete: 0 } });
+    return count;
   },
 
   //获取标签列表
@@ -62,6 +68,12 @@ export const tagService = {
   //删除标签
   deleteTag: async (id: number) => {
     const row = await tagRepository.update(id, { isDelete: 1 });
+    return row;
+  },
+
+  //恢复删除的标签
+  restoreTag: async (id: number) => {
+    const row = await tagRepository.update(id, { isDelete: 0 });
     return row;
   },
 

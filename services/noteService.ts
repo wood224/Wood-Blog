@@ -24,6 +24,12 @@ export const noteService = {
     return note;
   },
 
+  //获取笔记数量
+  getNoteCount: async () => {
+    const count = await noteRepository.count({ where: { isDelete: 0 } });
+    return count;
+  },
+
   //获取笔记列表
   getNoteList: async (limit: number, offset: number) => {
     const count = await noteRepository.count({ where: { isDelete: 0 } });
@@ -107,6 +113,12 @@ export const noteService = {
   //删除笔记
   deleteNote: async (id: number) => {
     const row = await noteRepository.update(id, { isDelete: 1 });
+    return row;
+  },
+
+  //恢复删除的笔记
+  restoreNote: async (id: number) => {
+    const row = await noteRepository.update(id, { isDelete: 0 });
     return row;
   },
 

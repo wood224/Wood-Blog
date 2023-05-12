@@ -7,7 +7,13 @@ export const categoryController = {
   //检查分类名
   check: async (name: string) => {
     const data = await categoryService.check(name);
-    return data.length === 0;
+    return data;
+  },
+
+  //获取分类数量
+  getCategoryCount: async () => {
+    const count = await categoryService.getCategoryCount();
+    return count;
   },
 
   //获取分类列表
@@ -52,10 +58,20 @@ export const categoryController = {
       introduction: req.body.introduction,
       coverImg,
     }
-    const result = await categoryController.check(form.name);
+    const rows = await categoryController.check(form.name);
+    const result = rows.length === 0;
     if (result) {       //如果不存在
       const row = await categoryService.addCategory(form.name, form.coverImg, form.introduction);
       if (row) {
+        res.send({ code: 200, msg: '添加成功！' });
+      } else {
+        res.status(410).send({ code: 410, msg: '添加失败！' });
+      }
+    }
+    else if (rows[0].isDelete === 1) {
+      const row1 = await categoryService.updateCategory(rows[0].id, form.name, form.coverImg, form.introduction);
+      const row2 = await categoryService.restoreCategory(rows[0].id);
+      if (row1 && row2) {
         res.send({ code: 200, msg: '添加成功！' });
       } else {
         res.status(410).send({ code: 410, msg: '添加失败！' });

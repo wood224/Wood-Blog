@@ -22,6 +22,12 @@ export const categoryService = {
     return category;
   },
 
+  //获取分类数量
+  getCategoryCount: async () => {
+    const count = await categoryRepository.count({ where: { isDelete: 0 } });
+    return count;
+  },
+
   //获取分类列表
   getCategoryList: async (limit?: number, offset?: number) => {
     const count = await categoryRepository.count({ where: { isDelete: 0 } });
@@ -95,6 +101,12 @@ export const categoryService = {
       }
     })
     return rows;
+  },
+
+  //恢复删除的分类
+  restoreCategory: async (id: number) => {
+    const row = await categoryRepository.update(id, { isDelete: 0 });
+    return row;
   },
 
   //搜索分类

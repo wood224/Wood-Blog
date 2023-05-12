@@ -1,8 +1,6 @@
 import express from 'express';
-import { adminController } from '../controllers/adminController';
-import { categoryController } from '../controllers/categoryController';
-import { noteController } from '../controllers/noteController';
 const router = express.Router();
+import { frontApiController } from '../controllers/frontApiController';
 
 /**
  * @apiDefine groupFront 客户端页面api
@@ -33,7 +31,7 @@ const router = express.Router();
  * 
  * 
  */
-router.get('/info', adminController.getInfo);
+router.get('/info', frontApiController.getInfo);
 
 /**
  * 
@@ -77,7 +75,7 @@ router.get('/info', adminController.getInfo);
  * ]
  * 
  */
-router.get('/categoryList', categoryController.getCategoryList);
+router.get('/categoryList', frontApiController.getCategoryList);
 
 /**
  * 
@@ -138,5 +136,24 @@ router.get('/categoryList', categoryController.getCategoryList);
  * 
  * 
  */
-router.get('/noteList', noteController.getNoteList)
+router.get('/noteList', frontApiController.getNoteList);
+
+/**
+ * /**
+ * 
+ * @api {get} /front/api/allCount/ 获取 笔记、分类、标签 的总数
+ * @apiGroup groupFront
+ * @apiVersion  1.0.0
+ * 
+ * 
+ * @apiSuccessExample {json} 成功响应:
+ * [
+ *    { name: '笔记', count: 0 },
+ *    { name: '分类', count: 0 },
+ *    { name: '标签', count: 0 }
+ * ]
+ * 
+ * 
+ */
+router.get('/allCount', frontApiController.getAllCount);
 export default router;

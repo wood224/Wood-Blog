@@ -74,6 +74,7 @@ export const adminController = {
           name: row.name,
           signature: row.signature,
           technology: row.technology,
+          email: row.email
         }
         return res.send(data);
       }

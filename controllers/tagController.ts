@@ -6,7 +6,13 @@ export const tagController = {
   //检查标签
   check: async (name: string) => {
     const data = await tagService.check(name);
-    return data.length === 0;
+    return data;
+  },
+
+  //获取标签数量
+  getTagCount: async () => {
+    const count = await tagService.getTagCount();
+    return count;
   },
 
   //获取标签列表
@@ -38,10 +44,20 @@ export const tagController = {
     const form = {
       name: req.body.name,
     }
-    const result = await tagController.check(form.name);
+    const rows = await tagController.check(form.name);
+    const result = rows.length === 0;
     if (result) {       //如果不存在
       const row = await tagService.addTag(form.name);
       if (row) {
+        res.send({ code: 200, msg: '添加成功！' });
+      } else {
+        res.status(410).send({ code: 410, msg: '添加失败！' });
+      }
+    }
+    else if (rows[0].isDelete === 1) {
+      const row1 = await tagService.updateTag(rows[0].id, form.name);
+      const row2 = await tagService.restoreTag(rows[0].id);
+      if (row1 && row2) {
         res.send({ code: 200, msg: '添加成功！' });
       } else {
         res.status(410).send({ code: 410, msg: '添加失败！' });
