@@ -30,7 +30,7 @@ onMounted(() => {
     const config = {
       number: 100,  // 生成的雪花数量
       snowArr: [] as SnowArr[],
-      pic: getAssets('snow.png')  // 雪花图片
+      pic: getAssets('Index/snow.png')  // 雪花图片
     }
     let snowImg = new Image()
     snowImg.src = config.pic

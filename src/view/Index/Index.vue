@@ -75,7 +75,7 @@ onMounted(() => {
   align-items: center;
   width: 100vw;
   height: 100vh;
-  background: url(../../assets/img/bg3.jpg) no-repeat;
+  background: url(../../assets/img/Index/bg3.jpg) no-repeat;
   background-position: center;
   background-size: cover;
 

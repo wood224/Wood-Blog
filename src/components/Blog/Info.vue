@@ -36,7 +36,7 @@
                   <span class="iconfont icon-QQ"></span>
                 </template>
                 <template #default>
-                  <img :src="getAssets('QQ.jpg')" alt="">
+                  <img :src="getAssets('Blog/QQ.jpg')" alt="">
                 </template>
               </el-popover>
             </div>
