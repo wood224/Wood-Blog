@@ -13,7 +13,7 @@ import { Header, Main } from './components/index'
 .blog-wrapper {
   padding-top: 70px;
   min-height: 100vh;
-  background: linear-gradient(to right, #00ecbc, #007adf) no-repeat;
+  // background: linear-gradient(to right, #00ecbc, #007adf) no-repeat;
   background-size: cover;
 }
 </style>

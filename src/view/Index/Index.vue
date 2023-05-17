@@ -1,6 +1,6 @@
 <template>
   <div class="index-wrapper">
-    <Snow :num="num" :speed="speed"></Snow>
+    <SnowNew></SnowNew>
     <div class="card">
       <div class="avatar" v-if="cardInfo.avatar">
         <img :src="BaseURL + cardInfo.avatar" alt="" />
@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang='ts'>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useIndexStore } from '../../store';
 
@@ -49,6 +49,11 @@ const count = ref(0);
 
 const getInfo = async () => {
   cardInfo.value = await store.setInfo();
+}
+getInfo();
+
+
+onMounted(() => {
   const iptInterval = setInterval(() => {
     if (cardInfo.value.signature[count.value]) {
       actionSignature.value += cardInfo.value.signature[count.value];
@@ -58,12 +63,7 @@ const getInfo = async () => {
       clearInterval(iptInterval);
     }
   }, 500)
-}
-getInfo();
-
-const num = ref(50);
-const speed = ref(1);
-
+})
 
 </script>
 
