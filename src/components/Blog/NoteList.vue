@@ -1,6 +1,6 @@
 <template>
   <div class="note-list-wrapper">
-    <el-card shadow="hover" v-for="item in noteList" :key="item.id">
+    <el-card class="animate__animated animate__zoomIn" shadow="hover" v-for="item in noteList" :key="item.id">
       <div class="note">
         <div class="img">
           <img :src="BaseURL + item.category.coverImg" alt="">

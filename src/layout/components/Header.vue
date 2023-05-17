@@ -45,6 +45,9 @@ const menuList = computed(() => {
   width: 100%;
   height: 70px;
   background-color: white;
+  // background-color: rgba($color: #ccc, $alpha: 0.3);
+  // backdrop-filter: blur(5px);
+  box-shadow: 0 0 10px black;
   z-index: 99;
 
 

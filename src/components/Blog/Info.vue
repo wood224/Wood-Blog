@@ -1,6 +1,6 @@
 <template>
-  <div class="info-wrapper">
-    <el-card>
+  <div class="info-wrapper animate__animated animate__zoomIn">
+    <el-card shadow="hover">
       <div class="container">
         <div class="img">
           <img :src="BaseURL + info.avatar" alt="" />
