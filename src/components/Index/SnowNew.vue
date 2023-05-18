@@ -31,9 +31,9 @@ onMounted(() => {
       number: 100,  // 生成的雪花数量
       snowArr: [] as SnowArr[],
       pic: getAssets('Index/snow.png')  // 雪花图片
-    }
-    let snowImg = new Image()
-    snowImg.src = config.pic
+    };
+    let snowImg = new Image();
+    snowImg.src = config.pic;
 
     const getSnows = (w: number, h: number) => {
       config.snowArr.slice(0, config.snowArr.length);
@@ -51,19 +51,19 @@ onMounted(() => {
 
     const dropAnimation = () => {
       if (ctx) {
-        ctx.clearRect(0, 0, w, h)  // 清除画布重新渲染
+        ctx.clearRect(0, 0, w, h);  // 清除画布重新渲染
         for (let i = 0; i < config.snowArr.length; i++) {
-          let snow = config.snowArr[i]
-          // ctx.beginPath()  //绘制圆形雪花 后面直接图片代替
-          // ctx.arc(snow.x, snow.y, snow.size, 0, Math.PI * 2, true)
-          // ctx.fillStyle = "#fff"
-          // ctx.fill()
-          ctx.drawImage(snowImg, snow.x, snow.y, snow.size, snow.size)
+          let snow = config.snowArr[i];
+          // ctx.beginPath();  //绘制圆形雪花 后面直接图片代替
+          // ctx.arc(snow.x, snow.y, snow.size, 0, Math.PI * 2, true);
+          // ctx.fillStyle = "#fff";
+          // ctx.fill();
+          ctx.drawImage(snowImg, snow.x, snow.y, snow.size, snow.size);
 
-          snow.x = snow.x > w ? 0 : snow.x + snow.toX  // 每调一次函数向右移动一点
-          snow.y = snow.y > h ? 0 : snow.y + snow.toY   // 向下移动
+          snow.x = snow.x > w ? 0 : snow.x + snow.toX;  // 每调一次函数向右移动一点
+          snow.y = snow.y > h ? 0 : snow.y + snow.toY;   // 向下移动
         }
-        requestAnimationFrame(dropAnimation)
+        requestAnimationFrame(dropAnimation);
       }
     }
     requestAnimationFrame(dropAnimation);

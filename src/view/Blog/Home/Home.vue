@@ -1,30 +1,27 @@
 <template>
   <div class="home-wrapper">
     <div class="container">
-      <div class="note-list">
-        <NoteList :count="count" :noteList="noteList"></NoteList>
+      <div class="content">
+        <div class="note-list">
+          <NoteList :count="count" :noteList="noteList"></NoteList>
+        </div>
+        <div class="info">
+          <Info></Info>
+        </div>
       </div>
-      <div class="info">
-        <Info></Info>
+      <div class="pages">
+        <el-card>
+          <el-pagination background layout="prev, pager, next" :page-size="6" :total="count"
+            @current-change="handleCurrentChange" />
+        </el-card>
       </div>
-    </div>
-    <div class="pages">
-      <el-card>
-        <el-pagination background layout="prev, pager, next" :page-size="6" :total="count"
-          @current-change="handleCurrentChange" />
-      </el-card>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
-import { useRouter } from 'vue-router'
 import { getNoteListApi } from '../../../api'
-import { useIndexStore } from '../../../store'
-
-const router = useRouter();
-const store = useIndexStore();
 
 const count = ref(0);
 const noteList = ref();
@@ -65,6 +62,7 @@ getNoteList(pageOptions.limit, pageOptions.offset);
 const handleCurrentChange = (value: number) => {
   getNoteList(pageOptions.limit, (value - 1) * pageOptions.limit);
 }
+
 </script>
 
 <style scoped lang="scss">
@@ -72,25 +70,29 @@ const handleCurrentChange = (value: number) => {
   height: 100%;
 
   .container {
-    display: flex;
     width: 100%;
 
-    .note-list {
-      flex: 1;
-      margin-right: 10px;
-      width: 80%;
+    .content {
+      display: flex;
+
+      .note-list {
+        flex: 1;
+        margin-right: 10px;
+        width: 80%;
+      }
+
+      .info {
+        width: 300px
+      }
     }
 
-    .info {
-      width: 300px
+    .pages {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
     }
   }
 
-  .pages {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-  }
 }
 </style>

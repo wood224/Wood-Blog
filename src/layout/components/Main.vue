@@ -1,6 +1,6 @@
 <template>
   <div class="main-wrapper">
-    <router-view v-slot="{ Component }">
+    <router-view v-slot="{ Component }" v-if="mainShow">
       <transition name="right" mode="out-in">
         <component :is="Component" />
       </transition>
@@ -9,7 +9,16 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, ref } from 'vue';
 
+const mainShow = ref(false);
+onMounted(() => {
+  document.addEventListener('scroll', () => {
+    if (window.scrollY >= 100) {
+      mainShow.value = true;
+    }
+  })
+})
 </script>
 
 <style scoped lang="scss">
@@ -17,7 +26,8 @@
   margin: 0 auto;
   padding: 30px 0;
   width: 70%;
-  height: calc(100% - 70px);
+  // height: calc(100% - 70px);
+  min-height: 80vh;
   overflow: hidden;
 }
 

@@ -30,6 +30,14 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 5173,
-    open: true
+    open: true,
+    proxy: {
+      //每日一言
+      '/hitokoto': {
+        target: 'https://v1.hitokoto.cn/',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/hitokoto/, '')
+      }
+    }
   }
 })
