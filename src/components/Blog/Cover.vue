@@ -67,7 +67,7 @@ onMounted(() => {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-image: url(../../assets/img/Blog/SnowMountain.jpg);
+    background-image: url(../../assets/img/Blog/R-C.jpg);
     background-size: cover;
     background-position: 50% 50%;
     font: bold 30vw '';

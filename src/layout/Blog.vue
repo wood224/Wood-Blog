@@ -2,7 +2,9 @@
   <div class="blog-wrapper">
     <Header></Header>
     <Cover></Cover>
-    <Main></Main>
+    <div class="main">
+      <Main></Main>
+    </div>
     <el-backtop :right="100" :bottom="100" />
   </div>
 </template>
@@ -13,7 +15,13 @@ import { Header, Main } from './components/index'
 
 <style lang="scss">
 .blog-wrapper {
+  position: relative;
   min-height: 100vh;
   background-size: cover;
+
+  .main {
+    width: 100%;
+    background-color: #d8e3e7;
+  }
 }
 </style>
