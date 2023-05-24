@@ -1,12 +1,12 @@
 <template>
   <div class="common-wrapper">
-    <div class="title">
+    <div class="wrapper-title">
       <h1>分类</h1>
     </div>
     <div class="container">
       <el-row :gutter="20">
         <el-col :xs="12" :sm="6" :md="6" :lg="4" :xl="3" v-for="item in categoryList" :key="item.id">
-          <div class="category hover-action">
+          <div class="category hover-action" @click="openCategory(item.id)">
             <el-card shadow="hover">
               <div class="img">
                 <img :src="item.coverImg" alt="">
@@ -27,8 +27,10 @@ import { ref } from 'vue';
 import { getCategoryListApi } from '@/api';
 import { AxiosResponse } from 'axios';
 import { getAssets } from '../../../util/getAssets';
+import { useRouter } from 'vue-router';
 
 const BaseURL = __BaseURL__;
+const router = useRouter();
 
 const categoryList = ref();
 const getCategoryList = () => {
@@ -43,18 +45,16 @@ const getCategoryList = () => {
     });
   })
 }
-
 getCategoryList();
+
+const openCategory = (id: number) => {
+  router.push({ path: 'categoryNote', query: { id: id } });
+}
 </script>
 
 <style scoped lang='scss'>
 .common-wrapper {
-  margin: 0 auto;
   text-align: center;
-
-  .title {
-    margin-bottom: 20px;
-  }
 
   .container {
     .category {

@@ -61,3 +61,8 @@ button {
     color: var(--ty-blue) !important;
   }
 }
+
+.wrapper-title {
+  text-align: center;
+  margin-bottom: 20px;
+}

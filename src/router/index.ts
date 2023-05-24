@@ -62,7 +62,17 @@ const routes = [
           hidden: true
         },
         component: () => import('@/view/Blog/Note/Note.vue')
-      }
+      },
+      {
+        path: 'categoryNote',
+        name: 'categoryNote',
+        meta: {
+          title: '某分类下的笔记总览',
+          icon: '',
+          hidden: true
+        },
+        component: () => import('@/view/Blog/CategoryNote/CategoryNote.vue')
+      },
     ]
   },
 ]

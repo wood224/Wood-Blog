@@ -7,7 +7,7 @@
       <div class="subtitle">
         {{ note.subtitle }}
       </div>
-      <div class="category hover-action">
+      <div class="category hover-action" @click="openCategory(note.category.id)">
         分类：{{ note.category.name }}
       </div>
       <div class="tags">
@@ -42,10 +42,11 @@
 
 <script setup lang='ts'>
 import { computed, nextTick, onActivated, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { getNoteInfoApi } from '../../../api';
 
 const route = useRoute();
+const router = useRouter();
 
 const id = computed(() => route.query.id);
 
@@ -100,6 +101,10 @@ const anchorClick = (anchor: any) => {
 const cardView = ref(true);
 const setCardView = () => {
   cardView.value = !cardView.value;
+}
+
+const openCategory = (id: number) => {
+  router.push({ path: 'categoryNote', query: { id: id } });
 }
 </script>
 

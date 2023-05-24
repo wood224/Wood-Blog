@@ -31,3 +31,8 @@ export const getAllCountApi = () => {
 export const getNoteInfoApi = (id: number) => {
   return request.get(`/note/${id}`);
 }
+
+//搜索笔记列表
+export const searchNoteListApi = (data: object) => {
+  return request.get('/searchNote', { params: data });
+}

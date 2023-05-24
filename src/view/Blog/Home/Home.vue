@@ -1,12 +1,12 @@
 <template>
   <div class="home-wrapper">
     <div class="container">
-      <div class="title">
+      <div class="wrapper-title">
         <h1>总览</h1>
       </div>
       <div class="content">
         <div class="note-list">
-          <NoteList :count="count" :noteList="noteList"></NoteList>
+          <NoteList :noteList="noteList"></NoteList>
         </div>
         <div class="info">
           <Info></Info>
@@ -74,11 +74,6 @@ const handleCurrentChange = (value: number) => {
 
   .container {
     width: 100%;
-
-    .title {
-      margin-bottom: 20px;
-      text-align: center;
-    }
 
     .content {
       display: flex;

@@ -10,7 +10,7 @@
             <div class="title hover-action" :title="item.title" @click="openNote(item.id)">{{ item.title }}</div>
             <div class="subtitle" :title="item.subtitle">{{ item.subtitle }}</div>
           </div>
-          <div class="category hover-action">
+          <div class="category hover-action" @click="openCategory(item.category.id)">
             <i class="fa fa-bars ">&nbsp;{{ item.category.name }}</i>
           </div>
           <div class="date">
@@ -36,11 +36,6 @@ const BaseURL = __BaseURL__;
 const router = useRouter();
 
 const props = defineProps({
-  count: {
-    type: Number,
-    require: true,
-    default: 0
-  },
   noteList: {
     type: Array<any>,
     require: true,
@@ -48,12 +43,15 @@ const props = defineProps({
   }
 })
 
-const { count, noteList } = toRefs(props)
+const { noteList } = toRefs(props)
 
 const openNote = (id: number) => {
   router.push({ path: 'note', query: { id: id } });
 }
 
+const openCategory = (id: number) => {
+  router.push({ path: 'categoryNote', query: { id: id } });
+}
 </script>
 
 <style scoped lang='scss'>
