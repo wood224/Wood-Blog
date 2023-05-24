@@ -139,7 +139,6 @@ router.get('/categoryList', frontApiController.getCategoryList);
 router.get('/noteList', frontApiController.getNoteList);
 
 /**
- * /**
  * 
  * @api {get} /front/api/allCount/ 获取 笔记、分类、标签 的总数
  * @apiGroup groupFront
@@ -157,6 +156,56 @@ router.get('/noteList', frontApiController.getNoteList);
  */
 router.get('/allCount', frontApiController.getAllCount);
 
+/**
+ * 
+ * @api {get} /front/api/note/:id 获取笔记信息
+ * @apiGroup groupFront
+ * @apiVersion  1.0.0
+ * 
+ * @apiParam  {Number} id id
+ * 
+ * @apiSuccess  {Number} id id
+ * @apiSuccess  {String} title 标题
+ * @apiSuccess  {String} subtitle 副标题
+ * @apiSuccess  {String} createTime 创建时间
+ * @apiSuccess  {String} updateTime 修改时间
+ * @apiSuccess  {String} isDelete 是否被删除
+ * @apiSuccess  {Object} noteInfo 笔记信息
+ * @apiSuccess  {Number} noteInfo.id 笔记信息id
+ * @apiSuccess  {String} noteInfo.noteText 笔记内容
+ * @apiSuccess  {Object} category 所属分类
+ * @apiSuccess  {Number} category.id 所属分类id
+ * @apiSuccess  {String} category.name 所属分类名字
+ * @apiSuccess  {Object[]} noteList.tags 标签数组
+ * @apiSuccess  {Number} noteList.tags.id 标签id
+ * @apiSuccess  {String} noteList.tags.name 标签名字
+ * 
+ * @apiSuccessExample {json} 成功响应:
+ * {
+ *    "id":1,
+ *    "title":"TypeORM是什么",
+ *    "subtitle":"TypeORM的介绍",
+ *    "createTime":"2023-04-24T09:21:26.000Z",
+ *    "updateTime":"2023-05-02T14:43:51.000Z",
+ *    "isDelete":0,
+ *    "noteInfo":{
+ *        "id":1,
+ *        "noteText":"# TypeORM是什么\n  TypeORM 是一个ORM框架，它可以运行在 NodeJS、Browser、Cordova、PhoneGap、Ionic、React Native、Expo 和 Electron 平台上，可以与 TypeScript 和 JavaScript (ES5,ES6,ES7,ES8)一起使用。 它的目标是始终支持最新的 JavaScript 特性并提供额外的特性以帮助你开发任何使用数据库的（不管是只有几张表的小型应用还是拥有多数据库的大型企业应用）应用程序。"
+ *    },
+ *    "category":{
+ *        "id":50,
+ *        "name":"TypeORM"
+ *    },
+ *    "tags": [
+ *              {
+ *                "id" : 6,
+ *                "name" : "TypeScript",
+ *              }
+ *          ]
+ * }
+ * 
+ * 
+ */
 router.get('/note/:id', frontApiController.getNoteInfo);
 
 export default router;

@@ -20,7 +20,7 @@ import { friendLinkController } from '../controllers/friendLinkController';
  * @apiSuccess {Number} count 总数
  * @apiSuccess {Object[]} friendLinkList 友链列表
  * @apiSuccess {Number} friendLinkList.id id
- * @apiSuccess {File | String} friendLinkList.img 图片
+ * @apiSuccess {File|String} friendLinkList.img 图片
  * @apiSuccess {String} friendLinkList.name 名字
  * @apiSuccess {String} friendLinkList.introduction 简介
  * @apiSuccess {String} friendLinkList.link 链接
@@ -50,7 +50,7 @@ router.get('/', friendLinkController.getFriendLinkList);
  * @apiVersion  1.0.0
  * 
  * 
- * @apiBody  {File | String} [img] 图片
+ * @apiBody  {File|String} [img] 图片
  * @apiBody  {string} name 名字
  * @apiBody  {string} introduction 简介
  * @apiBody  {string} link 连接
@@ -83,7 +83,7 @@ router.post('/', friendLinkController.addFriendLink);
  * @apiBody  {Number} id id
  * @apiBody  {String} name 名字
  * @apiBody  {String} introduction 简介
- * @apiBody  {File | String} img 封面
+ * @apiBody  {File|String} img 封面
  * @apiBody  {String} link 链接
  * 
  * @apiParamExample  {multipart/form-data} 请求示例:

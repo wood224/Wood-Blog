@@ -33,7 +33,7 @@ export const categoryService = {
     const count = await categoryRepository.count({ where: { isDelete: 0 } });
     const rows = await categoryRepository.createQueryBuilder('category')
       .innerJoinAndSelect('category.categoryInfo', 'categoryInfo')
-      .where('category.is_delete=0').orderBy("category.id")
+      .where('category.is_delete=:isDelete', { isDelete: 0 }).orderBy("category.id")
       .limit(limit).offset(offset).getMany();
     return {
       count,

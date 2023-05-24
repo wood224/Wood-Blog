@@ -123,6 +123,9 @@ router.post('/', noteController.addNote);
  * @apiSuccess  {Object} category 所属分类
  * @apiSuccess  {Number} category.id 所属分类id
  * @apiSuccess  {String} category.name 所属分类名字
+ * @apiSuccess  {Object[]} noteList.tags 标签数组
+ * @apiSuccess  {Number} noteList.tags.id 标签id
+ * @apiSuccess  {String} noteList.tags.name 标签名字
  * 
  * @apiSuccessExample {json} 成功响应:
  * {
@@ -139,7 +142,13 @@ router.post('/', noteController.addNote);
  *    "category":{
  *        "id":50,
  *        "name":"TypeORM"
- *    }
+ *    },
+ *    "tags": [
+ *              {
+ *                "id" : 6,
+ *                "name" : "TypeScript",
+ *              }
+ *          ]
  * }
  * 
  * 
@@ -215,7 +224,7 @@ router.delete('/:id', noteController.deleteNote);
  * @apiQuery  {Number} limit 每页个数
  * @apiQuery  {Number} offset 偏移量
  * @apiQuery  {Number} [categoryId] 搜索分类id
- * @apiQuery  {Number[]} tagIds 搜索标签id数组
+ * @apiQuery  {Number[]} [tagIds] 搜索标签id数组
  * 
  * 
  * @apiSuccess {Number} count 总数
