@@ -14,14 +14,13 @@
 import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { getDailyWordApi } from '../../api';
-import { Word } from '../../types'
+import { Word } from '../../types';
 
 const route = useRoute();
 
 const title = computed(() => {
   return route.meta.title;
 })
-
 
 const word = ref(new Word());
 const getDailyWord = () => {

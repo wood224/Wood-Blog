@@ -14,7 +14,7 @@
       </div>
       <div class="pages">
         <el-card>
-          <el-pagination background layout="prev, pager, next" :page-size="6" :total="count"
+          <el-pagination background layout="prev, pager, next" :page-size="pageOptions.limit" :total="count"
             @current-change="handleCurrentChange" />
         </el-card>
       </div>

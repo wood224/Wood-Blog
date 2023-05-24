@@ -12,6 +12,12 @@ export const useIndexStore = defineStore('index', {
         technology: '',
         email: ''
       },
+      coverDetails: {
+        categoryName: '',
+        introduction: '',
+        tagName: '',
+        createTime: ''
+      }
     }
   },
   getters: {
@@ -29,5 +35,11 @@ export const useIndexStore = defineStore('index', {
         return this.info;
       })
     },
+    setCoverDetails(categoryName?: string, introduction?: string, tagName?: string, createTime?: string) {  //修改封面详情信息
+      this.coverDetails.categoryName = categoryName ?? '';
+      this.coverDetails.introduction = introduction ?? '';
+      this.coverDetails.tagName = tagName ?? '';
+      this.coverDetails.createTime = createTime ?? '';
+    }
   }
 })
