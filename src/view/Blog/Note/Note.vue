@@ -19,11 +19,29 @@
     <el-card class="content">
       <v-md-preview ref="preview" :text="note.noteInfo.noteText"></v-md-preview>
     </el-card>
+    <div class="directory-list" :class="{ hidden: cardView }">
+      <el-card class="directory-card ">
+        <template #header>
+          <h2>目录导航</h2>
+        </template>
+        <ul>
+          <el-scrollbar height="300px">
+            <li class="directory hover-action" v-for="anchor in titleList"
+              :style="{ padding: `10px 0 10px ${anchor.indent * 20}px` }" @click="anchorClick(anchor)">
+              <el-text truncated>{{ anchor.title }}</el-text>
+            </li>
+          </el-scrollbar>
+        </ul>
+      </el-card>
+      <div class="arrow" @click="setCardView">
+        <i class="fa fa-angle-right" :style="{ transform: cardView ? 'rotate(-180deg)' : 'rotate(0deg)' }"></i>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang='ts'>
-import { computed, ref } from 'vue';
+import { computed, nextTick, onActivated, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { getNoteInfoApi } from '../../../api';
 
@@ -32,14 +50,57 @@ const route = useRoute();
 const id = computed(() => route.query.id);
 
 const note = ref();
+const titleList = ref([] as any);
+const preview = ref();
 const getNoteInfo = () => {
   getNoteInfoApi(Number(id.value)).then(res => {
     const data = res.data;
     note.value = data;
     document.title = note.value.title;
+
+    nextTick(() => {
+      const anchors = preview.value.$el.querySelectorAll('h1,h2,h3,h4,h5,h6');
+
+      const titles = Array.from(anchors).filter((title: any) => !!title.innerText.trim());
+
+      if (!titles.length) {
+        titleList.value = [];
+        return;
+      }
+
+      const hTags = Array.from(new Set(titles.map((title: any) => title.tagName))).sort();
+
+      titleList.value = titles.map((el: any) => ({
+        title: el.innerText,
+        lineIndex: el.getAttribute('data-v-md-line'),
+        indent: hTags.indexOf(el.tagName),
+      }));
+    })
   })
 }
-getNoteInfo();
+
+onActivated(() => {
+  getNoteInfo();
+})
+
+const anchorClick = (anchor: any) => {
+  const { lineIndex } = anchor;
+
+  const heading = preview.value.$el.querySelector(`[data-v-md-line="${lineIndex}"]`);
+
+  if (heading) {
+    preview.value.scrollToTarget({
+      target: heading,
+      scrollContainer: window,
+      top: 60,
+    });
+  }
+}
+
+const cardView = ref(true);
+const setCardView = () => {
+  cardView.value = !cardView.value;
+}
 </script>
 
 <style scoped lang='scss'>
@@ -59,6 +120,62 @@ getNoteInfo();
 
     .category {
       font-size: 20px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+
+  .directory-list {
+    position: fixed;
+    right: 0;
+    bottom: 300px;
+    transition: all 0.5s;
+
+    &.hidden {
+      transform: translateX(90%);
+    }
+
+    .directory-card {
+      width: auto;
+      height: auto;
+
+      ul {
+        width: 200px;
+
+        li {
+          cursor: pointer;
+
+          ::v-deep(.el-text) {
+            font-size: 16px;
+            line-height: 40px;
+            color: inherit;
+          }
+        }
+      }
+    }
+
+    .arrow {
+      position: absolute;
+      top: 50%;
+      right: 100%;
+      transform: translate(50%, -50%);
+      background-color: #fff;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      box-shadow: -1px 0px 5px gray;
+      line-height: 40px;
+      font-size: 26px;
+      text-align: center;
+      cursor: pointer;
+
+      i {
+        transition: transform 0.5s;
+      }
     }
   }
 }

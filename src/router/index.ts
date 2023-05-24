@@ -72,4 +72,11 @@ const router = createRouter({
   routes,
 })
 
+router.beforeEach((to, from, next) => {
+  if (from.name === 'note' && to.name !== 'note') {
+    document.title = '博客-Wood Blog';
+  }
+  next();
+})
+
 export default router;

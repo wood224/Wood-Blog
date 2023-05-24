@@ -2,9 +2,12 @@
   <div class="main-wrapper">
     <router-view v-slot="{ Component }" v-if="mainShow">
       <transition name="right" mode="out-in">
-        <component :is="Component" />
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
       </transition>
     </router-view>
+
   </div>
 </template>
 
