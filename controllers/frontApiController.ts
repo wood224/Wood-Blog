@@ -30,5 +30,11 @@ export const frontApiController = {
       { name: '分类', count: categoryCount },
       { name: '标签', count: tagCount }
     ])
-  }
+  },
+
+  //获取笔记信息
+  getNoteInfo: async (req: Request, res: Response) => {
+    const noteInfo = await noteController.getInfo(req, res);
+    res.send(noteInfo);
+  },
 }

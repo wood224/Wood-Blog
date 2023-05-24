@@ -156,4 +156,7 @@ router.get('/noteList', frontApiController.getNoteList);
  * 
  */
 router.get('/allCount', frontApiController.getAllCount);
+
+router.get('/note/:id', frontApiController.getNoteInfo);
+
 export default router;
