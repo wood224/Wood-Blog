@@ -37,4 +37,10 @@ export const frontApiController = {
     const noteInfo = await noteController.getInfo(req, res);
     res.send(noteInfo);
   },
+
+  //搜索笔记
+  searchNote: async (req: Request, res: Response) => {
+    const noteList = await noteController.searchNote(req, res);
+    res.send(noteList);
+  }
 }

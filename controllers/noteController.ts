@@ -108,8 +108,8 @@ export const noteController = {
 
   //搜素笔记
   searchNote: async (req: Request, res: Response) => {
-    const title = String(req.query.title)
-    const searchStr = `%${title.split('').join('%')}%`    //模糊搜索字符串
+    const title = String(req.query.title);
+    const searchStr = title ? `%${title.split('').join('%')}%` : '';    //模糊搜索字符串
     const limit = Number(req.query.limit);
     const offset = Number(req.query.offset);
     const categoryId = Number(req.query.categoryId);

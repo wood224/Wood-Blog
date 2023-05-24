@@ -208,4 +208,64 @@ router.get('/allCount', frontApiController.getAllCount);
  */
 router.get('/note/:id', frontApiController.getNoteInfo);
 
+/**
+ * 
+ * @api {get} /front/api/searchNote 搜索笔记列表
+ * @apiGroup groupFront
+ * @apiVersion  1.0.0
+ * 
+ * 
+ * @apiQuery  {String} title 搜索词
+ * @apiQuery  {Number} limit 每页个数
+ * @apiQuery  {Number} offset 偏移量
+ * @apiQuery  {Number} [categoryId] 搜索分类id
+ * @apiQuery  {Number[]} [tagIds] 搜索标签id数组
+ * 
+ * 
+ * @apiSuccess {Number} count 总数
+ * @apiSuccess {Object[]} noteList 笔记列表
+ * @apiSuccess {Number} noteList.id id
+ * @apiSuccess {String} noteList.title 标题
+ * @apiSuccess {String} noteList.subtitle 副标题
+ * @apiSuccess {String} noteList.createTime 创建时间
+ * @apiSuccess {String} noteList.updateTime 更新时间
+ * @apiSuccess {Number} noteList.isDelete 是否删除
+ * @apiSuccess {Object} noteList.category 所属分类
+ * @apiSuccess {Number} noteList.category.id 所属分类id
+ * @apiSuccess {String} noteList.category.name 所属分类名字
+ * @apiSuccess {Object} noteList.category.categoryInfo 所属分类信息
+ * @apiSuccess {String} noteList.category.categoryInfo.coverImg 所属分类封面
+ * @apiSuccess {String} noteList.category.categoryInfo.introduction 所属分类简介
+ * @apiSuccess {Object[]} noteList.tags 标签数组
+ * @apiSuccess {Number} noteList.tags.id 标签id
+ * @apiSuccess {String} noteList.tags.name 标签名字
+ * 
+ * @apiSuccessExample {json} 成功响应:
+ * {
+ *     "count":1,
+ *     "noteList": [
+ *        {
+ *          "id":2,
+ *          "title":"test",
+ *          "subtitle":"",
+ *          "createTime":"2023-05-02 16:08:49",
+ *          "updateTime":"2023-05-02 16:08:49",
+ *          "isDelete":0,
+ *          "category":{
+ *              "id":83,
+ *              "name":"Test"
+ *          },
+ *         "tags": [
+ *              {
+ *                "id" : 6,
+ *                "name" : "TypeScript",
+ *              }
+ *          ]
+ *        }
+ *     ] 
+ * }
+ * 
+ * 
+ */
+router.get('/searchNote', frontApiController.searchNote);
 export default router;
