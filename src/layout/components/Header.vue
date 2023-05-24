@@ -8,7 +8,7 @@
       <div class="btn">
         <div class="link-list">
           <template v-for="(item, index) in menuList" :key="index">
-            <router-link class="link" :to="item.path" v-if="item.meta">
+            <router-link class="link" :to="item.path" v-if="item.meta && item.meta.hidden !== true">
               <div class="icon" v-if="typeof (item.meta.icon) === 'string'">
                 <i class="fa" :class="item.meta.icon"></i>
               </div>
@@ -17,12 +17,30 @@
           </template>
         </div>
       </div>
+
+      <div class="nav">
+        <div class="nav-open" @click="drawer = true">
+          <i class="fa fa-ellipsis-v"></i>
+        </div>
+        <el-drawer v-model="drawer" title="导航" direction="ttb">
+          <div class="nav-list">
+            <template v-for="(item, index) in menuList" :key="index">
+              <router-link class="link" :to="item.path" v-if="item.meta" @click="clickDrawer">
+                <div class="icon" v-if="typeof (item.meta.icon) === 'string'">
+                  <i class="fa" :class="item.meta.icon"></i>
+                </div>
+                <span>{{ item.meta.title }}</span>
+              </router-link>
+            </template>
+          </div>
+        </el-drawer>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router'
 const router = useRouter();
 
@@ -30,6 +48,11 @@ const menuList = computed(() => {
   if (router.options.routes[0] && router.options.routes[1].children)
     return [router.options.routes[0], ...router.options.routes[1].children];
 });
+
+const drawer = ref(false);
+const clickDrawer = () => {
+  drawer.value = false;
+}
 
 </script>
 
@@ -45,8 +68,6 @@ const menuList = computed(() => {
   width: 100%;
   height: 70px;
   background-color: white;
-  // background-color: rgba($color: #ccc, $alpha: 0.3);
-  // backdrop-filter: blur(5px);
   box-shadow: 0 0 10px black;
   z-index: 99;
 
@@ -118,6 +139,46 @@ const menuList = computed(() => {
         }
       }
     }
+
+    .nav {
+      display: none;
+      font-size: 30px;
+      height: 100%;
+      text-align: center;
+
+      .nav-open {
+        width: 50px;
+      }
+
+      &:active {
+        background-color: rgb(160, 160, 160);
+      }
+
+      .nav-list {
+        .link {
+          display: flex;
+          justify-content: center;
+          margin-bottom: 10px;
+          width: 100%;
+          font-size: 20px;
+
+          &+.link {
+            padding-top: 10px;
+            border-top: 1px solid gray;
+          }
+
+          .icon {
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width:1200px) and (min-width: 992px) {
+  .header-wrapper {
+    padding: 0 100px;
   }
 }
 
@@ -130,7 +191,15 @@ const menuList = computed(() => {
     }
 
     .right {
-      display: none;
+      .btn {
+        display: none;
+      }
+
+      .nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     }
   }
 }

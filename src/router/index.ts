@@ -53,6 +53,16 @@ const routes = [
         },
         component: () => import('@/view/Blog/About/About.vue')
       },
+      {
+        path: 'note',
+        name: 'note',
+        meta: {
+          title: '笔记',
+          icon: '',
+          hidden: true
+        },
+        component: () => import('@/view/Blog/Note/Note.vue')
+      }
     ]
   },
 ]

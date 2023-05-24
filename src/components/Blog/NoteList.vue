@@ -7,7 +7,7 @@
         </div>
         <div class="info">
           <div class="head">
-            <div class="title hover-action" :title="item.title">{{ item.title }}</div>
+            <div class="title hover-action" :title="item.title" @click="openNote(item.id)">{{ item.title }}</div>
             <div class="subtitle" :title="item.subtitle">{{ item.subtitle }}</div>
           </div>
           <div class="category hover-action">
@@ -28,9 +28,12 @@
 </template>
 
 <script setup lang='ts'>
-import { onMounted, toRefs } from 'vue';
+import { toRefs } from 'vue';
+import { useRouter } from 'vue-router';
 
 const BaseURL = __BaseURL__;
+
+const router = useRouter();
 
 const props = defineProps({
   count: {
@@ -46,9 +49,10 @@ const props = defineProps({
 })
 
 const { count, noteList } = toRefs(props)
-onMounted(() => {
 
-})
+const openNote = (id: number) => {
+  router.push({ path: 'note', query: { id: id } });
+}
 
 </script>
 

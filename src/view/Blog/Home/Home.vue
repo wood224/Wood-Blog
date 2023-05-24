@@ -93,6 +93,22 @@ const handleCurrentChange = (value: number) => {
       margin-top: 20px;
     }
   }
+}
 
+@media screen and (max-width:992px) {
+  .home-wrapper {
+    .content {
+      flex-direction: column-reverse;
+      align-items: center;
+
+      .note-list {
+        width: 100% !important;
+      }
+
+      .info {
+        margin-bottom: 20px;
+      }
+    }
+  }
 }
 </style>
