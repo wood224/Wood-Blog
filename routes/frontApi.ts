@@ -306,4 +306,32 @@ router.get('/searchNote', frontApiController.searchNote);
  * 
  */
 router.get('/archiveList', frontApiController.getArchiveList);
+
+/**
+ * 
+ * @api {get} /front/api/category/:id 获取分类列表
+ * @apiGroup groupCategory
+ * @apiVersion  1.0.0
+ * 
+ * 
+ * @apiParam  {Number} id id
+ * 
+ * 
+ * @apiSuccess {Number} id id
+ * @apiSuccess {String} name 名字
+ * @apiSuccess {String} coverImg 封面图片路径
+ * @apiSuccess {String} introduction 简介
+ * @apiSuccess {String} createTime 创建时间
+ * 
+ * @apiSuccessExample {json} 成功响应(有参):
+ * {
+ *    coverImg: "",
+ *    createTime: "2020-01-11 22:22:22",
+ *    id: 1,
+ *    introduction: "TypeScript",
+ *    name: "TypeScript"
+ * }
+ * 
+ */
+router.get('/category/:id', frontApiController.getCategoryInfo);
 export default router;

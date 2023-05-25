@@ -22,6 +22,15 @@ export const categoryService = {
     return category;
   },
 
+  //获取分类详情
+  getCategoryInfo: async (id: number) => {
+    const category = await categoryRepository.createQueryBuilder('category')
+      .innerJoinAndSelect('category.categoryInfo', 'categoryInfo')
+      .where({ id: id, isDelete: 0 })
+      .getOne();
+    return category;
+  },
+
   //获取分类数量
   getCategoryCount: async () => {
     const count = await categoryRepository.count({ where: { isDelete: 0 } });

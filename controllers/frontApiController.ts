@@ -35,19 +35,21 @@ export const frontApiController = {
 
   //获取笔记信息
   getNoteInfo: async (req: Request, res: Response) => {
-    const noteInfo = await noteController.getInfo(req, res);
-    res.send(noteInfo);
+    await noteController.getInfo(req, res);
   },
 
   //搜索笔记
   searchNote: async (req: Request, res: Response) => {
-    const noteList = await noteController.searchNote(req, res);
-    res.send(noteList);
+    await noteController.searchNote(req, res);
   },
 
   //获取归档列表
   getArchiveList: async (req: Request, res: Response) => {
-    const archiveList = await archiveController.getArchiveList(req, res);
-    res.send(archiveList);
+    await archiveController.getArchiveList(req, res);
   },
+
+  //获取分类详情
+  getCategoryInfo: async (req: Request, res: Response) => {
+    await categoryController.getCategoryInfo(req, res);
+  }
 }

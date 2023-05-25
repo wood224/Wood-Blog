@@ -10,6 +10,24 @@ export const categoryController = {
     return data;
   },
 
+  //获取分类详情
+  getCategoryInfo: async (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    const category = await categoryService.getCategoryInfo(id);
+    if (category) {
+      const data = {
+        id: category.id,
+        coverImg: category.categoryInfo.coverImg,
+        name: category.name,
+        introduction: category.categoryInfo.introduction,
+        createTime: moment(category.categoryInfo.createTime).format('YYYY-MM-DD HH:mm:ss')
+      }
+      res.send(data);
+    } else {
+      res.status(410).send({ code: 410, msg: '该分类不存在！' });
+    }
+  },
+
   //获取分类数量
   getCategoryCount: async () => {
     const count = await categoryService.getCategoryCount();
