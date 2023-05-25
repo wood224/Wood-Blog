@@ -10,6 +10,7 @@ export const archiveService = {
     const count = await archiveRepository.count();
     const rows = await archiveRepository.createQueryBuilder()
       .take(limit).skip(offset)
+      .orderBy('id', 'DESC')
       .getMany();
     return {
       count,

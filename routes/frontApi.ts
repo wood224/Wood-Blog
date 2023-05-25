@@ -268,4 +268,42 @@ router.get('/note/:id', frontApiController.getNoteInfo);
  * 
  */
 router.get('/searchNote', frontApiController.searchNote);
+
+/**
+ * 
+ * @api {get} /front/api/archiveList 获取归档列表
+ * @apiGroup groupFront
+ * @apiVersion  1.0.0
+ * 
+ * 
+ * @apiQuery  {Number} [limit] 每页个数
+ * @apiQuery  {Number} [offset] 偏移量
+ * 
+ * 
+ * @apiSuccess {Number} count 总数
+ * @apiSuccess {Object[]} archiveList 归档列表
+ * @apiSuccess {Number} archiveList.id id
+ * @apiSuccess {String} archiveList.name 名字
+ * @apiSuccess {String} archiveList.source 来源
+ * @apiSuccess {String} archiveList.createTime 创建时间
+ * @apiSuccess {String} archiveList.update 是否为修改
+ * @apiSuccess {String} archiveList.pid 父id
+ * 
+ * 
+ * @apiSuccessExample {json} 成功响应:
+ * {
+ *    "count" : 1,
+ *    "archiveList": [{
+ *        "createTime": "2023-05-10 18:47:26",
+ *        "id": 8,
+ *        "name": "test123",
+ *        "pid": 25,
+ *        "source": "笔记",
+ *        "type": 1,
+ *        "update": false
+ *    }]
+ * }
+ * 
+ */
+router.get('/archiveList', frontApiController.getArchiveList);
 export default router;

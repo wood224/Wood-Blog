@@ -3,6 +3,7 @@ import { adminController } from '../controllers/adminController';
 import { categoryController } from '../controllers/categoryController';
 import { noteController } from '../controllers/noteController';
 import { tagController } from './tagController';
+import { archiveController } from './archiveController';
 
 export const frontApiController = {
   //获取个人信息
@@ -42,5 +43,11 @@ export const frontApiController = {
   searchNote: async (req: Request, res: Response) => {
     const noteList = await noteController.searchNote(req, res);
     res.send(noteList);
-  }
+  },
+
+  //获取归档列表
+  getArchiveList: async (req: Request, res: Response) => {
+    const archiveList = await archiveController.getArchiveList(req, res);
+    res.send(archiveList);
+  },
 }
