@@ -1,6 +1,24 @@
 <template>
   <div class="cover-wrapper">
-    <div class="title">{{ title }}</div>
+    <div class="title">
+      <div class="title-text" v-if="title">
+        {{ title }}
+      </div>
+      <div class="detail" v-else-if="detail.categoryName || detail.tagName">
+        <div class="name" v-if="detail.categoryName">
+          分类名：{{ detail.categoryName }}
+        </div>
+        <div class="name" v-else-if="detail.tagName">
+          标签名：{{ detail.tagName }}
+        </div>
+        <div class="introduction" v-if="detail.introduction">
+          简介：{{ detail.introduction }}
+        </div>
+        <div class="time" v-if="detail.createTime">
+          创建时间：{{ detail.createTime }}
+        </div>
+      </div>
+    </div>
     <div class="bg-text" :style="{ backgroundPosition: textStyle }">
       <span>Wood</span>
     </div>
@@ -11,15 +29,34 @@
 </template>
 
 <script setup lang='ts'>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, reactive, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { getDailyWordApi } from '../../api';
+import { getDailyWordApi, getCategoryInfoApi } from '../../api';
 import { Word } from '../../types';
+import { useIndexStore } from '../../store';
 
+const store = useIndexStore();
 const route = useRoute();
+
+const detail = reactive(store.coverDetails)
 
 const title = computed(() => {
   return route.meta.title;
+})
+
+const setDetail = () => {
+  if (route.path.includes('categoryNote')) {
+    getCategoryInfoApi(Number(route.query.id)).then(res => {
+      const data = res.data;
+      store.setCoverDetails(data.name, data.introduction, '', data.createTime);
+    })
+  }
+}
+setDetail();
+
+watch(title, () => {
+  if (title.value !== '') return
+  setDetail();
 })
 
 const word = ref(new Word());
@@ -55,9 +92,24 @@ onMounted(() => {
     left: 50%;
     transform: translateX(-50%);
     margin-top: 70px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgba(52, 52, 52, 0.6);
     font: bold 40px '';
     color: white;
-    letter-spacing: 20px;
+    text-align: center;
+
+    .title-text {
+      margin-left: 20px;
+      letter-spacing: 20px;
+    }
+
+    .detail {
+
+      .introduction {
+        margin: 20px 0;
+      }
+    }
   }
 
   .bg-text {
@@ -101,6 +153,12 @@ onMounted(() => {
     border-radius: 10px;
     background-color: rgba(52, 52, 52, 0.6);
     color: white;
+  }
+}
+
+@media screen and (max-width:768px) {
+  .time {
+    display: none;
   }
 }
 </style>

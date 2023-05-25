@@ -17,7 +17,7 @@ export class Archive {
   name: string;
   pid: number;
   source: string;
-  type: number;
+  type: number;   //1：笔记 2：分类 3：标签
   update: boolean;
   constructor(createTime?: string, id?: number, name?: string, pid?: number, source?: string, type?: number, update?: boolean) {
     this.createTime = createTime ?? '';

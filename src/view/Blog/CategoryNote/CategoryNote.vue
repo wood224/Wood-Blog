@@ -8,7 +8,7 @@
         <NoteList :noteList="noteList"></NoteList>
       </div>
     </div>
-    <div class="pages">
+    <div class="pages" v-if="count !== 0">
       <el-card>
         <el-pagination background layout="prev, pager, next" :page-size="pageOptions.limit" :total="count"
           @current-change="handleCurrentChange" />
@@ -19,9 +19,11 @@
 
 <script setup lang='ts'>
 import { computed, onActivated, reactive, ref } from 'vue';
-import { searchNoteListApi } from '../../../api';
+import { searchNoteListApi, getCategoryInfoApi } from '../../../api';
 import { useRoute } from 'vue-router';
+import { useIndexStore } from '../../../store';
 
+const store = useIndexStore();
 const route = useRoute();
 
 const id = computed(() => route.query.id);
@@ -58,7 +60,14 @@ const searchNoteList = (limit: number, offset: number) => {
         }
       }
     });
-    categoryName.value = noteList.value[0].category.name;
+  })
+}
+
+const getCategoryInfo = () => {
+  getCategoryInfoApi(Number(id.value)).then(res => {
+    const data = res.data;
+    store.setCoverDetails(data.name, data.introduction, '', data.createTime);
+    categoryName.value = data.name;
   })
 }
 
@@ -69,6 +78,7 @@ const handleCurrentChange = (value: number) => {
 
 onActivated(() => {
   searchNoteList(pageOptions.limit, pageOptions.offset);
+  getCategoryInfo();
 })
 </script>
 

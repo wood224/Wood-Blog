@@ -1,6 +1,7 @@
 <template>
   <div class="note-list-wrapper">
-    <el-card class="animate__animated animate__zoomIn" shadow="hover" v-for="item in noteList" :key="item.id">
+    <el-card v-if="noteList.length !== 0" class="animate__animated animate__zoomIn" shadow="hover" v-for="item in noteList"
+      :key="item.id">
       <div class="note">
         <div class="img">
           <img :src="BaseURL + item.category.coverImg" alt="">
@@ -24,6 +25,7 @@
         </div>
       </div>
     </el-card>
+    <el-empty v-else description="这里什么都没有哦" />
   </div>
 </template>
 

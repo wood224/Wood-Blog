@@ -9,8 +9,7 @@
           <div class="year">{{ item[0] }}</div>
           <div class="archive" v-for="archive in item[1]" :key="archive.id">
             <div class="line">
-              <div class="circle" :class="{ update: archive.update }">
-              </div>
+              <div class="circle"></div>
             </div>
             <div class="info">
               <el-card :body-style="{ height: '100%' }" class="card">
@@ -107,14 +106,10 @@ getArchiveList(pageOptions.limit, pageOptions.offset);
             flex-shrink: 0;
             width: 15px;
             height: 15px;
-            background-color: var(--el-color-primary);
+            background-color: var(--ty-blue);
             box-sizing: content-box;
             border-radius: 50%;
             border: 5px solid #e4e7ed;
-
-            &.update {
-              background-color: var(--el-color-success);
-            }
           }
         }
 
