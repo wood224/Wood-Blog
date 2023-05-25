@@ -67,7 +67,7 @@ const routes = [
         path: 'categoryNote',
         name: 'categoryNote',
         meta: {
-          title: '某分类下的笔记总览',
+          title: '',
           icon: '',
           hidden: true
         },

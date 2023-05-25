@@ -36,3 +36,8 @@ export const getNoteInfoApi = (id: number) => {
 export const searchNoteListApi = (data: object) => {
   return request.get('/searchNote', { params: data });
 }
+
+//获取归档列表
+export const getArchiveListApi = (data: object) => {
+  return request.get('/archiveList', { params: data });
+}
