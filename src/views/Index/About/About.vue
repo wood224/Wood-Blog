@@ -65,13 +65,13 @@
       <el-form ref="ruleFormRef" label-position="right" label-width="100px" :model="form" :rules="rules"
         style="max-width: 460px">
         <el-form-item label="版块名" prop="name">
-          <el-input v-model="form.name" maxlength="15" show-word-limit :disabled="actionType === 2" />
+          <el-input v-model="form.name" maxlength="5" show-word-limit :disabled="actionType === 2" />
         </el-form-item>
         <el-form-item v-if="actionType === 2" label="内容标题名" prop="title">
-          <el-input v-model="form.title" maxlength="15" show-word-limit />
+          <el-input v-model="form.title" maxlength="10" show-word-limit />
         </el-form-item>
         <el-form-item v-if="actionType === 2" label="内容详情" prop="content">
-          <el-input v-model="form.content" maxlength="15" show-word-limit />
+          <el-input v-model="form.content" maxlength="50" show-word-limit />
         </el-form-item>
       </el-form>
       <template #footer>
