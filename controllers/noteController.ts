@@ -130,8 +130,9 @@ export const noteController = {
     const withinDays = 5;
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - withinDays);
+    startDate.setHours(0, 0, 0, 0);
     const endDate = new Date();
-    endDate.setDate(endDate.getDate() - 1);
+    endDate.setHours(0, 0, 0, 0);
     const rows = await noteService.newNotes(startDate, endDate);
 
     const data = Array.from({ length: withinDays }, (_, i) => {
@@ -140,6 +141,9 @@ export const noteController = {
       const dateStr = date.toISOString().slice(0, 10);
       return rows.find(item => item.date === dateStr) || { date: dateStr, count: '0' };
     })
+
+    console.log(data);
+
     res.send(data);
   },
 }
