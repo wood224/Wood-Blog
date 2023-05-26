@@ -91,7 +91,7 @@ onMounted(() => {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    margin-top: 70px;
+    margin-top: 60px;
     padding: 10px;
     border-radius: 10px;
     background-color: rgba(52, 52, 52, 0.6);
