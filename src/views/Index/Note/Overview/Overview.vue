@@ -76,11 +76,9 @@ import { getNoteListApi, deleteNoteApi, searchNoteApi, getCategoryAllApi, getTag
 import { Search, Plus } from '@element-plus/icons-vue'
 import { NoteList } from '@/types/NoteType';
 import { useIndexStore } from '@/store'
-import { useRouter } from 'vue-router';
 
 const baseURL = __BaseURL__;
 
-const router = useRouter();
 const store = useIndexStore();
 
 const searchText = ref('');

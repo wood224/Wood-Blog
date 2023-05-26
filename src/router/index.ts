@@ -67,12 +67,13 @@ const routes = [
         path: 'info',
         name: 'info',
         meta: {
-          icon: 'fa-info-circle',
+          icon: 'fa-user-circle-o',
           title: '个人信息',
           children: [],
         },
         component: () => import('@/views/Index/Info/Info.vue')
-      }, {
+      },
+      {
         path: 'archive',
         name: 'archive',
         meta: {
@@ -81,7 +82,8 @@ const routes = [
           children: [],
         },
         component: () => import('@/views/Index/Archive/Archive.vue')
-      }, {
+      },
+      {
         path: 'friend',
         name: 'friend',
         meta: {
@@ -91,6 +93,16 @@ const routes = [
         },
         component: () => import('@/views/Index/Friend/Friend.vue')
       },
+      {
+        path: 'about',
+        name: 'about',
+        meta: {
+          icon: 'fa-info-circle',
+          title: '关于',
+          children: [],
+        },
+        component: () => import('@/views/Index/About/About.vue')
+      }
     ]
   },
   {

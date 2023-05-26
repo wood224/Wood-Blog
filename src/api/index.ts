@@ -140,7 +140,7 @@ export const getArchiveListApi = (data?: object) => {
 
 //搜索归档
 export const searchArchiveApi = (data: object) => {
-  return request.get('/archive/search/', { params: data });
+  return request.get('/archive/search', { params: data });
 }
 
 //删除归档
@@ -168,4 +168,46 @@ export const updateFriendApi = (data: object) => {
 //删除友链
 export const deleteFriendApi = (id: number) => {
   return request.delete(`/friendLink/${id}`);
+}
+
+//---------------------------------------------------------------------------//
+
+//获取关于列表
+export const getAboutListApi = () => {
+  return request.get('/about');
+}
+
+//添加关于版块
+export const addAboutApi = (data: object) => {
+  return request.post('/about', data);
+}
+
+//添加关于内容
+export const addAboutInfoApi = (data: object) => {
+  return request.post('/about/info', data);
+}
+
+//修改关于版块
+export const updateAboutApi = (data: object) => {
+  return request.put('/about', data);
+}
+
+//修改关于内容
+export const updateAboutInfoApi = (data: object) => {
+  return request.put('/about/info', data);
+}
+
+//删除关于版块
+export const deleteAboutApi = (id: number) => {
+  return request.delete(`/about/${id}`);
+}
+
+//删除关于内容
+export const deleteAboutInfoApi = (id: number) => {
+  return request.delete(`/about/info/${id}`);
+}
+
+//搜索关于
+export const searchAboutApi = (data: object) => {
+  return request.get('/about/search', { params: data });
 }
