@@ -58,9 +58,6 @@ export const tagService = {
   //修改标签
   updateTag: async (id: number, name: string) => {
     const row = await tagRepository.update(id, { name: name });
-    console.log(row);
-
-    // const archiveRow = await ArchiveService.addArchive(row);
 
     return row;
   },
@@ -82,7 +79,9 @@ export const tagService = {
     const count = await tagRepository.count({ where: { name: Like(`%${name}%`), isDelete: 0 } });
     const rows = await tagRepository.createQueryBuilder('tag')
       .where({ name: Like(`%${name}%`), isDelete: 0 })
-      .orderBy("tag.id").limit(limit).offset(offset).getMany();
+      .orderBy("tag.id")
+      .limit(limit).offset(offset)
+      .getMany();
     return { count, rows };
   },
 

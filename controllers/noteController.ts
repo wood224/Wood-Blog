@@ -142,8 +142,6 @@ export const noteController = {
       return rows.find(item => item.date === dateStr) || { date: dateStr, count: '0' };
     })
 
-    console.log(data);
-
     res.send(data);
   },
 }
