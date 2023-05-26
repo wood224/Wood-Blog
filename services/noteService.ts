@@ -140,7 +140,7 @@ export const noteService = {
       .leftJoinAndSelect('category.categoryInfo', 'categoryInfo')
       .where({ isDelete: 0 })
     if (title !== '') {
-      queryBuilder.andWhere({ title: Like(`%${title}%`) })
+      queryBuilder.andWhere({ title: Like(title) })
     }
     if (categoryId) {
       queryBuilder.andWhere('category.id = :categoryId', { categoryId })

@@ -137,8 +137,8 @@ export const categoryController = {
 
   //搜索分类
   searchCategory: async (req: Request, res: Response) => {
-    const name = String(req.query.name)
-    const searchStr = `%${name.split('').join('%')}%`    //模糊搜索字符串
+    const name = String(req.query.name);
+    const searchStr = `%${name.split('').join('%')}%`;    //模糊搜索字符串
     const limit = Number(req.query.limit);
     const offset = Number(req.query.offset);
     const { count, rows } = await categoryService.searchCategory(searchStr, limit, offset);

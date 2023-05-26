@@ -296,4 +296,5 @@ router.get('/search', noteController.searchNote);
  * 
  */
 router.get('/new', noteController.newNotes);
+
 export default router;

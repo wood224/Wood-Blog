@@ -13,7 +13,7 @@ export class Archive {
   type: number;
 
   @CreateDateColumn({ name: 'createtime' })
-  createTime: string;
+  createTime: Date;
 
   @Column()
   update: boolean;

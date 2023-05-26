@@ -18,6 +18,7 @@ import noteRouter from './routes/note';
 import tagRouter from './routes/tag';
 import archiveRouter from './routes/archive';
 import friendLinkRouter from './routes/friendLink';
+import aboutRouter from './routes/about';
 
 import frontApiRouter from './routes/frontApi';
 
@@ -90,6 +91,7 @@ app.use('/note', noteRouter);
 app.use('/tag', tagRouter);
 app.use('/archive', archiveRouter)
 app.use('/friendLink', friendLinkRouter);
+app.use('/about', aboutRouter);
 
 app.use('/front/api', frontApiRouter);
 

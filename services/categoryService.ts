@@ -120,7 +120,7 @@ export const categoryService = {
 
   //搜索分类
   searchCategory: async (name: string, limit: number, offset: number) => {
-    const count = await categoryRepository.count({ where: { name: Like(`%${name}%`), isDelete: 0 } })
+    const count = await categoryRepository.count({ where: { name: Like(name), isDelete: 0 } })
     const rows = await categoryRepository.createQueryBuilder('category')
       .innerJoinAndSelect('category.categoryInfo', 'categoryInfo')
       .where({ name: Like(`%${name}%`), isDelete: 0 })
