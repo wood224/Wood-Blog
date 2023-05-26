@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { friendLinkService } from "../services/friendLinkService";
 import moment from "moment";
 import { saveToUploads } from "../utils/saveToUploads";
+import { ResSend } from "../utils/ResSend";
 
 export const friendLinkController = {
   //获取友链列表
@@ -38,12 +39,12 @@ export const friendLinkController = {
     if (form.name && form.link) {
       const row = await friendLinkService.addFriendLink(form.name, form.introduction, form.link, form.img);
       if (row) {
-        res.send({ code: 200, msg: '添加成功！' });
+        ResSend(res, 200, '添加成功！');
       } else {
-        res.status(410).send({ code: 410, msg: '添加失败！' });
+        ResSend(res, 410, '添加失败！');
       }
     } else {
-      res.status(410).send({ code: 410, msg: '请检查数据格式！' });
+      ResSend(res, 410, '请检查数据格式！');
     }
   },
 
@@ -66,12 +67,12 @@ export const friendLinkController = {
     if (form.name && form.link) {
       const row = await friendLinkService.updateFriendLink(form.id, form.name, form.introduction, form.link, form.img);
       if (row) {
-        res.send({ code: 200, msg: '修改成功！' });
+        ResSend(res, 200, '修改成功！');
       } else {
-        res.status(410).send({ code: 410, msg: '修改失败！' });
+        ResSend(res, 410, '修改失败！');
       }
     } else {
-      res.status(410).send({ code: 410, msg: '请检查数据格式！' });
+      ResSend(res, 410, '请检查数据格式！');
     }
   },
 
@@ -80,9 +81,9 @@ export const friendLinkController = {
     const id = Number(req.params.id);
     const row = await friendLinkService.deleteFriendLink(id);
     if (row) {
-      res.send({ code: 200, msg: '删除成功！' });
+      ResSend(res, 200, '删除成功！');
     } else {
-      res.status(410).send({ code: 410, msg: '删除失败！' });
+      ResSend(res, 410, '删除失败！');
     }
   }
 }

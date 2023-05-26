@@ -3,6 +3,7 @@ import { adminService } from "../services/adminService";
 import { jwt } from '../utils/JWT';
 import { bcrypt } from '../utils/bcrypt';
 import { saveToUploads } from "../utils/saveToUploads";
+import { ResSend } from '../utils/ResSend';
 
 class CheckResult {
   result: boolean;
@@ -32,7 +33,7 @@ export const adminController = {
       //正则表达式检查验证码
       const reg = new RegExp(captcha, 'i');
       if (!reg.test(userCaptcha)) {
-        return res.status(410).send({ code: 410, msg: '验证码不正确！' });
+        return ResSend(res, 410, '验证码不正确！');
       }
       //校验账号密码
       const form = req.body;
@@ -50,16 +51,16 @@ export const adminController = {
           //设置 token
           const token = jwt.generate(dataObj, '1h');
           res.header('Authorization', token);
-          res.send({ code: 200, msg: '登录成功！' });
+          ResSend(res, 200, '登录成功！');
         } else {
-          res.status(410).send({ code: 410, msg: '用户名或密码错误！' });
+          ResSend(res, 410, '用户名或密码错误！');
         }
       } else {
-        res.status(410).send({ code: 410, msg: '账号不存在！' });
+        ResSend(res, 410, '账号不存在！');
       }
     }
     else {
-      res.status(410).send({ code: 410, msg: '出错了，请重试' });
+      ResSend(res, 410, '出错了，请重试！');
     }
   },
 
@@ -96,7 +97,7 @@ export const adminController = {
           return res.send(data);
         }
       }
-      res.status(410).send({ code: 410, msg: '出错了！请重新登录。' });
+      ResSend(res, 410, '出错了！请重新登录。');
     }
   },
 
@@ -111,9 +112,9 @@ export const adminController = {
     form.avatar = avatar;
     const row = await adminService.updateInfo(form);
     if (row) {
-      res.send({ code: 200, msg: '修改成功！' });
+      ResSend(res, 200, '修改成功！');
     } else {
-      res.status(410).send({ code: 410, msg: '修改失败！' });
+      ResSend(res, 410, '修改失败！');
     }
   }
 

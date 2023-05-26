@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { categoryService } from "../services/categoryService";
 const moment = require('moment');
 import { saveToUploads } from '../utils/saveToUploads';
+import { ResSend } from '../utils/ResSend';
 
 export const categoryController = {
   //检查分类名
@@ -24,7 +25,7 @@ export const categoryController = {
       }
       res.send(data);
     } else {
-      res.status(410).send({ code: 410, msg: '该分类不存在！' });
+      ResSend(res, 410, '该分类不存在！');
     }
   },
 
@@ -81,22 +82,22 @@ export const categoryController = {
     if (result) {       //如果不存在
       const row = await categoryService.addCategory(form.name, form.coverImg, form.introduction);
       if (row) {
-        res.send({ code: 200, msg: '添加成功！' });
+        ResSend(res, 200, '添加成功！');
       } else {
-        res.status(410).send({ code: 410, msg: '添加失败！' });
+        ResSend(res, 410, '添加失败！');
       }
     }
     else if (rows[0].isDelete === 1) {
       const row1 = await categoryService.updateCategory(rows[0].id, form.name, form.coverImg, form.introduction);
       const row2 = await categoryService.restoreCategory(rows[0].id);
       if (row1 && row2) {
-        res.send({ code: 200, msg: '添加成功！' });
+        ResSend(res, 200, '添加成功！');
       } else {
-        res.status(410).send({ code: 410, msg: '添加失败！' });
+        ResSend(res, 410, '添加失败！');
       }
     }
     else {
-      res.status(410).send({ code: 410, msg: '该分类名已存在！' });
+      ResSend(res, 410, '该分类名已存在！');
     }
   },
 
@@ -115,9 +116,9 @@ export const categoryController = {
     }
     const { row1, row2 } = await categoryService.updateCategory(form.id, form.name, form.coverImg, form.introduction);
     if (row1 && row2) {
-      res.send({ code: 200, msg: '修改成功！' });
+      ResSend(res, 200, '修改成功！');
     } else {
-      res.status(410).send({ code: 410, msg: '修改失败！' });
+      ResSend(res, 410, '修改失败！');
     }
   },
 
@@ -126,12 +127,12 @@ export const categoryController = {
     if (req.params) {
       const { row1, row2 } = await categoryService.deleteCategory(Number(req.params.id));
       if (row1.affected === 1) {
-        res.send({ code: 200, msg: '删除成功！' });
+        ResSend(res, 200, '删除成功！');
       } else {
-        res.status(410).send({ code: 410, msg: '删除失败！' });
+        ResSend(res, 410, '删除失败！');
       }
     } else {
-      res.status(410).send({ code: 410, msg: '删除失败！' });
+      ResSend(res, 410, '删除失败！');
     }
   },
 

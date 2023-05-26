@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { noteService } from '../services/noteService'
+import { ResSend } from '../utils/ResSend';
 const moment = require('moment');
 
 export const noteController = {
@@ -28,14 +29,14 @@ export const noteController = {
       });
       res.send({ count: count, noteList: data });
     } else {
-      res.status(410).send(({ code: 410, msg: '出错了！' }));
+      return ResSend(res, 410, '出错了！');
     }
   },
 
   //新增笔记
   addNote: async (req: Request, res: Response) => {
     if (req.body.text === '') {
-      return res.status(410).send({ code: 410, msg: '文本内容不能为空！' });
+      return ResSend(res, 410, '文本内容不能为空！');
     }
     const form = {
       title: req.body.title,
@@ -49,22 +50,22 @@ export const noteController = {
     if (result) {       //如果不存在
       const row = await noteService.addNote(form.title, form.subtitle, form.categoryId, form.tagIds, form.text);
       if (row) {
-        res.send({ code: 200, msg: '添加成功！' });
+        ResSend(res, 200, '添加成功！');
       } else {
-        res.status(410).send({ code: 410, msg: '添加失败！' });
+        ResSend(res, 410, '添加失败！');
       }
     }
     else if (rows[0].isDelete === 1) {
       const row1 = await noteService.updateNote(rows[0].id, form.title, form.subtitle, form.categoryId, form.tagIds, form.text);
       const row2 = await noteService.restoreNote(rows[0].id);
       if (row1 && row2) {
-        res.send({ code: 200, msg: '添加成功！' });
+        ResSend(res, 200, '添加成功！');
       } else {
-        res.status(410).send({ code: 410, msg: '添加失败！' });
+        ResSend(res, 410, '添加失败！');
       }
     }
     else {
-      res.status(410).send({ code: 410, msg: '该标题已存在！' });
+      ResSend(res, 410, '该标题已存在！');
     }
   },
 
@@ -75,7 +76,7 @@ export const noteController = {
       const row = await noteService.getInfo(id);
       res.send(row);
     } else {
-      res.status(410).send({ code: 410, msg: '获取笔记内容出错了！' });
+      ResSend(res, 410, '获取笔记内容出错了！');
     }
   },
 
@@ -85,9 +86,9 @@ export const noteController = {
     const body = req.body;
     const row = await noteService.updateNote(id, body.title, body.subtitle, body.categoryId, body.tagIds, body.text);
     if (row) {
-      res.send({ code: 200, msg: '修改成功！' });
+      ResSend(res, 200, '修改成功！');
     } else {
-      res.status(410).send({ code: 410, msg: '修改失败！' });
+      ResSend(res, 410, '修改失败！');
     }
   },
 
@@ -97,12 +98,12 @@ export const noteController = {
     if (id) {
       const row = await noteService.deleteNote(id);
       if (row.affected === 1) {
-        res.send({ code: 200, msg: '删除成功！' });
+        ResSend(res, 200, '删除成功！');
       } else {
-        res.status(410).send({ code: 410, msg: '删除失败！' });
+        ResSend(res, 410, '删除失败！');
       }
     } else {
-      res.status(410).send({ code: 410, msg: '删除笔记出错了！' });
+      ResSend(res, 410, '删除笔记出错了！');
     }
   },
 

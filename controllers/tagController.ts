@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { tagService } from '../services/tagService';
+import { ResSend } from '../utils/ResSend';
 const moment = require('moment');
 
 export const tagController = {
@@ -49,22 +50,22 @@ export const tagController = {
     if (result) {       //如果不存在
       const row = await tagService.addTag(form.name);
       if (row) {
-        res.send({ code: 200, msg: '添加成功！' });
+        ResSend(res, 200, '添加成功！');
       } else {
-        res.status(410).send({ code: 410, msg: '添加失败！' });
+        ResSend(res, 410, '添加失败！');
       }
     }
     else if (rows[0].isDelete === 1) {
       const row1 = await tagService.updateTag(rows[0].id, form.name);
       const row2 = await tagService.restoreTag(rows[0].id);
       if (row1 && row2) {
-        res.send({ code: 200, msg: '添加成功！' });
+        ResSend(res, 200, '添加成功！');
       } else {
-        res.status(410).send({ code: 410, msg: '添加失败！' });
+        ResSend(res, 410, '添加失败！');
       }
     }
     else {
-      res.status(410).send({ code: 410, msg: '该标签名已存在！' });
+      ResSend(res, 410, '该标签名已存在！');
     }
   },
 
@@ -76,9 +77,9 @@ export const tagController = {
     }
     const row = await tagService.updateTag(form.id, form.name);
     if (row) {
-      res.send({ code: 200, msg: '修改成功！' });
+      ResSend(res, 200, '修改成功！');
     } else {
-      res.status(410).send({ code: 410, msg: '修改失败！' });
+      ResSend(res, 410, '修改失败！');
     }
   },
 
@@ -87,12 +88,12 @@ export const tagController = {
     if (req.params) {
       const row = await tagService.deleteTag(Number(req.params.id));
       if (row) {
-        res.send({ code: 200, msg: '删除成功！' });
+        ResSend(res, 200, '删除成功！');
       } else {
-        res.status(410).send({ code: 410, msg: '删除失败！' });
+        ResSend(res, 410, '删除失败！');
       }
     } else {
-      res.status(410).send({ code: 410, msg: '删除失败！' });
+      ResSend(res, 410, '删除失败！');
     }
   },
 

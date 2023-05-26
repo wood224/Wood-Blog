@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { archiveService } from '../services/archiveService';
 import moment from 'moment';
+import { ResSend } from '../utils/ResSend';
 
 export const archiveController = {
   //获取归档列表
@@ -48,12 +49,12 @@ export const archiveController = {
     if (id) {
       const row = await archiveService.deleteArchive(id);
       if (row) {
-        res.send({ code: 200, msg: '删除成功！' });
+        ResSend(res, 200, '删除成功！');
       } else {
-        res.status(410).send({ code: 410, msg: '删除失败！' });
+        ResSend(res, 410, '删除失败！');
       }
     } else {
-      res.status(410).send({ code: 410, msg: '删除失败！' });
+      ResSend(res, 410, '删除失败！');
     }
   }
 }
