@@ -169,15 +169,15 @@ const ruleFormRef = ref<FormInstance>()
 const rules = ref<FormRules>({
   name: [
     { required: true, message: '版块名不能为空！', trigger: 'blur' },
-    { max: 15, message: '长度不能超过5个字！', trigger: 'blur' }
+    { max: 5, message: '长度不能超过5个字！', trigger: 'blur' }
   ],
   title: [
     { required: true, message: '内容标题名不能为空！', trigger: 'blur' },
-    { max: 15, message: '长度不能超过8个字！', trigger: 'blur' }
+    { max: 10, message: '长度不能超过10个字！', trigger: 'blur' }
   ],
   content: [
     { required: true, message: '内容详情不能为空！', trigger: 'blur' },
-    { max: 15, message: '长度不能超过50个字！', trigger: 'blur' }
+    { max: 50, message: '长度不能超过50个字！', trigger: 'blur' }
   ]
 })
 const confirm = async (formRules: FormInstance | undefined) => {
