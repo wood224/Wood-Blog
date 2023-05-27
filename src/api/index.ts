@@ -211,3 +211,10 @@ export const deleteAboutInfoApi = (id: number) => {
 export const searchAboutApi = (data: object) => {
   return request.get('/about/search', { params: data });
 }
+
+//---------------------------------------------------------------------------//
+
+//上传图片
+export const uploadApi = (data: object) => {
+  return request.post('/upload', data, { headers: { 'Content-Type': 'multipart/form-data' } })
+}

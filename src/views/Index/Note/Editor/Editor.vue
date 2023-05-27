@@ -34,7 +34,7 @@
         </div>
       </div>
       <div class="text">
-        <MdEditor class="editor" v-model="form.text"></MdEditor>
+        <MdEditor class="editor" v-model="form.text" @onUploadImg="onUploadImg"></MdEditor>
       </div>
       <div class="btn">
         <el-button type="primary" @click="submit(ruleFormRef)">提交</el-button>
@@ -46,7 +46,7 @@
 <script setup lang='ts'>
 import { onActivated, onMounted, ref, watch } from 'vue';
 import { onBeforeRouteLeave, useRouter, useRoute } from 'vue-router';
-import { getCategoryAllApi, addNoteApi, getNoteInfoApi, updateNoteApi, getTagListApi } from '@/api';
+import { getCategoryAllApi, addNoteApi, getNoteInfoApi, updateNoteApi, getTagListApi, uploadApi } from '@/api';
 import { useIndexStore } from '@/store';
 import { FormInstance, FormRules } from 'element-plus';
 import MdEditor from 'md-editor-v3';
@@ -89,7 +89,6 @@ const initTagList = () => {
     });
   });
 }
-
 
 const form = ref({
   title: '',
@@ -156,6 +155,24 @@ watch(form, () => {
   store.setEditorChange(changeCount.value > 1);
 
 }, { deep: true })
+
+//图片上传事件
+const onUploadImg = async (files: any, callback: any) => {
+  const res = await Promise.all(
+    files.map((file: any) => {
+      return new Promise((rev, rej) => {
+        const formData = new FormData();
+        formData.append('img', file);
+
+        uploadApi(formData)
+          .then((res: any) => rev(res))
+          .catch((error: any) => rej(error));
+      });
+    })
+  );
+
+  callback(res.map((item) => baseURL + item.data.url));
+}
 
 onActivated(() => {
   initCategoryList();

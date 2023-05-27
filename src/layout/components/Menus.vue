@@ -12,14 +12,14 @@
                 <span>{{ item.meta.title }}</span>
               </span>
             </template>
-            <el-menu-item v-for="(child, childIndex) in item.children" :key="childIndex"
-              :index="`${index}-${childIndex}`">
+            <el-menu-item v-for="(child, childIndex) in item.children" :key="childIndex" :index="`${index}-${childIndex}`"
+              :disabled="child.meta!.hidden">
               <template #title>
-                <span @click="addTab(child, '/note')" class="link" v-if="child.meta">
-                  <div class="icon" v-if="typeof (child.meta.icon) === 'string'">
-                    <i class="fa" :class="child.meta.icon"></i>
+                <span @click="addTab(child, '/note')" class="link" :class="{ disabled: child.meta!.hidden }">
+                  <div class="icon" v-if="typeof (child.meta!.icon) === 'string'">
+                    <i class="fa" :class="child.meta!.icon"></i>
                   </div>
-                  <span>{{ child.meta.title }}</span>
+                  <span>{{ child.meta!.title }}</span>
                 </span>
               </template>
             </el-menu-item>
@@ -57,6 +57,7 @@ const isCollapse = ref(false);
 
 const emit = defineEmits(['addTab']);
 const addTab = (route: any, parentPath?: string) => {
+  if (route.meta.hidden) return;
   const name = route.meta.title;
   const fullPath = '/' + route.path
   const path = parentPath ? parentPath + fullPath : fullPath;
@@ -85,6 +86,10 @@ const addTab = (route: any, parentPath?: string) => {
       height: 100%;
       text-align: center;
       cursor: pointer;
+
+      &.disabled {
+        cursor: not-allowed;
+      }
 
       .icon {
         display: flex;
