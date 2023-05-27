@@ -34,8 +34,8 @@ declare module 'express-session' {
  * }
  * 
  * 
- * @apiSuccess (200) {Number} code 状态码
- * @apiSuccess (200) {String} msg  消息
+ * @apiSuccess  {Number} code 状态码
+ * @apiSuccess  {String} msg  消息
  * 
  * @apiSuccessExample {json} 成功响应:
  * {
@@ -114,8 +114,8 @@ router.get('/info', adminController.getInfo);
  *     email: "*****@**.com"
  * }
  * 
- * @apiSuccess (200) {Number} code 状态码
- * @apiSuccess (200) {String} msg  消息
+ * @apiSuccess  {Number} code 状态码
+ * @apiSuccess  {String} msg  消息
  * 
  * @apiSuccessExample {json} 成功响应:
  * {
