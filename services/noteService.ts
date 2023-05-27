@@ -40,7 +40,9 @@ export const noteService = {
       .where({ isDelete: 0 })
       .andWhere('(tag.is_delete = :isDelete OR tag.id IS NULL)', { isDelete: 0 })
       .andWhere('category.is_delete = :isDelete', { isDelete: 0 })
-      .orderBy('note.id').take(limit).skip(offset).getMany();
+      .orderBy('note.id', 'DESC')
+      .take(limit).skip(offset)
+      .getMany();
     return {
       count,
       rows,
@@ -149,7 +151,7 @@ export const noteService = {
       queryBuilder.andWhere('tag.id In (:tagIds)', { tagIds })
     }
     const count = await queryBuilder.getCount()
-    const rows = await queryBuilder.orderBy('note.id').take(limit).skip(offset).getMany();
+    const rows = await queryBuilder.orderBy('note.id', 'DESC').take(limit).skip(offset).getMany();
     return {
       count,
       rows

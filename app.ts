@@ -44,8 +44,9 @@ app.use(cors(corsOptions));
 // })
 
 //token校验
+const allowURL = ['login', 'captcha', 'front/api'];
 app.use((req: Request, res: Response, next: NextFunction) => {
-  if (req.url.includes('login') || req.url.includes('captcha') || req.url.includes('front/api')) {
+  if (allowURL.some(url => req.url.includes(url))) {
     return next();
   }
 
