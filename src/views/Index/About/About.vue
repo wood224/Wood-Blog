@@ -71,7 +71,7 @@
           <el-input v-model="form.title" maxlength="10" show-word-limit />
         </el-form-item>
         <el-form-item v-if="actionType === 2" label="内容详情" prop="content">
-          <el-input v-model="form.content" maxlength="50" show-word-limit />
+          <el-input v-model="form.content" type="textarea" :rows="2" maxlength="50" show-word-limit />
         </el-form-item>
       </el-form>
       <template #footer>
