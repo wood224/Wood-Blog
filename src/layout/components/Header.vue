@@ -25,7 +25,8 @@
         <el-drawer v-model="drawer" title="导航" direction="ttb">
           <div class="nav-list">
             <template v-for="(item, index) in menuList" :key="index">
-              <router-link class="link" :to="item.path" v-if="item.meta" @click="clickDrawer">
+              <router-link class="link" :to="item.path" v-if="item.meta && item.meta.hidden !== true"
+                @click="clickDrawer">
                 <div class="icon" v-if="typeof (item.meta.icon) === 'string'">
                   <i class="fa" :class="item.meta.icon"></i>
                 </div>

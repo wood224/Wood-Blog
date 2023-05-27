@@ -137,11 +137,13 @@ const openCategory = (id: number) => {
   .directory-list {
     position: fixed;
     right: 0;
-    bottom: 300px;
+    bottom: 50%;
+    transform: translateY(50%);
     transition: all 0.5s;
+    z-index: 90;
 
     &.hidden {
-      transform: translateX(90%);
+      transform: translate(90%, 50%);
     }
 
     .directory-card {
