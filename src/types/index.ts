@@ -29,3 +29,25 @@ export class Archive {
     this.update = update ?? false;
   }
 }
+
+interface AboutInfo {
+  id: number;
+  title: string;
+  content: string;
+  createTime: string;
+  updateTime: string;
+}
+export class About {
+  id: number;
+  name: string;
+  createTime: string;
+  updateTime: string;
+  aboutInfos: AboutInfo[];
+  constructor(id?: number, name?: string, createTime?: string, updateTime?: string, aboutInfos?: AboutInfo[]) {
+    this.id = id ?? 0;
+    this.name = name ?? '';
+    this.createTime = createTime ?? '';
+    this.updateTime = updateTime ?? '';
+    this.aboutInfos = aboutInfos ?? [];
+  }
+}

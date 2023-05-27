@@ -29,6 +29,7 @@ declare module '@vue/runtime-core' {
     ElTag: typeof import('element-plus/es')['ElTag']
     ElText: typeof import('element-plus/es')['ElText']
     Home: typeof import('./src/components/Home.vue')['default']
+    HoverRotateCard: typeof import('./src/components/Blog/HoverRotateCard.vue')['default']
     Info: typeof import('./src/components/Blog/Info.vue')['default']
     Login: typeof import('./src/components/Index/Login.vue')['default']
     NoteList: typeof import('./src/components/Blog/NoteList.vue')['default']

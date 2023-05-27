@@ -46,3 +46,8 @@ export const getArchiveListApi = (data: object) => {
 export const getCategoryInfoApi = (id: number) => {
   return request.get(`/category/${id}`);
 }
+
+//获取关于列表
+export const getAboutListApi = () => {
+  return request.get('/aboutList');
+}

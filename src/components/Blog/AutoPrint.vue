@@ -4,7 +4,7 @@
       <span>『</span>
     </div>
     <div class="container">
-      <el-scrollbar>
+      <el-scrollbar max-height="200px">
         <div class="text">
           <span>{{ activeText }}</span>
         </div>
@@ -60,6 +60,7 @@ const active = setInterval(() => {
 
   .container {
     padding: 10px 40px;
+    height: auto;
     max-height: 220px;
 
     .text {
