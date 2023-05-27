@@ -3,13 +3,13 @@ const router = express.Router();
 import { uploadController } from '../controllers/uploadController';
 
 /**
- * @apiDefine groupCategory 上传
+ * @apiDefine groupUpload 上传
  */
 
 /**
  * 
  * @api {post} /upload 上传图片
- * @apiGroup groupCategory
+ * @apiGroup groupUpload
  * @apiVersion  1.0.0
  * 
  * 
