@@ -48,7 +48,7 @@ const setDetail = () => {
   if (route.path.includes('categoryNote')) {
     getCategoryInfoApi(Number(route.query.id)).then(res => {
       const data = res.data;
-      store.setCoverDetails(data.name, data.introduction, '', data.createTime);
+      store.setCoverDetails(data.name, data.introduction, '', new Date(data.createTime).toLocaleDateString());
     })
   }
 }
@@ -105,6 +105,7 @@ onMounted(() => {
     }
 
     .detail {
+      font-size: 2rem;
 
       .introduction {
         margin: 20px 0;
@@ -156,9 +157,5 @@ onMounted(() => {
   }
 }
 
-@media screen and (max-width:768px) {
-  .time {
-    display: none;
-  }
-}
+@media screen and (max-width:768px) {}
 </style>
