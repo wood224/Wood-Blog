@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang='ts'>
-import { reactive, ref } from 'vue';
+import { onActivated, onDeactivated, reactive, ref } from 'vue';
 import { getArchiveListApi } from '../../../api';
 import { Archive } from '../../../types';
 
@@ -53,11 +53,23 @@ const pageOptions = reactive({
   limit: 6,
   offset: 0,
 });
-const getArchiveList = (limit: number, offset: number) => {
-  getArchiveListApi({ limit, offset }).then(res => {
-    const data = res.data;
-    count.value = data.count;
+const flag = ref(true);     //节流阀
+const getArchiveList = async (limit: number, offset: number) => {
+  const { data } = await getArchiveListApi({ limit, offset });
+  if (data.archiveList.length === 0) return flag.value = false;   //关闭节流阀
+  count.value = data.count;
 
+  if (archiveList.value.size !== 0) {
+    data.archiveList.forEach((element: any) => {
+      const year = new Date(element.createTime).getFullYear();
+      if (archiveList.value.has(year)) {
+        archiveList.value.get(year)!.push(element);
+      } else {
+        archiveList.value.set(year, [element]);
+      }
+    })
+  }
+  else {
     const map = new Map();
     data.archiveList.forEach((element: any) => {
       const year = new Date(element.createTime).getFullYear();
@@ -68,9 +80,29 @@ const getArchiveList = (limit: number, offset: number) => {
       }
     })
     archiveList.value = map;
-  })
+  }
+  flag.value = true;
 }
 getArchiveList(pageOptions.limit, pageOptions.offset);
+
+const scrollBottom = async () => {
+  const scrollTop = document.documentElement.scrollTop;         //文档顶部到可视文档顶部的距离
+  const clientHeight = document.documentElement.clientHeight;   //文档可视区域内容高度
+  const scrollHeight = document.documentElement.scrollHeight;   //文档总区域的高度
+
+  if (scrollTop + clientHeight >= scrollHeight && flag.value) {
+    flag.value = false;
+    await getArchiveList(pageOptions.limit, pageOptions.offset += pageOptions.limit);
+  }
+}
+
+onActivated(() => {
+  window.addEventListener('scroll', scrollBottom)
+})
+
+onDeactivated(() => {
+  window.removeEventListener('scroll', scrollBottom)
+})
 </script>
 
 <style scoped lang='scss'>

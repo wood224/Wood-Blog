@@ -19,9 +19,11 @@ const HandlerMouseMove = (e: MouseEvent) => {
   const calcX = (e.clientY - box.y - (box.height / 2)) / multiple;
   const calcY = (e.clientX - box.x - (box.width / 2)) / multiple;
 
+  card.value.style.transition = `transform 0s`;
   card.value.style.transform = `rotateX(${-calcX}deg) rotateY(${calcY}deg)`;
 }
 const HandlerMouseLeave = () => {
+  card.value.style.transition = `transform 1s`;
   card.value.style.transform = `rotateX(0) rotateY(0)`;
 }
 </script>
@@ -43,7 +45,7 @@ const HandlerMouseLeave = () => {
       border-radius: 10px;
       transform-style: preserve-3d;
       transform: rotateX(0) rotateY(0);
-      transition: transform .1s;
+      // transition: transform .1s;
     }
   }
 }
