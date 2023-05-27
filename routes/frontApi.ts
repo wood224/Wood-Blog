@@ -334,4 +334,34 @@ router.get('/archiveList', frontApiController.getArchiveList);
  * 
  */
 router.get('/category/:id', frontApiController.getCategoryInfo);
+
+/**
+ * 
+ * @api {get} /about 获取关于列表
+ * @apiGroup groupAbout
+ * @apiVersion  1.0.0
+ * 
+ * 
+ * @apiSuccess  {String} name description
+ * 
+ * @apiSuccessExample {json} 成功响应:
+ * {
+ *     "aboutInfos": [
+ *          {
+ *            "id": 1, 
+ *            "title": "标题", 
+ *            "content": "内容", 
+ *            "createTime": "2023-05-26 21:53:21",
+ *            "updateTime": "2023-05-26 21:53:21"
+ *          }
+ *     ]
+ *     "createTime": "2023-05-26 21:49:56",
+ *     "id": 1,
+ *     "name": "版块名",
+ *     "updateTime": "2023-05-26 21:49:56"
+ * }
+ * 
+ * 
+ */
+router.get('/aboutList', frontApiController.getAboutList);
 export default router;

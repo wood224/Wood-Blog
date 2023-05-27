@@ -4,6 +4,7 @@ import { categoryController } from '../controllers/categoryController';
 import { noteController } from '../controllers/noteController';
 import { tagController } from './tagController';
 import { archiveController } from './archiveController';
+import { aboutController } from './aboutController';
 
 export const frontApiController = {
   //获取个人信息
@@ -51,5 +52,10 @@ export const frontApiController = {
   //获取分类详情
   getCategoryInfo: async (req: Request, res: Response) => {
     await categoryController.getCategoryInfo(req, res);
-  }
+  },
+
+  //获取关于列表
+  getAboutList: async (req: Request, res: Response) => {
+    await aboutController.getAboutList(req, res);
+  },
 }
