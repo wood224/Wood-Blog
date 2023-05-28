@@ -54,6 +54,15 @@ const routes = [
         component: () => import('@/view/Blog/About/About.vue')
       },
       {
+        path: 'link',
+        name: 'link',
+        meta: {
+          title: '友链',
+          icon: 'fa-link'
+        },
+        component: () => import('@/view/Blog/Link/Link.vue')
+      },
+      {
         path: 'note',
         name: 'note',
         meta: {

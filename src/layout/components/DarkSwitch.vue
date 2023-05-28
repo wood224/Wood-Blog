@@ -1,19 +1,24 @@
 <template>
-  <div class="dark-switch-wrapper" :class="{ 'is-dark': isDark }" @click="switchDark">
+  <div class="dark-switch-wrapper" :class="{ 'is-dark': dark }" @click="switchDark">
     <div class="switch">
-      <i class="fa" :class="[isDark ? 'fa-moon-o' : 'fa-sun-o']"></i>
+      <i class="fa" :class="[dark ? 'fa-moon-o' : 'fa-sun-o']"></i>
     </div>
   </div>
 </template>
 
 <script setup lang='ts'>
 import { useDark, useToggle } from '@vueuse/core';
+import { useIndexStore } from '../../store';
 
-const isDark = useDark();
+const store = useIndexStore();
+
+const dark = useDark();
+store.setIsDark(dark.value)
 
 const switchDark = () => {
-  isDark.value = !isDark.value;
-  useToggle(isDark);
+  dark.value = !dark.value;
+  store.setIsDark(dark.value)
+  useToggle(dark);
 }
 </script>
 

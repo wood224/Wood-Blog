@@ -17,7 +17,9 @@ export const useIndexStore = defineStore('index', {
         introduction: '',
         tagName: '',
         createTime: ''
-      }
+      },
+      openDirectory: true,
+      isDark: false
     }
   },
   getters: {
@@ -40,6 +42,12 @@ export const useIndexStore = defineStore('index', {
       this.coverDetails.introduction = introduction ?? '';
       this.coverDetails.tagName = tagName ?? '';
       this.coverDetails.createTime = createTime ?? '';
+    },
+    setOpenDirectory(open: boolean) {
+      this.openDirectory = open;
+    },
+    setIsDark(dark: boolean) {
+      this.isDark = dark;
     }
   }
 })

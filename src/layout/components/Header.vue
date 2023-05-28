@@ -44,7 +44,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router'
-import { Sunny, Moon } from '@element-plus/icons-vue'
 import DarkSwitch from './DarkSwitch.vue';
 const router = useRouter();
 

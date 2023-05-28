@@ -2,12 +2,11 @@
   <div class="main-wrapper">
     <router-view v-slot="{ Component }" v-if="mainShow">
       <transition name="right" mode="out-in">
-        <keep-alive>
+        <keep-alive :exclude="['Note']">
           <component :is="Component" />
         </keep-alive>
       </transition>
     </router-view>
-
   </div>
 </template>
 

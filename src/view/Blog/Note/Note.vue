@@ -17,95 +17,67 @@
       </div>
     </el-card>
     <el-card class="content">
-      <v-md-preview ref="preview" :text="note.noteInfo.noteText"></v-md-preview>
+      <MdPreview ref="previewRef" :editorId="'preview-' + note.id" v-model="note.noteInfo.noteText"
+        :theme="isDark ? 'dark' : 'light'" />
     </el-card>
-    <div class="directory-list" :class="{ hidden: cardView }">
+    <div class="directory-list" :class="{ hidden: openDirectory }">
       <el-card class="directory-card ">
         <template #header>
           <h2>目录导航</h2>
         </template>
         <ul>
           <el-scrollbar height="300px">
-            <li class="directory hover-action" v-for="anchor in titleList"
-              :style="{ padding: `10px 0 10px ${anchor.indent * 20}px` }" @click="anchorClick(anchor)">
-              <el-text truncated>{{ anchor.title }}</el-text>
-            </li>
+            <MdCatalog ref="catalogRef" :editorId="'preview-' + note.id" :scrollElement="scrollElement" />
           </el-scrollbar>
         </ul>
       </el-card>
       <div class="arrow" @click="setCardView">
-        <i class="fa fa-angle-right" :style="{ transform: cardView ? 'rotate(-180deg)' : 'rotate(0deg)' }"></i>
+        <i class="fa fa-angle-right" :style="{ transform: openDirectory ? 'rotate(-180deg)' : 'rotate(0deg)' }"></i>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang='ts'>
-import { computed, nextTick, onActivated, ref } from 'vue';
+import { computed, onMounted, ref, toRefs } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useIndexStore } from '../../../store';
 import { getNoteInfoApi } from '../../../api';
+import { MdPreview, MdCatalog } from 'md-editor-v3';
+import 'md-editor-v3/lib/preview.css';
 
 const route = useRoute();
 const router = useRouter();
+const store = useIndexStore();
+
+const { isDark, openDirectory } = toRefs(store);
 
 const id = computed(() => route.query.id);
 
+const scrollElement = document.documentElement;
+const previewRef = ref();
 const note = ref();
-const titleList = ref([] as any);
-const preview = ref();
-const getNoteInfo = () => {
-  getNoteInfoApi(Number(id.value)).then(res => {
+const getNoteInfo = async () => {
+  await getNoteInfoApi(Number(id.value)).then(res => {
     const data = res.data;
     note.value = data;
     document.title = note.value.title;
-
-    nextTick(() => {
-      const anchors = preview.value.$el.querySelectorAll('h1,h2,h3,h4,h5,h6');
-
-      const titles = Array.from(anchors).filter((title: any) => !!title.innerText.trim());
-
-      if (!titles.length) {
-        titleList.value = [];
-        return;
-      }
-
-      const hTags = Array.from(new Set(titles.map((title: any) => title.tagName))).sort();
-
-      titleList.value = titles.map((el: any) => ({
-        title: el.innerText,
-        lineIndex: el.getAttribute('data-v-md-line'),
-        indent: hTags.indexOf(el.tagName),
-      }));
-    })
   })
 }
+getNoteInfo();
 
-onActivated(() => {
-  getNoteInfo();
-})
-
-const anchorClick = (anchor: any) => {
-  const { lineIndex } = anchor;
-
-  const heading = preview.value.$el.querySelector(`[data-v-md-line="${lineIndex}"]`);
-
-  if (heading) {
-    preview.value.scrollToTarget({
-      target: heading,
-      scrollContainer: window,
-      top: 60,
-    });
-  }
-}
-
-const cardView = ref(true);
 const setCardView = () => {
-  cardView.value = !cardView.value;
+  store.setOpenDirectory(!openDirectory.value);
 }
 
 const openCategory = (id: number) => {
   router.push({ path: 'categoryNote', query: { id: id } });
 }
+
+const catalogRef = ref();
+onMounted(() => {
+  previewRef.value?.toggleCatalog(true);
+})
 </script>
 
 <style scoped lang='scss'>
