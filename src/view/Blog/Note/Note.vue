@@ -12,7 +12,7 @@
       </div>
       <div class="tags">
         <div class="tag" v-for="tag in note.tags">
-          <i class="fa fa-tag hover-action">{{ tag.name }}</i>
+          <i class="fa fa-tag">{{ tag.name }}</i>
         </div>
       </div>
     </el-card>
