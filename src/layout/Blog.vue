@@ -21,7 +21,7 @@ import { Header, Main } from './components/index'
 
   .main {
     width: 100%;
-    background-color: #e6f4fb;
+    // background-color: #e6f4fb;
   }
 }
 </style>

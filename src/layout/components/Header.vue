@@ -5,6 +5,7 @@
       Wood Blog
     </div>
     <div class="right">
+      <DarkSwitch class="switch-dark"></DarkSwitch>
       <div class="btn">
         <div class="link-list">
           <template v-for="(item, index) in menuList" :key="index">
@@ -43,6 +44,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router'
+import { Sunny, Moon } from '@element-plus/icons-vue'
+import DarkSwitch from './DarkSwitch.vue';
 const router = useRouter();
 
 const menuList = computed(() => {
@@ -68,7 +71,7 @@ const clickDrawer = () => {
   padding: 0 200px;
   width: 100%;
   height: 70px;
-  background-color: white;
+  background-color: var(--el-bg-color);
   box-shadow: 0 0 10px black;
   z-index: 99;
 
@@ -91,6 +94,10 @@ const clickDrawer = () => {
     display: flex;
     align-items: center;
     height: 100%;
+
+    .switch-dark {
+      margin: 0 20px;
+    }
 
     .btn {
       display: flex;

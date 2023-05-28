@@ -176,7 +176,7 @@ onDeactivated(() => {
                   height: 22px;
                   line-height: 22px;
                   border-radius: 5px;
-                  background-color: #cdcdcd;
+                  background-color: var(--el-fill-color);
                 }
               }
 

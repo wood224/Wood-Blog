@@ -30,6 +30,7 @@ const HandlerMouseLeave = () => {
 
 <style scoped lang='scss'>
 .hover-rotate-card-wrapper {
+  padding: 0 20px;
 
   .extent {
     width: 100%;
@@ -41,10 +42,10 @@ const HandlerMouseLeave = () => {
     .card {
       width: 100%;
       height: 100%;
-      background: white;
       border-radius: 10px;
       transform-style: preserve-3d;
       transform: rotateX(0) rotateY(0);
+      box-shadow: var(--el-box-shadow-light);
       // transition: transform .1s;
     }
   }

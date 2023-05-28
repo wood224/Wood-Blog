@@ -170,7 +170,7 @@ const openCategory = (id: number) => {
       top: 50%;
       right: 100%;
       transform: translate(50%, -50%);
-      background-color: #fff;
+      background-color: var(--el-bg-color);
       width: 40px;
       height: 40px;
       border-radius: 50%;
