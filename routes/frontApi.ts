@@ -337,12 +337,21 @@ router.get('/category/:id', frontApiController.getCategoryInfo);
 
 /**
  * 
- * @api {get} /about 获取关于列表
+ * @api {get} /front/api/about 获取关于列表
  * @apiGroup groupAbout
  * @apiVersion  1.0.0
  * 
  * 
- * @apiSuccess  {String} name description
+ * @apiSuccess  {Number} id id
+ * @apiSuccess  {String} name 版块名
+ * @apiSuccess  {String} createTime 版块创建时间
+ * @apiSuccess  {String} updateTime 版块修改时间
+ * @apiSuccess  {Object[]} aboutInfos 内容
+ * @apiSuccess  {Number} aboutInfos.id 内容id
+ * @apiSuccess  {String} aboutInfos.title 内容标题
+ * @apiSuccess  {String} aboutInfos.content 内容详情
+ * @apiSuccess  {String} aboutInfos.createTime 内容创建时间
+ * @apiSuccess  {String} aboutInfos.updateTime 内容更新时间
  * 
  * @apiSuccessExample {json} 成功响应:
  * {
@@ -364,4 +373,42 @@ router.get('/category/:id', frontApiController.getCategoryInfo);
  * 
  */
 router.get('/aboutList', frontApiController.getAboutList);
+
+/**
+ * 
+ * @api {get} /front/api/linkList 获取友链列表
+ * @apiGroup groupAbout
+ * @apiVersion  1.0.0
+ * 
+ * 
+ * @apiQuery  {Number} limit 每页个数
+ * @apiQuery  {Number} offset 偏移量
+ * 
+ * 
+ * @apiSuccess {Number} count 总数
+ * @apiSuccess {Object[]} friendLinkList 友链列表
+ * @apiSuccess {Number} friendLinkList.id id
+ * @apiSuccess {File|String} friendLinkList.img 图片
+ * @apiSuccess {String} friendLinkList.name 名字
+ * @apiSuccess {String} friendLinkList.introduction 简介
+ * @apiSuccess {String} friendLinkList.link 链接
+ * @apiSuccess {String} friendLinkList.createTime 创建时间
+ * 
+ * 
+ * @apiSuccessExample {json} 成功响应:
+ * {
+ *    "count" : 1,
+ *    "friendLinkList": [{
+ *        "createTime": "2023-05-10 18:47:26",
+ *        "id": 8,
+ *        "img": "www.bing.com/favicon.ico"
+ *        "name": "必应",
+ *        "introduction": "",
+ *        "link": "https://www.bing.com",
+ *    }]
+ * }
+ * 
+ */
+router.get('/linkList', frontApiController.getLinkList);
+
 export default router;

@@ -5,6 +5,7 @@ import { noteController } from '../controllers/noteController';
 import { tagController } from './tagController';
 import { archiveController } from './archiveController';
 import { aboutController } from './aboutController';
+import { friendLinkController } from './friendLinkController';
 
 export const frontApiController = {
   //获取个人信息
@@ -58,4 +59,9 @@ export const frontApiController = {
   getAboutList: async (req: Request, res: Response) => {
     await aboutController.getAboutList(req, res);
   },
+
+  //获取友链列表
+  getLinkList: async (req: Request, res: Response) => {
+    await friendLinkController.getFriendLinkList(req, res);
+  }
 }

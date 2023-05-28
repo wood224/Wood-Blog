@@ -13,7 +13,16 @@ import { aboutController } from '../controllers/aboutController';
  * @apiVersion  1.0.0
  * 
  * 
- * @apiSuccess  {String} name description
+ * @apiSuccess  {Number} id id
+ * @apiSuccess  {String} name 版块名
+ * @apiSuccess  {String} createTime 版块创建时间
+ * @apiSuccess  {String} updateTime 版块修改时间
+ * @apiSuccess  {Object[]} aboutInfos 内容
+ * @apiSuccess  {Number} aboutInfos.id 内容id
+ * @apiSuccess  {String} aboutInfos.title 内容标题
+ * @apiSuccess  {String} aboutInfos.content 内容详情
+ * @apiSuccess  {String} aboutInfos.createTime 内容创建时间
+ * @apiSuccess  {String} aboutInfos.updateTime 内容更新时间
  * 
  * @apiSuccessExample {json} 成功响应:
  * {

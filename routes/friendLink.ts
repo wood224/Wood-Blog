@@ -13,8 +13,8 @@ import { friendLinkController } from '../controllers/friendLinkController';
  * @apiVersion  1.0.0
  * 
  * 
- * @apiQuery  {Number} [limit] 每页个数
- * @apiQuery  {Number} [offset] 偏移量
+ * @apiQuery  {Number} limit 每页个数
+ * @apiQuery  {Number} offset 偏移量
  * 
  * 
  * @apiSuccess {Number} count 总数
