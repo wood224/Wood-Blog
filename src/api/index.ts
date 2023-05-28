@@ -51,3 +51,8 @@ export const getCategoryInfoApi = (id: number) => {
 export const getAboutListApi = () => {
   return request.get('/aboutList');
 }
+
+//获取友链列表
+export const getLinkListApi = (data: object) => {
+  return request.get('/linkList', { params: data });
+}

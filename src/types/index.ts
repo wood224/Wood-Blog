@@ -51,3 +51,20 @@ export class About {
     this.aboutInfos = aboutInfos ?? [];
   }
 }
+
+export class FriendLink {
+  id: number;
+  name: string;
+  introduction: string;
+  link: string;
+  img: string;
+  createTime: string;
+  constructor(id: number, name: string, introduction: string, link: string, img: string, createTime: string) {
+    this.id = id ?? '';
+    this.name = name ?? '';
+    this.introduction = introduction ?? '';
+    this.link = link ?? '';
+    this.img = img ?? '';
+    this.createTime = createTime ?? '';
+  }
+}
