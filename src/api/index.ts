@@ -56,3 +56,8 @@ export const getAboutListApi = () => {
 export const getLinkListApi = (data: object) => {
   return request.get('/linkList', { params: data });
 }
+
+//获取标签列表
+export const getTagListApi = () => {
+  return request.get('/tagList');
+}

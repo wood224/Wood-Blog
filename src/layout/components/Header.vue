@@ -20,6 +20,9 @@
         </div>
       </div>
 
+      <el-divider direction="vertical" />
+      <SearchIcon></SearchIcon>
+
       <div class="nav">
         <div class="nav-open" @click="drawer = true">
           <i class="fa fa-ellipsis-v"></i>
@@ -46,6 +49,7 @@
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router'
 import DarkSwitch from './DarkSwitch.vue';
+import SearchIcon from './SearchIcon.vue';
 const router = useRouter();
 
 const menuList = computed(() => {
@@ -184,9 +188,15 @@ const clickDrawer = () => {
   }
 }
 
-@media screen and (max-width:1200px) and (min-width: 992px) {
+@media screen and (max-width:1300px) and (min-width: 1100px) {
   .header-wrapper {
-    padding: 0 100px;
+    padding: 0 10%;
+  }
+}
+
+@media screen and (max-width:1100px) and (min-width: 992px) {
+  .header-wrapper {
+    padding: 0 20px;
   }
 }
 
@@ -195,7 +205,7 @@ const clickDrawer = () => {
     padding: 0;
 
     .left {
-      font-size: 40px;
+      font-size: 30px;
     }
 
     .right {

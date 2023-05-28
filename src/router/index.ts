@@ -83,6 +83,16 @@ const routes = [
         },
         component: () => import('@/view/Blog/CategoryNote/CategoryNote.vue')
       },
+      {
+        path: 'search',
+        name: 'search',
+        meta: {
+          title: '搜索',
+          icon: '',
+          hidden: true
+        },
+        component: () => import('@/view/Blog/Search/Search.vue')
+      }
     ]
   },
 ]
