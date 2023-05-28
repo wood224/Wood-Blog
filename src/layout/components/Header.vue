@@ -15,6 +15,7 @@
               </div>
               <span>{{ item.meta.title }}</span>
             </router-link>
+            <el-divider v-if="item.meta!.rightLine" direction="vertical" />
           </template>
         </div>
       </div>

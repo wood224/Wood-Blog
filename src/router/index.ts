@@ -7,7 +7,8 @@ const routes = [
     name: 'index',
     meta: {
       title: '首页',
-      icon: 'fa-home'
+      icon: 'fa-home',
+      rightLine: true
     },
     component: () => import('@/view/Index/Index.vue')
   },
