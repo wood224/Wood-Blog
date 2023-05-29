@@ -5,8 +5,8 @@
         <Search />
       </el-icon>
     </div>
-    <div class="ipt-wrapper" :class="{ active: iptActive }" @click="setActive(false)">
-      <div class="ipt" @click.stop>
+    <div class="ipt-wrapper" v-if="iptActive" @click="setActive(false)">
+      <div class="ipt animate__animated animate__fadeInDown" @click.stop>
         <input type="text" v-model="searchText" @keyup.enter="search">
         <el-button class="search-btn" :icon="Search" size="large" round @click="search"></el-button>
       </div>
@@ -64,16 +64,11 @@ const search = () => {
     right: 0;
     display: flex;
     justify-content: center;
-    width: 0;
-    height: 0;
+    width: 100vw;
+    height: 100vh;
     background-color: rgba(0, 0, 0, .5);
     transition: all 0.5s;
     overflow: hidden;
-
-    &.active {
-      width: 100vw;
-      height: 100vh;
-    }
 
     .ipt {
       display: flex;
