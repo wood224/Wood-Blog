@@ -63,5 +63,10 @@ export const frontApiController = {
   //获取友链列表
   getLinkList: async (req: Request, res: Response) => {
     await friendLinkController.getFriendLinkList(req, res);
+  },
+
+  //获取标签列表
+  getTagList: async (req: Request, res: Response) => {
+    await tagController.getTagList(req, res);
   }
 }

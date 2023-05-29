@@ -411,4 +411,28 @@ router.get('/aboutList', frontApiController.getAboutList);
  */
 router.get('/linkList', frontApiController.getLinkList);
 
+/**
+ * 
+ * @api {get} /front/api/tagList 获取标签列表
+ * @apiGroup groupTag
+ * @apiVersion  1.0.0
+ * 
+ * 
+ * @apiSuccess {Object[]} tagList 标签列表
+ * @apiSuccess {Number} tagList.id id
+ * @apiSuccess {String} tagList.name 名字
+ * @apiSuccess {String} tagList.createTime 创建时间
+ * @apiSuccess {String} tagList.updateTime 更新时间
+ * @apiSuccess {Number} tagList.isDelete 是否删除
+ * 
+ * @apiSuccessExample {json} 成功响应:
+ * [
+ *    {
+ *      "id": 1, 
+ *      "name": "Vue3",
+ *    }
+ * ]
+ * 
+ */
+router.get('/tagList', frontApiController.getTagList);
 export default router;
