@@ -105,7 +105,6 @@ const pageOptions = reactive({
   offset: 0,
 });
 const searchNoteList = async (title: string | undefined, limit: number, offset: number, conditionId?: number) => {
-  if (title === '') return
   const id = conditionId === 0 ? null : conditionId;
   let resData;
   if (conditionType.value === 1) {
