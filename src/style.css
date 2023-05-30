@@ -39,6 +39,7 @@ input {
   border: none;
   outline: none;
   font-size: inherit;
+  color: inherit;
 }
 
 @media screen and (max-width:768px) {

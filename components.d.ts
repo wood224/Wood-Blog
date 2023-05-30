@@ -45,4 +45,7 @@ declare module '@vue/runtime-core' {
     Snow: typeof import('./src/components/Index/Snow.vue')['default']
     SnowNew: typeof import('./src/components/Index/SnowNew.vue')['default']
   }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
+  }
 }

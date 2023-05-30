@@ -8,7 +8,11 @@
     <div class="ipt-wrapper" v-if="iptActive" @click="setActive(false)">
       <div class="ipt animate__animated animate__fadeInDown" @click.stop>
         <input type="text" v-model="searchText" @keyup.enter="search">
-        <el-button class="search-btn" :icon="Search" size="large" round @click="search"></el-button>
+        <el-button class="search-btn" size="large" round @click="search">
+          <el-icon color="#606266">
+            <Search />
+          </el-icon>
+        </el-button>
       </div>
     </div>
   </div>
@@ -80,6 +84,7 @@ const search = () => {
       border-radius: 60px;
       margin-top: 200px;
       padding: 10px 20px;
+      color: black;
       font-size: 30px;
     }
 
