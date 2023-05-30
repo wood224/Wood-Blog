@@ -42,12 +42,6 @@ input {
   color: inherit;
 }
 
-@media screen and (max-width:768px) {
-  :root {
-    font-size: 10px;
-  }
-}
-
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s ease;

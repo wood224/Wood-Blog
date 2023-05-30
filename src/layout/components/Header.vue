@@ -72,7 +72,7 @@ const clickDrawer = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 200px;
+  padding: 0 200px 0 100px;
   width: 100%;
   height: 70px;
   background-color: var(--el-bg-color);
@@ -188,19 +188,7 @@ const clickDrawer = () => {
   }
 }
 
-@media screen and (max-width:1300px) and (min-width: 1100px) {
-  .header-wrapper {
-    padding: 0 10%;
-  }
-}
-
-@media screen and (max-width:1100px) and (min-width: 992px) {
-  .header-wrapper {
-    padding: 0 20px;
-  }
-}
-
-@media screen and (max-width:992px) {
+@media screen and (max-width:1200px) {
   .header-wrapper {
     padding: 0;
 
@@ -218,6 +206,14 @@ const clickDrawer = () => {
         justify-content: center;
         align-items: center;
       }
+    }
+  }
+}
+
+@media screen and (max-width:768px) {
+  .header-wrapper {
+    .left {
+      font-size: 28px;
     }
   }
 }

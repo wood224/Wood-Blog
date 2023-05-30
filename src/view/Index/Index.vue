@@ -78,6 +78,7 @@ onMounted(() => {
   background: url(../../assets/img/Index/bg3.jpg) no-repeat;
   background-position: center;
   background-size: cover;
+  font-size: 16px;
 
   .card {
     position: relative;

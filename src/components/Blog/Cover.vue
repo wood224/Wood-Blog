@@ -157,5 +157,9 @@ onMounted(() => {
   }
 }
 
-@media screen and (max-width:768px) {}
+@media screen and (max-width:768px) {
+  .detail {
+    font-size: 1.3rem !important;
+  }
+}
 </style>
