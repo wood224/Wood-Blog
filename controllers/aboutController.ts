@@ -36,18 +36,14 @@ export const aboutController = {
     if (name) {
       const result = await aboutController.checkName(name);
       if (result) {
-        const flag = await aboutController.checkName(name);
-        if (!flag) {
-          ResSend(res, 410, '该版块名已存在！');
+        const row = await aboutService.addAbout(name);
+        if (row) {
+          ResSend(res, 200, '添加成功！');
+        } else {
+          ResSend(res, 410, '添加失败！');
         }
-        else {
-          const row = await aboutService.addAbout(name);
-          if (row) {
-            ResSend(res, 200, '添加成功！');
-          } else {
-            ResSend(res, 410, '添加失败！');
-          }
-        }
+      } else {
+        ResSend(res, 410, '该版块名已存在！');
       }
     } else {
       ResSend(res, 410, '版块名不能为空！');
