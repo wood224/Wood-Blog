@@ -54,7 +54,7 @@ import { useIndexStore } from '../../store';
 import { getAllCountApi } from '../../api';
 import { getAssets } from '../../util/getAssets';
 
-const BaseURL = __BaseURL__;
+const BaseURL = import.meta.env.VITE_BASE_URL;
 
 const store = useIndexStore();
 const router = useRouter();

@@ -1,6 +1,6 @@
 <template>
   <div class="main-wrapper">
-    <router-view v-slot="{ Component }" v-if="mainShow">
+    <router-view v-slot="{ Component }">
       <transition name="right" mode="out-in">
         <keep-alive :exclude="['Note']">
           <component :is="Component" />

@@ -35,7 +35,7 @@ import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useIndexStore } from '../../store';
 
-const BaseURL = __BaseURL__;
+const BaseURL = import.meta.env.VITE_BASE_URL;
 
 const store = useIndexStore();
 const router = useRouter();

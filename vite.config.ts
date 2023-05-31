@@ -22,12 +22,6 @@ export default defineConfig({
       "@": pathResolve("./src"),
     },
   },
-  define: {
-    __BaseURL__: JSON.stringify('http://localhost:3000'),
-    __ApiURL__: JSON.stringify('http://localhost:3000/front/api')
-    // __BaseURL__: JSON.stringify('http://118.89.199.233:3000'),
-    // __ApiURL__: JSON.stringify('http://118.89.199.233:3000/front/api')
-  },
   server: {
     host: '0.0.0.0',
     port: 224,

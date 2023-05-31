@@ -29,7 +29,7 @@ import { AxiosResponse } from 'axios';
 import { getAssets } from '../../../util/getAssets';
 import { useRouter } from 'vue-router';
 
-const BaseURL = __BaseURL__;
+const BaseURL = import.meta.env.VITE_BASE_URL;
 const router = useRouter();
 
 const categoryList = ref();

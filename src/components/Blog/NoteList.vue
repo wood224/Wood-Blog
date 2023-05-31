@@ -33,7 +33,7 @@
 import { toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 
-const BaseURL = __BaseURL__;
+const BaseURL = import.meta.env.VITE_BASE_URL;
 
 const router = useRouter();
 

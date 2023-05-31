@@ -46,7 +46,7 @@ import { useRoute } from 'vue-router';
 import { Search } from '@element-plus/icons-vue';
 import { searchNoteListApi, getCategoryListApi, getTagListApi } from '../../../api';
 
-const BaseURL = __BaseURL__;
+const BaseURL = import.meta.env.VITE_BASE_URL;
 const route = useRoute();
 
 const searchText = ref(route.query.text?.toString());

@@ -38,7 +38,7 @@ import { reactive, ref } from 'vue';
 import { getLinkListApi } from '../../../api';
 import { FriendLink } from '../../../types';
 
-const BaseURL = __BaseURL__;
+const BaseURL = import.meta.env.VITE_BASE_URL;
 
 const pageOptions = reactive({
   limit: 12,

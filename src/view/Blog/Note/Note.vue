@@ -26,8 +26,13 @@
           <h2>目录导航</h2>
         </template>
         <ul>
-          <el-scrollbar height="300px">
-            <MdCatalog ref="catalogRef" :editorId="'preview-' + note.id" :scrollElement="scrollElement" />
+          <el-scrollbar max-height="300px">
+            <!-- <MdCatalog id="catalog" ref="catalogRef" :editorId="'preview-' + note.id" :scrollElement="scrollElement" /> -->
+            <li class="directory hover-action" :class="{ 'active': anchor.lineIndex === activeIndex }"
+              v-for="anchor in titleList" :style="{ padding: `10px 0 10px ${anchor.indent * 20}px` }"
+              @click="anchorClick(anchor)">
+              <span>{{ anchor.title }}</span>
+            </li>
           </el-scrollbar>
         </ul>
       </el-card>
@@ -39,12 +44,14 @@
 </template>
 
 <script setup lang='ts'>
-import { computed, onMounted, ref, toRefs } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, ref, toRefs } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useIndexStore } from '../../../store';
 import { getNoteInfoApi } from '../../../api';
-import { MdPreview, MdCatalog } from 'md-editor-v3';
+import { MdPreview } from 'md-editor-v3';
 import 'md-editor-v3/lib/preview.css';
+
+const previewRef = ref();
 
 const route = useRoute();
 const router = useRouter();
@@ -54,17 +61,40 @@ const { isDark, openDirectory } = toRefs(store);
 
 const id = computed(() => route.query.id);
 
-const scrollElement = document.documentElement;
-const previewRef = ref();
+const titleList = ref();
 const note = ref();
 const getNoteInfo = async () => {
   await getNoteInfoApi(Number(id.value)).then(res => {
     const data = res.data;
     note.value = data;
     document.title = note.value.title;
+    nextTick(() => {
+      const anchors = previewRef.value.$el.querySelectorAll('h1,h2,h3,h4,h5,h6');
+      const titles = Array.from(anchors).filter((title: any) => !!title.innerText.trim());
+      if (!titles.length) {
+        titleList.value = [];
+        return;
+      }
+
+      const hTags = Array.from(new Set(titles.map((title: any) => title.tagName))).sort();
+      titleList.value = titles.map((el: any) => ({
+        title: el.innerText,
+        lineIndex: el.getAttribute('data-line'),
+        indent: hTags.indexOf(el.tagName),
+        offsetTop: window.innerHeight + el.offsetTop + 200
+      }));
+    })
   })
 }
 getNoteInfo();
+
+const anchorClick = (anchor: any) => {
+  const { lineIndex } = anchor;
+  const heading = previewRef.value.$el.querySelector(`[data-line="${lineIndex}"]`);
+  if (heading) {
+    window.scrollTo({ left: 0, top: window.scrollY + heading.getBoundingClientRect().top - 100, behavior: 'smooth' })
+  }
+}
 
 const setCardView = () => {
   store.setOpenDirectory(!openDirectory.value);
@@ -74,9 +104,27 @@ const openCategory = (id: number) => {
   router.push({ path: 'categoryNote', query: { id: id } });
 }
 
-const catalogRef = ref();
+const activeIndex = ref(-1);
+const listenerScroll = () => {
+  if (titleList.value && titleList.value.length > 0) {
+    const currentScrollTop = window.scrollY;
+    titleList.value.some((title: any, index: number) => {
+      if (index < titleList.value.length - 1 && currentScrollTop >= title.offsetTop && currentScrollTop < titleList.value[index + 1].offsetTop ||
+        index === titleList.value.length - 1 && currentScrollTop >= title.offsetTop) {
+        console.log(currentScrollTop, title.offsetTop);
+
+        activeIndex.value = title.lineIndex;
+        return true;
+      }
+    })
+  }
+}
 onMounted(() => {
-  previewRef.value?.toggleCatalog(true);
+  window.addEventListener('scroll', listenerScroll, false);
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', listenerScroll, false);
 })
 </script>
 
@@ -127,6 +175,10 @@ onMounted(() => {
 
         li {
           cursor: pointer;
+
+          &.active {
+            color: var(--ty-blue);
+          }
 
           ::v-deep(.el-text) {
             font-size: 16px;
