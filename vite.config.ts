@@ -5,6 +5,7 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import { resolve } from "path";
 const pathResolve = (dir) => resolve(__dirname, dir);
+import { baseURL } from './public/env'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -23,8 +24,8 @@ export default defineConfig({
     },
   },
   define: {
-    __BaseURL__: JSON.stringify('http://localhost:3000'),
-    // __BaseURL__: JSON.stringify('http://112.124.33.168:3000'),
+    __BaseURL__: JSON.stringify(baseURL),
+    // __BaseURL__: JSON.stringify('http://118.89.199.233:3000'),
   },
   server: {
     host: '0.0.0.0',
