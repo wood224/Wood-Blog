@@ -111,8 +111,6 @@ const listenerScroll = () => {
     titleList.value.some((title: any, index: number) => {
       if (index < titleList.value.length - 1 && currentScrollTop >= title.offsetTop && currentScrollTop < titleList.value[index + 1].offsetTop ||
         index === titleList.value.length - 1 && currentScrollTop >= title.offsetTop) {
-        console.log(currentScrollTop, title.offsetTop);
-
         activeIndex.value = title.lineIndex;
         return true;
       }
