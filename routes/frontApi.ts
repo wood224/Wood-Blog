@@ -414,7 +414,7 @@ router.get('/linkList', frontApiController.getLinkList);
 /**
  * 
  * @api {get} /front/api/tagList 获取标签列表
- * @apiGroup groupTag
+ * @apiGroup groupFront
  * @apiVersion  1.0.0
  * 
  * 
@@ -439,7 +439,7 @@ router.get('/tagList', frontApiController.getTagList);
 /**
  * 
  * @api {get} /front/api/dailyWord 获取每日一言(第三方api)
- * @apiGroup groupTag
+ * @apiGroup groupFront
  * @apiVersion  1.0.0
  * 
  * 
