@@ -16,12 +16,12 @@
       </div>
       <div class="btn-list">
         <div class="blog">
-          <button @click="goBlog()">
+          <button @click="goBlog">
             博客
           </button>
         </div>
         <div class="github">
-          <button @@click="goGitHub">
+          <button @click="goGitHub">
             <span>GitHub</span>
           </button>
         </div>
