@@ -107,7 +107,7 @@ export const adminController = {
     const file = form.avatar;
     let avatar = ''
     if (file) {
-      avatar = await saveToUploads('avatar', file.path, form.name)
+      avatar = await saveToUploads('avatar', file.path)
     }
     form.avatar = avatar;
     const row = await adminService.updateInfo(form);

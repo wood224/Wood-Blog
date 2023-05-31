@@ -70,7 +70,7 @@ export const categoryController = {
     const file = req.body.coverImg;
     let coverImg = '';
     if (file) {
-      coverImg = await saveToUploads('category', file.path, req.body.name);
+      coverImg = await saveToUploads('category', file.path);
     }
     const form = {
       name: req.body.name,
@@ -106,7 +106,7 @@ export const categoryController = {
     const file = req.body.coverImg;
     let coverImg = '';
     if (file && file instanceof Object) {
-      coverImg = await saveToUploads('category', file.path, req.body.name);
+      coverImg = await saveToUploads('category', file.path);
     }
     const form = {
       id: Number(req.body.id),

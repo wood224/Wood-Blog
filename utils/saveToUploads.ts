@@ -26,13 +26,11 @@ function checkFile(tempPath: string) {
 }
 
 //保存文件    参数：(要保存的目录名，文件路径，文件名)
-export async function saveToUploads(dirname: string, tempPath: string, name: string) {
+export async function saveToUploads(dirname: string, tempPath: string) {
   if (!allowedDirs.includes(dirname)) return '';
   const suffix = checkFile(tempPath);
   if (!suffix) return '';
-  if (name.length > 20) name = name.substring(0, 20);
-  name = name.trim();
-  const pathName = `${Date.now()}-${name}.${suffix}`;   //根据当前时间戳生成文件名
+  const pathName = `${Date.now()}.${suffix}`;   //根据当前时间戳生成文件名
   const targetPath = path.join(__dirname, `../public/uploads/${dirname}`, `${pathName}`);
   try {
     await rename(tempPath, targetPath);

@@ -28,7 +28,7 @@ export const friendLinkController = {
     if (file && typeof (file) === 'string') {
       img = file;
     } else if (file) {
-      img = await saveToUploads('friendLink', file.path, req.body.name);
+      img = await saveToUploads('friendLink', file.path);
     }
     const form = {
       name: req.body.name,
@@ -55,7 +55,7 @@ export const friendLinkController = {
     if (file && typeof (file) === 'string') {
       img = file;
     } else if (file) {
-      img = await saveToUploads('friendLink', file.path, req.body.name);
+      img = await saveToUploads('friendLink', file.path);
     }
     const form = {
       id: req.body.id,
