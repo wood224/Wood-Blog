@@ -21,7 +21,7 @@
           </button>
         </div>
         <div class="github">
-          <button>
+          <button @@click="goGitHub">
             <span>GitHub</span>
           </button>
         </div>
@@ -43,6 +43,10 @@ const goBlog = () => {
   router.push('/blog');
 }
 
+const goGitHub = () => {
+  window.open('https://github.com/wood224');
+}
+
 const cardInfo = ref(store.info);
 const actionSignature = ref('');
 const count = ref(0);
@@ -51,7 +55,6 @@ const getInfo = async () => {
   cardInfo.value = await store.setInfo();
 }
 getInfo();
-
 
 onMounted(() => {
   const iptInterval = setInterval(() => {
