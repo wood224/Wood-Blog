@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang='ts'>
-import { ref, toRefs } from 'vue';
+import { ref, toRefs, watch } from 'vue';
 import { Word } from '../../types'
 
 const props = defineProps({
@@ -34,13 +34,18 @@ const { word } = toRefs(props);
 
 const activeText = ref('');
 let n = 0;
-const active = setInterval(() => {
-  const char = word.value.text.charAt(n++);
-  if (char) { activeText.value += char; }
-  else {
-    clearInterval(active);
+
+watch(word, () => {
+  if (word.value.text) {
+    const active = setInterval(() => {
+      const char = word.value.text.charAt(n++);
+      if (char) { activeText.value += char; }
+      else {
+        clearInterval(active);
+      }
+    }, 300);
   }
-}, 300);
+}, { deep: true })
 
 </script>
 

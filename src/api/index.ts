@@ -4,7 +4,7 @@ import { rollConfig } from '../config/index';
 
 //每日一言
 export const getDailyWordApi = () => {
-  return axios.get('/hitokoto');
+  return request.get('/dailyWord');
 }
 
 //获取个人信息

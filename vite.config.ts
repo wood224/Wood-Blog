@@ -25,19 +25,12 @@ export default defineConfig({
   define: {
     __BaseURL__: JSON.stringify('http://localhost:3000'),
     __ApiURL__: JSON.stringify('http://localhost:3000/front/api')
-    // __BaseURL__: JSON.stringify('http://112.124.33.168:3000'),
+    // __BaseURL__: JSON.stringify('http://118.89.199.233:3000'),
+    // __ApiURL__: JSON.stringify('http://118.89.199.233:3000/front/api')
   },
   server: {
     host: '0.0.0.0',
-    port: 5173,
+    port: 224,
     open: true,
-    proxy: {
-      //每日一言
-      '/hitokoto': {
-        target: 'https://v1.hitokoto.cn/',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/hitokoto/, '')
-      }
-    }
   },
 })
