@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Action } from 'element-plus';
 
 const request = axios.create({
-  baseURL: __BaseURL__,
+  baseURL: import.meta.env.VITE_BASE_URL,
   timeout: 1000 * 60,
   withCredentials: true,
 })

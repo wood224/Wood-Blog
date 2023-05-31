@@ -59,7 +59,7 @@ import { onBeforeRouteLeave } from 'vue-router';
 import { TechnologyTag } from '@/types/TechnologyTagType';
 import { Info } from '@/types/InfoType';
 
-const baseURL = __BaseURL__;
+const baseURL = import.meta.env.VITE_BASE_URL;
 
 const tagInputRef = ref<HTMLInputElement>();
 const inputVisible = ref(false);

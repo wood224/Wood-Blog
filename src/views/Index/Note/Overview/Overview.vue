@@ -77,7 +77,7 @@ import { Search, Plus } from '@element-plus/icons-vue'
 import { NoteList } from '@/types/NoteType';
 import { useIndexStore } from '@/store'
 
-const baseURL = __BaseURL__;
+const baseURL = import.meta.env.VITE_BASE_URL;
 
 const store = useIndexStore();
 

@@ -116,7 +116,7 @@ import { addFriendApi, getFriendListApi, deleteFriendApi, updateFriendApi } from
 import { Friend, FriendList } from '@/types/FriendType';
 import { FormInstance, FormRules, UploadInstance, UploadProps } from 'element-plus';
 
-const baseURL = __BaseURL__;
+const baseURL = import.meta.env.VITE_BASE_URL;
 
 //刷新列表
 const RefreshList = (data: any) => {

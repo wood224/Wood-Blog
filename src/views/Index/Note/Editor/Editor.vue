@@ -52,7 +52,7 @@ import { FormInstance, FormRules } from 'element-plus';
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
-const baseURL = __BaseURL__;
+const baseURL = import.meta.env.VITE_BASE_URL;
 
 const store = useIndexStore();
 const route = useRoute();

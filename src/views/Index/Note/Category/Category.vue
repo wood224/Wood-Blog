@@ -84,7 +84,7 @@ import { Category, CategoryList } from '@/types/CategoryType';
 import { FormInstance, FormRules, UploadInstance, UploadProps } from 'element-plus';
 import { useIndexStore } from '@/store';
 
-const baseURL = __BaseURL__;
+const baseURL = import.meta.env.VITE_BASE_URL;
 
 const store = useIndexStore()
 
