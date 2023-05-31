@@ -6,6 +6,10 @@ import { tagController } from './tagController';
 import { archiveController } from './archiveController';
 import { aboutController } from './aboutController';
 import { friendLinkController } from './friendLinkController';
+import { ResSend } from '../utils/ResSend';
+
+
+const request = require('request');
 
 export const frontApiController = {
   //获取个人信息
@@ -68,5 +72,16 @@ export const frontApiController = {
   //获取标签列表
   getTagList: async (req: Request, res: Response) => {
     await tagController.getTagList(req, res);
+  },
+
+  //每日一言
+  getDailyWord: async (req: Request, res: Response) => {
+    request('https://v1.hitokoto.cn/', (err: Error, response: Request, body: string) => {
+      if (!err && response.statusCode === 200) {
+        res.send(body);
+      } else {
+        ResSend(res, 410, '出错啦！');
+      }
+    })
   }
 }

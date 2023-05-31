@@ -435,4 +435,6 @@ router.get('/linkList', frontApiController.getLinkList);
  * 
  */
 router.get('/tagList', frontApiController.getTagList);
+
+router.get('/dailyWord', frontApiController.getDailyWord);
 export default router;

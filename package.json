@@ -20,6 +20,7 @@
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.2.0",
     "reflect-metadata": "^0.1.13",
+    "request": "^2.88.2",
     "svg-captcha": "^1.4.0",
     "typeorm": "^0.3.14"
   },
