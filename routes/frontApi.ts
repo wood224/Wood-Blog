@@ -436,5 +436,42 @@ router.get('/linkList', frontApiController.getLinkList);
  */
 router.get('/tagList', frontApiController.getTagList);
 
+/**
+ * 
+ * @api {get} /front/api/dailyWord 获取每日一言(第三方api)
+ * @apiGroup groupTag
+ * @apiVersion  1.0.0
+ * 
+ * 
+ * @apiSuccess {Number} id id
+ * @apiSuccess {String} hitokoto 一言正文。编码方式 unicode。使用 utf-8
+ * @apiSuccess {String} type 类型。请参考第三节参数的表格
+ * @apiSuccess {String} from 一言的出处
+ * @apiSuccess {Number} from_who 一言的作者
+ * @apiSuccess {Number} creator 添加者
+ * @apiSuccess {Number} creator_uid	添加者用户标识
+ * @apiSuccess {Number} reviewer 审核员标识
+ * @apiSuccess {Number} uuid 一言唯一标识；可以链接到 [https://hitokoto.cn?uuid=uuid] 查看这个一言的完整信息
+ * @apiSuccess {Number} commit_from	提交方式
+ * @apiSuccess {Number} created_at 添加时间
+ * @apiSuccess {Number} length 句子长度
+ * 
+ * @apiSuccessExample {json} 成功响应:
+ * {
+ *  "id": 6894,
+ *  "uuid": "55eb86a8-b0e5-4e35-986d-45db57c48b19",
+ *  "hitokoto": "成熟的人眼里满是前途，稚嫩的人眼里满是爱恨情仇。",
+ *  "type": "j",
+ *  "from": "网易云热评",
+ *  "from_who": null,
+ *  "creator": "星空下的约定",
+ *  "creator_uid": 7959,
+ *  "reviewer": 1044,
+ *  "commit_from": "web",
+ *  "created_at": "1607433993",
+ *  "length": 24
+ * }
+ * 
+ */
 router.get('/dailyWord', frontApiController.getDailyWord);
 export default router;
