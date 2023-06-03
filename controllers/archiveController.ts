@@ -14,6 +14,7 @@ export const archiveController = {
       return {
         ...row,
         createTime: moment(row.createTime).format('YYYY-MM-DD HH:mm:ss'),
+        action: row.action === 1 ? '新增' : row.action === 2 ? '修改' : '删除',
         source: row.type === 1 ? '笔记' : row.type === 2 ? '分类' : '标签'
       }
     })

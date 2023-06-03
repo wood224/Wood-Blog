@@ -103,7 +103,7 @@ export const noteService = {
         note.updateTime = new Date();
         const row = await transactionalEntityManager.save(note);
 
-        const archiveRow = await archiveService.addArchive(row.title, archiveType, row.id, true);
+        const archiveRow = await archiveService.addArchive(row.title, archiveType, row.id, 2);
 
         return row;
       }
@@ -115,6 +115,10 @@ export const noteService = {
   //删除笔记
   deleteNote: async (id: number) => {
     const row = await noteRepository.update(id, { isDelete: 1 });
+    const note = await noteRepository.findOne({ where: { id } });
+    if (note) {
+      const archiveRow = await archiveService.addArchive(note.title, archiveType, note.id, 3);
+    }
     return row;
   },
 

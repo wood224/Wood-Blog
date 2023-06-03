@@ -89,7 +89,7 @@ export const categoryService = {
         }
         row2 = await transactionalEntityManager.save(categoryInfo);
 
-        const archiveRow = await archiveService.addArchive(row1.name, archiveType, row1.id, true);
+        const archiveRow = await archiveService.addArchive(row1.name, archiveType, row1.id, 2);
       }
 
       return {
@@ -104,6 +104,12 @@ export const categoryService = {
     const rows = await AppDataSource.transaction(async transactionalEntityManager => {
       const row1 = await transactionalEntityManager.update(Category, id, { isDelete: 1 });
       const row2 = await noteService.deleteCategoryNote(id);
+
+      const category = await transactionalEntityManager.findOne(Category, { where: { id } });
+      if (category) {
+        const archiveRow = await archiveService.addArchive(category.name, archiveType, category.id, 3);
+      }
+
       return {
         row1,
         row2

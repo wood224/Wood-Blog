@@ -16,7 +16,7 @@ export class Archive {
   createTime: Date;
 
   @Column()
-  update: boolean;
+  action: number;
 
   @Column()
   pid: number;

@@ -59,6 +59,11 @@ export const tagService = {
   updateTag: async (id: number, name: string) => {
     const row = await tagRepository.update(id, { name: name });
 
+    const tag = await tagRepository.findOne({ where: { id } });
+    if (tag) {
+      const archiveRow = await archiveService.addArchive(tag.name, archiveType, tag.id, 2);
+    }
+
     return row;
   },
 

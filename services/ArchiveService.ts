@@ -19,12 +19,12 @@ export const archiveService = {
   },
 
   //增加归档
-  addArchive: async (name: string, type: number, pid: number, update?: boolean) => {
+  addArchive: async (name: string, type: number, pid: number, action?: number) => {
     const archive = new Archive();
     archive.name = name;
     archive.type = type;    //1：笔记 2：分类 3：标签
     archive.pid = pid;
-    archive.update = update ?? false;
+    archive.action = action ?? 1;   //1：新增 2：修改 3：删除
     const row = await archiveRepository.save(archive);
     return row;
   },
