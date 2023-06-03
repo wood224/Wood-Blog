@@ -15,7 +15,7 @@
               <el-card :body-style="{ height: '100%' }" class="card">
                 <div class="container">
                   <div class="top">
-                    <div class="name text-ellipsis hover-action" :title="archive.name">
+                    <div class="name text-ellipsis" :title="archive.name">
                       {{ archive.name }}
                     </div>
                   </div>
