@@ -19,7 +19,7 @@
           <el-table-column label="归档名" prop="name" width="200" />
           <el-table-column label="来源" prop="source" />
           <el-table-column label="创建时间" prop="createTime" />
-          <el-table-column label="是否为修改" prop="update" />
+          <el-table-column label="进行的操作" prop="action" />
           <el-table-column label="操作" width="150">
             <template #default="scope">
               <div>
@@ -40,7 +40,7 @@
 <script setup lang='ts'>
 import { deleteArchiveApi, getArchiveListApi, searchArchiveApi } from '@/api';
 import { Archive, ArchiveList } from '@/types/ArchiveType';
-import { reactive, ref } from 'vue';
+import { onActivated, reactive, ref } from 'vue';
 import { Search } from '@element-plus/icons-vue';
 
 const searchText = ref('');
@@ -62,7 +62,9 @@ const getArchiveList = (limit: number, offset: number) => {
     })
   })
 }
-getArchiveList(pageOptions.limit, pageOptions.offset);
+onActivated(() => {
+  getArchiveList(pageOptions.limit, pageOptions.offset);
+})
 
 //删除归档
 const removeArchive = (id: number, name: string) => {

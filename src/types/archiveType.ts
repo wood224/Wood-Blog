@@ -3,7 +3,7 @@ export interface Archive {
   name: string;
   type: number;
   createTime: string;
-  update: boolean;
+  action: number;
   pid: number;
 }
 
