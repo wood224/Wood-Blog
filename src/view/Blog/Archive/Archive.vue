@@ -24,7 +24,8 @@
                       <span class="tip">来源：</span>{{ archive.source }}
                     </div>
                     <div class="update">
-                      <el-tag :type="archive.update ? 'success' : ''">{{ archive.update ? '修改' : '新增' }}</el-tag>
+                      <el-tag :type="archive.action === '新增' ? '' : archive.action === '修改' ? 'success' : 'danger'">{{
+                        archive.action }}</el-tag>
                     </div>
                   </div>
                   <div class="bottom">
@@ -37,6 +38,15 @@
             </div>
           </div>
         </div>
+        <template v-if="noMore">
+          <div class="no-more">
+            没有更多了~
+          </div>
+        </template>
+        <template v-if="loading">
+          <div class="load" v-loading="loading">
+          </div>
+        </template>
       </el-card>
     </div>
   </div>
@@ -53,35 +63,43 @@ const pageOptions = reactive({
   limit: 6,
   offset: 0,
 });
+const loading = ref(false);
+const noMore = ref(false)
 const flag = ref(true);     //节流阀
 const getArchiveList = async (limit: number, offset: number) => {
+  loading.value = true;
   const { data } = await getArchiveListApi({ limit, offset });
-  if (data.archiveList.length === 0) return flag.value = false;   //关闭节流阀
-  count.value = data.count;
+  loading.value = false;
+  if (data.archiveList.length === 0) {  //当没有更多数据时
+    flag.value = false;      //关闭节流阀
+    noMore.value = true;
+  } else {
+    count.value = data.count;
 
-  if (archiveList.value.size !== 0) {
-    data.archiveList.forEach((element: any) => {
-      const year = new Date(element.createTime).getFullYear();
-      if (archiveList.value.has(year)) {
-        archiveList.value.get(year)!.push(element);
-      } else {
-        archiveList.value.set(year, [element]);
-      }
-    })
+    if (archiveList.value.size !== 0) {   //当归档列表不为空时
+      data.archiveList.forEach((element: any) => {
+        const year = new Date(element.createTime).getFullYear();
+        if (archiveList.value.has(year)) {
+          archiveList.value.get(year)!.push(element);
+        } else {
+          archiveList.value.set(year, [element]);
+        }
+      })
+    }
+    else {
+      const map = new Map();
+      data.archiveList.forEach((element: any) => {
+        const year = new Date(element.createTime).getFullYear();
+        if (!map.has(year)) {
+          map.set(year, [element]);
+        } else {
+          map.get(year).push(element);
+        }
+      })
+      archiveList.value = map;
+    }
+    flag.value = true;
   }
-  else {
-    const map = new Map();
-    data.archiveList.forEach((element: any) => {
-      const year = new Date(element.createTime).getFullYear();
-      if (!map.has(year)) {
-        map.set(year, [element]);
-      } else {
-        map.get(year).push(element);
-      }
-    })
-    archiveList.value = map;
-  }
-  flag.value = true;
 }
 getArchiveList(pageOptions.limit, pageOptions.offset);
 
@@ -187,6 +205,16 @@ onDeactivated(() => {
           }
         }
       }
+    }
+
+    .no-more {
+      color: var(--el-text-color-secondary);
+      text-align: center;
+    }
+
+    .load {
+      width: 100%;
+      height: 50px;
     }
   }
 }

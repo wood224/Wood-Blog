@@ -18,15 +18,15 @@ export class Archive {
   pid: number;
   source: string;
   type: number;   //1：笔记 2：分类 3：标签
-  update: boolean;
-  constructor(createTime?: string, id?: number, name?: string, pid?: number, source?: string, type?: number, update?: boolean) {
+  action: string;
+  constructor(createTime?: string, id?: number, name?: string, pid?: number, source?: string, type?: number, action?: string) {
     this.createTime = createTime ?? '';
     this.id = id ?? -1;
     this.name = name ?? '';
     this.pid = pid ?? -1;
     this.source = source ?? '';
     this.type = type ?? -1;
-    this.update = update ?? false;
+    this.action = action ?? '新增';
   }
 }
 
