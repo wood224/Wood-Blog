@@ -37,15 +37,15 @@
         <MdEditor class="editor" v-model="form.text" @onUploadImg="onUploadImg"></MdEditor>
       </div>
       <div class="btn">
-        <el-button type="primary" @click="submit(ruleFormRef)">提交</el-button>
+        <el-button type="primary" @click="submit(ruleFormRef)" :disable="!(changeCount > 1)">提交</el-button>
       </div>
     </div>
   </MenuView>
 </template>
 
 <script setup lang='ts'>
-import { onActivated, onMounted, ref, watch } from 'vue';
-import { onBeforeRouteLeave, useRouter, useRoute } from 'vue-router';
+import { onActivated, onDeactivated, ref, watch } from 'vue';
+import { useRouter, useRoute, onBeforeRouteLeave } from 'vue-router';
 import { getCategoryAllApi, addNoteApi, getNoteInfoApi, updateNoteApi, getTagListApi, uploadApi } from '@/api';
 import { useIndexStore } from '@/store';
 import { FormInstance, FormRules } from 'element-plus';
@@ -58,8 +58,8 @@ const store = useIndexStore();
 const route = useRoute();
 const router = useRouter();
 
-const type = ref(route.query.type ? Number(route.query.type) : 1);    // 1：新增  2：修改
-const id = ref(Number(route.query.id));
+const type = ref();    // 1：新增  2：修改
+const id = ref();
 
 const categoryList = ref([{
   id: 0,
@@ -153,7 +153,6 @@ watch(form, () => {
     isInit.value = false
   };
   store.setEditorChange(changeCount.value > 1);
-
 }, { deep: true })
 
 //图片上传事件
@@ -178,14 +177,13 @@ onActivated(() => {
   initCategoryList();
   initTagList();
   type.value = route.query.type ? Number(route.query.type) : 1;    // 1：新增  2：修改
-  id.value = Number(route.query.id);
+  id.value = route.query.id ? Number(route.query.id) : 0;
+  store.setEditorChange(changeCount.value > 1);
+});
 
+watch(id, () => {
   store.setMenuViewTitle(type.value === 1 ? '新增' : '修改');
-
-  if (store.editorType === 2) {
-    getInfo();
-  }
-  else {
+  if (type.value === 1) {
     form.value = {
       title: '',
       subtitle: '',
@@ -193,8 +191,15 @@ onActivated(() => {
       tagIds: [],
       text: ''
     };
+  } else {
+    getInfo();
   }
-});
+  isInit.value = true;
+})
+
+onBeforeRouteLeave(async (to, from) => {
+  store.setEditorChange(false);
+})
 </script>
 
 <style scoped lang='scss'>

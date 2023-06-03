@@ -2,12 +2,13 @@ import { defineStore } from 'pinia';
 
 export const useIndexStore = defineStore('index', {
   state: () => ({
-    menuViewTitle: '',
+    menuViewTitle: '',      //菜单标题
     isEditor: false,
     editorType: 1,
     editorId: 0,
     editorTitle: '',
-    editorChange: false,
+    editorChange: false,    //笔记编辑页面是否有修改
+    infoChange: false,       //个人信息页面是否有修改
     pageOptions: {
       limit: 10,
       offset: 0
@@ -29,8 +30,11 @@ export const useIndexStore = defineStore('index', {
     setEditorChange(isChange: boolean) {
       this.editorChange = isChange;
     },
+    setInfoChange(isChange: boolean) {
+      this.infoChange = isChange;
+    },
     setPageOptionsLimit(limit: number) {
       this.pageOptions.limit = limit;
-    }
+    },
   },
 });

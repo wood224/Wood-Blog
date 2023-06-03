@@ -59,7 +59,7 @@ const form = reactive({
 })
 const login = () => {
   adminLoginApi(form).then(res => {
-    router.push('/')
+    router.push('/');
   }).catch(err => {
     //登录失败重新获取验证码
     getCaptcha();

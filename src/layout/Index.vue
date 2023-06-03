@@ -45,10 +45,13 @@ const oldName = ref('')
 const handleBeforeLeave = (activeName: string, oldActiveName: string) => {
   oldName.value = oldActiveName;  //保存之前的标签
 }
-const handleClick = async (pane: any) => {
+const handleClick = async (pane: any, ev: any) => {
+  if (pane.paneName === activeName.value) return;
+
   const tab = tabsData.value[pane.index];
   let res = false;
-  if (store.editorChange) {
+
+  if (store.editorChange || store.infoChange) {
     res = await ElMessageBox.confirm('有修改未提交，确定离开吗？', '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消'

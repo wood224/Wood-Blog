@@ -43,7 +43,7 @@
           </div>
         </el-form-item>
         <el-form-item>
-          <el-button style="margin-top: 50px;" :disabled="!isChange" type="primary"
+          <el-button style="margin-top: 50px;" :disabled="!store.infoChange" type="primary"
             @click="confirm(ruleFormRef)">确认修改</el-button>
         </el-form-item>
       </el-form>
@@ -56,9 +56,11 @@ import { nextTick, onActivated, ref, watch } from 'vue';
 import { FormInstance, FormRules, UploadInstance, UploadProps } from 'element-plus';
 import { getInfoApi, updateInfoApi } from '@/api/index';
 import { onBeforeRouteLeave } from 'vue-router';
+import { useIndexStore } from '@/store';
 import { TechnologyTag } from '@/types/TechnologyTagType';
 import { Info } from '@/types/InfoType';
 
+const store = useIndexStore();
 const baseURL = import.meta.env.VITE_BASE_URL;
 
 const tagInputRef = ref<HTMLInputElement>();
@@ -162,7 +164,7 @@ const confirm = async (formRules: FormInstance | undefined) => {
       formData.append('email', form.value.email)
       updateInfoApi(formData).then(res => {
         changeCount.value = 0;
-        isChange.value = false;
+        store.setInfoChange(false);
       })
     }
   })
@@ -183,36 +185,20 @@ const handleAvatarChange: UploadProps['onChange'] = (uploadFile) => {
 
 //修改未保存提示
 const changeCount = ref(0);   //修改次数，当为1时表示为初始化时的变化
-const isChange = ref(false);
 watch(form, () => {
   if (changeCount.value <= 10) changeCount.value++;   //增加修改次数
-  isChange.value = changeCount.value > 1;
-  isInit.value = isChange.value;
+  store.setInfoChange(changeCount.value > 1)
 }, { deep: true })
-onBeforeRouteLeave((to, from) => {
-  if (isChange.value) {
-    return ElMessageBox.confirm('有修改未提交，确定离开吗？', '提示', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消'
-    }).then(() => {
-      return true;
-    }).catch(() => {
-      return false;
-    });
-  }
-  else {
-    return true
-  }
-})
 getInfo();
 
 const firstLoad = ref(true);
 onActivated(() => {
-  if (!firstLoad.value) {
-    changeCount.value = 1;
-  }
-  firstLoad.value = false;
+  store.setInfoChange(changeCount.value > 1);
 });
+
+onBeforeRouteLeave(async (to, from) => {
+  store.setInfoChange(false);
+})
 </script>
 
 <style scoped lang='scss'>
