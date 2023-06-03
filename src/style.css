@@ -7,6 +7,7 @@
   --title-font-weight: bold;
   --subtitle-color: #7b7b7b;
   --subtitle-size: 16px;
+  --cover-img: url(src/assets/img/Blog/SnowMountain.jpg);
 }
 
 * {
@@ -14,6 +15,11 @@
   padding: 0;
   box-sizing: border-box;
   border: none;
+}
+
+html.dark {
+  /* 自定义深色封面图片 */
+  --cover-img: url(src/assets/img/Blog/SnowMountainDark.jpg);
 }
 
 a {

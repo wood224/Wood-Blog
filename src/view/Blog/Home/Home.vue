@@ -5,14 +5,14 @@
         <h1>总览</h1>
       </div>
       <div class="content">
-        <div class="note-list">
+        <div class="note-list" v-loading="loading">
           <NoteList :noteList="noteList"></NoteList>
         </div>
         <div class="info">
           <Info></Info>
         </div>
       </div>
-      <div class="pages">
+      <div class="pages" v-if="count > pageOptions.limit">
         <el-card>
           <el-pagination background layout="prev, pager, next" :page-size="pageOptions.limit" :total="count"
             @current-change="handleCurrentChange" />
@@ -32,7 +32,9 @@ const pageOptions = reactive({
   limit: 6,
   offset: 0,
 });
+const loading = ref(false);
 const getNoteList = (limit: number, offset: number) => {
+  loading.value = true;
   getNoteListApi({ limit, offset }).then(res => {
     const data = res.data;
     count.value = data.count;
@@ -57,6 +59,7 @@ const getNoteList = (limit: number, offset: number) => {
         }
       }
     });
+    loading.value = false;
   })
 }
 getNoteList(pageOptions.limit, pageOptions.offset);

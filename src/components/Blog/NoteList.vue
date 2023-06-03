@@ -2,24 +2,24 @@
   <div class="note-list-wrapper">
     <el-card v-if="noteList.length !== 0" class="animate__animated animate__zoomIn" shadow="hover"
       v-for="item in noteList" :key="item.id">
-      <div class="note">
+      <div class="note" @click="openNote(item.id)">
         <div class="img">
           <img :src="BaseURL + item.category.coverImg" alt="">
         </div>
         <div class="info">
           <div class="head">
-            <div class="title hover-action" :title="item.title" @click="openNote(item.id)">{{ item.title }}</div>
-            <div class="subtitle" :title="item.subtitle">{{ item.subtitle }}</div>
+            <div class="title hover-action" :title="item.title" @click.stop="openNote(item.id)">{{ item.title }}</div>
+            <div class="subtitle " :title="item.subtitle">{{ item.subtitle }}</div>
           </div>
-          <div class="category hover-action" @click="openCategory(item.category.id)">
-            <i class="fa fa-bars ">&nbsp;{{ item.category.name }}</i>
+          <div class="category" @click.stop="openCategory(item.category.id)">
+            <i class="fa fa-bars hover-action">&nbsp;{{ item.category.name }}</i>
           </div>
           <div class="date">
             <i class="fa fa-calendar">&nbsp;{{ item.createTime }}</i>
           </div>
           <div class="tags">
             <div class="tag " v-for="tag in item.tags" :key="tag.id">
-              <i class="fa fa-tag hover-action">{{ tag.name }}</i>
+              <i class="fa fa-tag">{{ tag.name }}</i>
             </div>
           </div>
         </div>
@@ -63,6 +63,7 @@ const openCategory = (id: number) => {
   .note {
     display: flex;
     width: 100%;
+    cursor: pointer;
 
     .img {
       flex-shrink: 0;

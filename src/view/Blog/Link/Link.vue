@@ -24,7 +24,7 @@
         </el-col>
       </el-row>
     </div>
-    <div class="pages">
+    <div class="pages" v-if="count > pageOptions.limit">
       <el-card>
         <el-pagination background layout="prev, pager, next" :page-size="pageOptions.limit" :total="count"
           @current-change="handleCurrentChange" />

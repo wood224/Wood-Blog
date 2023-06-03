@@ -7,7 +7,7 @@
     </div>
     <div class="ipt-wrapper" v-if="iptActive" @click="setActive(false)">
       <div class="ipt animate__animated animate__fadeInDown" @click.stop>
-        <input type="text" v-model="searchText" @keyup.enter="search">
+        <input type="text" v-model="searchText" @keyup.enter="search" placeholder="搜索标题...">
         <el-button class="search-btn" size="large" round @click="search">
           <el-icon color="#606266">
             <Search />

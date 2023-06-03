@@ -1,6 +1,6 @@
 import { createApp } from 'vue';
 import './style.css';
-import 'element-plus/theme-chalk/dark/css-vars.css'
+import 'element-plus/theme-chalk/dark/css-vars.css';
 import 'font-awesome/css/font-awesome.min.css';
 import './css/element.css';
 import './icon/iconfont.css';

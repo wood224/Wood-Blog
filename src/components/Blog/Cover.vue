@@ -119,7 +119,7 @@ onMounted(() => {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-image: url(../../assets/img/Blog/R-C.jpg);
+    background-image: var(--cover-img);
     background-size: cover;
     background-position: 50% 50%;
     font: bold 30vw '';
@@ -129,6 +129,7 @@ onMounted(() => {
     color: transparent;
     overflow: hidden;
     user-select: none;
+    transition: background-image .3s;
 
     &::before {
       content: '';
