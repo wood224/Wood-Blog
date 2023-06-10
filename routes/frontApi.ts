@@ -7,20 +7,20 @@ import { frontApiController } from '../controllers/frontApiController';
  */
 
 /**
- * 
+ *
  * @api {get} /front/api/info/ 获取个人信息
  * @apiGroup groupFront
  * @apiVersion  1.0.0
- * 
- * 
+ *
+ *
  * @apiQuery  {String} type 请求标识
- * 
+ *
  * @apiParamExample  {json} 请求示例:
  * {
  *     "type" : "front"
  * }
- * 
- * 
+ *
+ *
  * @apiSuccessExample {json} 成功响应:
  * {
  *     "avatar" : "/uploads/avatar/*.png",
@@ -28,22 +28,22 @@ import { frontApiController } from '../controllers/frontApiController';
  *     "signature" : "愿你长寿，我的朋友。",
  *     "technology": "Vue,Echarts"
  * }
- * 
- * 
+ *
+ *
  */
 router.get('/info', frontApiController.getInfo);
 
 /**
- * 
+ *
  * @api {get} /front/api/category 获取分类列表
  * @apiGroup groupFront
  * @apiVersion  1.0.0
- * 
- * 
+ *
+ *
  * @apiParam  {Number} [limit] 每页个数
  * @apiParam  {Number} [offset] 偏移量
- * 
- * 
+ *
+ *
  * @apiSuccess {Number} count 总数
  * @apiSuccess {Object[]} categoryList 分类列表
  * @apiSuccess {Number} categoryList.id id
@@ -52,7 +52,7 @@ router.get('/info', frontApiController.getInfo);
  * @apiSuccess {String} categoryList.introduction 简介
  * @apiSuccess {String} categoryList.createTime 创建时间
  * @apiSuccess {String} categoryList.updateTime 更新时间
- * 
+ *
  * @apiSuccessExample {json} 成功响应(有参):
  * {
  *    "count" : 1,
@@ -68,24 +68,24 @@ router.get('/info', frontApiController.getInfo);
  * @apiSuccessExample {json} 成功响应(无参):
  * [
  *    {
- *      "id": 33, 
+ *      "id": 33,
  *      "name": "Vue3",
  *      "coverImg" : "/uploads/category/1681191866260-Vue3.png"
  *    }
  * ]
- * 
+ *
  */
 router.get('/categoryList', frontApiController.getCategoryList);
 
 /**
- * 
+ *
  * @api {get} /front/api/noteList 获取笔记列表
  * @apiGroup groupFront
  * @apiVersion  1.0.0
- * 
+ *
  * @apiQuery  {Number} limit 每页个数
  * @apiQuery  {Number} offset 偏移量
- * 
+ *
  * @apiSuccess {Number} count 总数
  * @apiSuccess {Object[]} noteList 笔记列表
  * @apiSuccess {Number} noteList.id id
@@ -103,8 +103,8 @@ router.get('/categoryList', frontApiController.getCategoryList);
  * @apiSuccess {Object[]} noteList.tags 标签数组
  * @apiSuccess {Number} noteList.tags.id 标签id
  * @apiSuccess {String} noteList.tags.name 标签名字
- * 
- * 
+ *
+ *
  * @apiSuccessExample {json} 成功响应:
  * {
  *     "count":1,
@@ -131,39 +131,39 @@ router.get('/categoryList', frontApiController.getCategoryList);
  *              }
  *          ]
  *        }
- *     ] 
+ *     ]
  * }
- * 
- * 
+ *
+ *
  */
 router.get('/noteList', frontApiController.getNoteList);
 
 /**
- * 
+ *
  * @api {get} /front/api/allCount/ 获取 笔记、分类、标签 的总数
  * @apiGroup groupFront
  * @apiVersion  1.0.0
- * 
- * 
+ *
+ *
  * @apiSuccessExample {json} 成功响应:
  * [
  *    { name: '笔记', count: 0 },
  *    { name: '分类', count: 0 },
  *    { name: '标签', count: 0 }
  * ]
- * 
- * 
+ *
+ *
  */
 router.get('/allCount', frontApiController.getAllCount);
 
 /**
- * 
+ *
  * @api {get} /front/api/note/:id 获取笔记信息
  * @apiGroup groupFront
  * @apiVersion  1.0.0
- * 
+ *
  * @apiParam  {Number} id id
- * 
+ *
  * @apiSuccess  {Number} id id
  * @apiSuccess  {String} title 标题
  * @apiSuccess  {String} subtitle 副标题
@@ -179,7 +179,7 @@ router.get('/allCount', frontApiController.getAllCount);
  * @apiSuccess  {Object[]} noteList.tags 标签数组
  * @apiSuccess  {Number} noteList.tags.id 标签id
  * @apiSuccess  {String} noteList.tags.name 标签名字
- * 
+ *
  * @apiSuccessExample {json} 成功响应:
  * {
  *    "id":1,
@@ -203,25 +203,25 @@ router.get('/allCount', frontApiController.getAllCount);
  *              }
  *          ]
  * }
- * 
- * 
+ *
+ *
  */
 router.get('/note/:id', frontApiController.getNoteInfo);
 
 /**
- * 
+ *
  * @api {get} /front/api/searchNote 搜索笔记列表
  * @apiGroup groupFront
  * @apiVersion  1.0.0
- * 
- * 
+ *
+ *
  * @apiQuery  {String} title 搜索词
  * @apiQuery  {Number} limit 每页个数
  * @apiQuery  {Number} offset 偏移量
  * @apiQuery  {Number} [categoryId] 搜索分类id
  * @apiQuery  {Number[]} [tagIds] 搜索标签id数组
- * 
- * 
+ *
+ *
  * @apiSuccess {Number} count 总数
  * @apiSuccess {Object[]} noteList 笔记列表
  * @apiSuccess {Number} noteList.id id
@@ -239,7 +239,7 @@ router.get('/note/:id', frontApiController.getNoteInfo);
  * @apiSuccess {Object[]} noteList.tags 标签数组
  * @apiSuccess {Number} noteList.tags.id 标签id
  * @apiSuccess {String} noteList.tags.name 标签名字
- * 
+ *
  * @apiSuccessExample {json} 成功响应:
  * {
  *     "count":1,
@@ -262,24 +262,24 @@ router.get('/note/:id', frontApiController.getNoteInfo);
  *              }
  *          ]
  *        }
- *     ] 
+ *     ]
  * }
- * 
- * 
+ *
+ *
  */
 router.get('/searchNote', frontApiController.searchNote);
 
 /**
- * 
+ *
  * @api {get} /front/api/archiveList 获取归档列表
  * @apiGroup groupFront
  * @apiVersion  1.0.0
- * 
- * 
+ *
+ *
  * @apiQuery  {Number} [limit] 每页个数
  * @apiQuery  {Number} [offset] 偏移量
- * 
- * 
+ *
+ *
  * @apiSuccess {Number} count 总数
  * @apiSuccess {Object[]} archiveList 归档列表
  * @apiSuccess {Number} archiveList.id id
@@ -288,8 +288,8 @@ router.get('/searchNote', frontApiController.searchNote);
  * @apiSuccess {String} archiveList.createTime 创建时间
  * @apiSuccess {String} archiveList.update 是否为修改
  * @apiSuccess {String} archiveList.pid 父id
- * 
- * 
+ *
+ *
  * @apiSuccessExample {json} 成功响应:
  * {
  *    "count" : 1,
@@ -303,26 +303,26 @@ router.get('/searchNote', frontApiController.searchNote);
  *        "update": false
  *    }]
  * }
- * 
+ *
  */
 router.get('/archiveList', frontApiController.getArchiveList);
 
 /**
- * 
+ *
  * @api {get} /front/api/category/:id 获取分类列表
  * @apiGroup groupCategory
  * @apiVersion  1.0.0
- * 
- * 
+ *
+ *
  * @apiParam  {Number} id id
- * 
- * 
+ *
+ *
  * @apiSuccess {Number} id id
  * @apiSuccess {String} name 名字
  * @apiSuccess {String} coverImg 封面图片路径
  * @apiSuccess {String} introduction 简介
  * @apiSuccess {String} createTime 创建时间
- * 
+ *
  * @apiSuccessExample {json} 成功响应(有参):
  * {
  *    coverImg: "",
@@ -331,17 +331,17 @@ router.get('/archiveList', frontApiController.getArchiveList);
  *    introduction: "TypeScript",
  *    name: "TypeScript"
  * }
- * 
+ *
  */
 router.get('/category/:id', frontApiController.getCategoryInfo);
 
 /**
- * 
+ *
  * @api {get} /front/api/about 获取关于列表
  * @apiGroup groupAbout
  * @apiVersion  1.0.0
- * 
- * 
+ *
+ *
  * @apiSuccess  {Number} id id
  * @apiSuccess  {String} name 版块名
  * @apiSuccess  {String} createTime 版块创建时间
@@ -352,14 +352,14 @@ router.get('/category/:id', frontApiController.getCategoryInfo);
  * @apiSuccess  {String} aboutInfos.content 内容详情
  * @apiSuccess  {String} aboutInfos.createTime 内容创建时间
  * @apiSuccess  {String} aboutInfos.updateTime 内容更新时间
- * 
+ *
  * @apiSuccessExample {json} 成功响应:
  * {
  *     "aboutInfos": [
  *          {
- *            "id": 1, 
- *            "title": "标题", 
- *            "content": "内容", 
+ *            "id": 1,
+ *            "title": "标题",
+ *            "content": "内容",
  *            "createTime": "2023-05-26 21:53:21",
  *            "updateTime": "2023-05-26 21:53:21"
  *          }
@@ -369,22 +369,22 @@ router.get('/category/:id', frontApiController.getCategoryInfo);
  *     "name": "版块名",
  *     "updateTime": "2023-05-26 21:49:56"
  * }
- * 
- * 
+ *
+ *
  */
 router.get('/aboutList', frontApiController.getAboutList);
 
 /**
- * 
+ *
  * @api {get} /front/api/linkList 获取友链列表
  * @apiGroup groupAbout
  * @apiVersion  1.0.0
- * 
- * 
+ *
+ *
  * @apiQuery  {Number} limit 每页个数
  * @apiQuery  {Number} offset 偏移量
- * 
- * 
+ *
+ *
  * @apiSuccess {Number} count 总数
  * @apiSuccess {Object[]} friendLinkList 友链列表
  * @apiSuccess {Number} friendLinkList.id id
@@ -393,8 +393,8 @@ router.get('/aboutList', frontApiController.getAboutList);
  * @apiSuccess {String} friendLinkList.introduction 简介
  * @apiSuccess {String} friendLinkList.link 链接
  * @apiSuccess {String} friendLinkList.createTime 创建时间
- * 
- * 
+ *
+ *
  * @apiSuccessExample {json} 成功响应:
  * {
  *    "count" : 1,
@@ -407,42 +407,42 @@ router.get('/aboutList', frontApiController.getAboutList);
  *        "link": "https://www.bing.com",
  *    }]
  * }
- * 
+ *
  */
 router.get('/linkList', frontApiController.getLinkList);
 
 /**
- * 
+ *
  * @api {get} /front/api/tagList 获取标签列表
  * @apiGroup groupFront
  * @apiVersion  1.0.0
- * 
- * 
+ *
+ *
  * @apiSuccess {Object[]} tagList 标签列表
  * @apiSuccess {Number} tagList.id id
  * @apiSuccess {String} tagList.name 名字
  * @apiSuccess {String} tagList.createTime 创建时间
  * @apiSuccess {String} tagList.updateTime 更新时间
  * @apiSuccess {Number} tagList.isDelete 是否删除
- * 
+ *
  * @apiSuccessExample {json} 成功响应:
  * [
  *    {
- *      "id": 1, 
+ *      "id": 1,
  *      "name": "Vue3",
  *    }
  * ]
- * 
+ *
  */
 router.get('/tagList', frontApiController.getTagList);
 
 /**
- * 
+ *
  * @api {get} /front/api/dailyWord 获取每日一言(第三方api)
  * @apiGroup groupFront
  * @apiVersion  1.0.0
- * 
- * 
+ *
+ *
  * @apiSuccess {Number} id id
  * @apiSuccess {String} hitokoto 一言正文。编码方式 unicode。使用 utf-8
  * @apiSuccess {String} type 类型。请参考第三节参数的表格
@@ -455,7 +455,7 @@ router.get('/tagList', frontApiController.getTagList);
  * @apiSuccess {Number} commit_from	提交方式
  * @apiSuccess {Number} created_at 添加时间
  * @apiSuccess {Number} length 句子长度
- * 
+ *
  * @apiSuccessExample {json} 成功响应:
  * {
  *  "id": 6894,
@@ -471,7 +471,13 @@ router.get('/tagList', frontApiController.getTagList);
  *  "created_at": "1607433993",
  *  "length": 24
  * }
- * 
+ *
  */
 router.get('/dailyWord', frontApiController.getDailyWord);
+
+
+router.get('/comment', frontApiController.getCommentList);
+
+
+router.post('/comment', frontApiController.addComment);
 export default router;

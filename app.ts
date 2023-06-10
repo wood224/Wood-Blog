@@ -19,6 +19,7 @@ import tagRouter from './routes/tag';
 import archiveRouter from './routes/archive';
 import friendLinkRouter from './routes/friendLink';
 import aboutRouter from './routes/about';
+import commentRouter from './routes/comment';
 import uploadRouter from './routes/upload';
 
 import frontApiRouter from './routes/frontApi';
@@ -94,6 +95,7 @@ app.use('/tag', tagRouter);
 app.use('/archive', archiveRouter)
 app.use('/friendLink', friendLinkRouter);
 app.use('/about', aboutRouter);
+app.use('/comment', commentRouter);
 app.use('/upload', uploadRouter);
 
 app.use('/front/api', frontApiRouter);

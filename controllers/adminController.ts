@@ -1,9 +1,9 @@
-import { Request, Response } from 'express';
+import { Request, Response } from "express";
 import { adminService } from "../services/adminService";
-import { jwt } from '../utils/JWT';
-import { bcrypt } from '../utils/bcrypt';
+import { jwt } from "../utils/JWT";
+import { bcrypt } from "../utils/bcrypt";
 import { saveToUploads } from "../utils/saveToUploads";
-import { ResSend } from '../utils/ResSend';
+import { ResSend } from "../utils/ResSend";
 
 class CheckResult {
   result: boolean;
@@ -19,7 +19,7 @@ export const adminController = {
   check: async (form: any) => {
     const row = await adminService.check(form.username);
     if (row) {
-      return new CheckResult(true, row)
+      return new CheckResult(true, row);
     } else {
       return new CheckResult(false, null);
     }
@@ -31,9 +31,9 @@ export const adminController = {
     const captcha = req.session.captcha;
     if (captcha && userCaptcha) {
       //正则表达式检查验证码
-      const reg = new RegExp(captcha, 'i');
+      const reg = new RegExp(captcha, "i");
       if (!reg.test(userCaptcha)) {
-        return ResSend(res, 410, '验证码不正确！');
+        return ResSend(res, 410, "验证码不正确！");
       }
       //校验账号密码
       const form = req.body;
@@ -42,62 +42,62 @@ export const adminController = {
         const adminData = result.data as any;
         const id = adminData.id;
         const username = adminData.username;
-        const password = adminData.password                    //获取密文
-        if (bcrypt.verity(form.password, password)) {          //校验密码是否正确
-          const dataObj = {   //转为 Object
+        const password = adminData.password; //获取密文
+        if (bcrypt.verity(form.password, password)) {
+          //校验密码是否正确
+          const dataObj = {
+            //转为 Object
             id,
             username,
-          }
+          };
           //设置 token
-          const token = jwt.generate(dataObj, '1h');
-          res.header('Authorization', token);
-          ResSend(res, 200, '登录成功！');
+          const token = jwt.generate(dataObj, "1h");
+          res.header("Authorization", token);
+          ResSend(res, 200, "登录成功！");
         } else {
-          ResSend(res, 410, '用户名或密码错误！');
+          ResSend(res, 410, "用户名或密码错误！");
         }
       } else {
-        ResSend(res, 410, '账号不存在！');
+        ResSend(res, 410, "账号不存在！");
       }
-    }
-    else {
-      ResSend(res, 410, '出错了，请重试！');
+    } else {
+      ResSend(res, 410, "出错了，请重试！");
     }
   },
 
   //获取个人信息
   getInfo: async (req: Request, res: Response) => {
-    const type = req.query.type
-    if (type === 'front') {
+    const type = req.query.type;
+    if (type === "front") {
       const row = await adminService.getInfo();
       if (row) {
         const data = {
-          avatar: row.avatar ? row.avatar : '',
+          avatar: row.avatar ? row.avatar : "",
           name: row.name,
           signature: row.signature,
           technology: row.technology,
-          email: row.email
-        }
+          email: row.email,
+        };
         return res.send(data);
       }
-    }
-    else {
-      const token = req.headers.authorization?.split(' ')[1];
+    } else {
+      const token = req.headers.authorization?.split(" ")[1];
       if (token) {
         const payload = jwt.verify(token);
         const row = await adminService.getInfo(payload.id);
         if (row) {
           const data = {
             id: payload.id,
-            avatar: row.avatar ? row.avatar : '',
+            avatar: row.avatar ? row.avatar : "",
             name: row.name,
             signature: row.signature,
             technology: row.technology,
-            email: row.email
-          }
+            email: row.email,
+          };
           return res.send(data);
         }
       }
-      ResSend(res, 410, '出错了！请重新登录。');
+      ResSend(res, 410, "出错了！请重新登录。");
     }
   },
 
@@ -105,18 +105,18 @@ export const adminController = {
   updateInfo: async (req: Request, res: Response) => {
     const form = req.body;
     const file = form.avatar;
-    let avatar = ''
+    let avatar = "";
     if (file) {
-      avatar = await saveToUploads('avatar', file.path)
+      avatar = await saveToUploads("avatar", file.path);
     }
     form.avatar = avatar;
     const row = await adminService.updateInfo(form);
     if (row) {
-      ResSend(res, 200, '修改成功！');
+      ResSend(res, 200, "修改成功！");
     } else {
-      ResSend(res, 410, '修改失败！');
+      ResSend(res, 410, "修改失败！");
     }
-  }
+  },
 
   //  //管理员注册
   //  // register: async (req: Request, res: Response, form: any) => {
@@ -134,4 +134,4 @@ export const adminController = {
   //  //     }
   //  //   }
   //  // }
-}
+};

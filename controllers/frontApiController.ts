@@ -7,6 +7,7 @@ import { archiveController } from './archiveController';
 import { aboutController } from './aboutController';
 import { friendLinkController } from './friendLinkController';
 import { ResSend } from '../utils/ResSend';
+import { commentController } from './commentController';
 
 
 const request = require('request');
@@ -74,6 +75,16 @@ export const frontApiController = {
     await tagController.getTagList(req, res);
   },
 
+  //获取留言列表
+  getCommentList: async (req: Request, res: Response) => {
+    await commentController.getCommentList(req, res);
+  },
+
+  //提交留言
+  addComment: async (req: Request, res: Response) => {
+    await commentController.addComment(req, res);
+  },
+
   //每日一言
   getDailyWord: async (req: Request, res: Response) => {
     request('https://v1.hitokoto.cn/', (err: Error, response: Request, body: string) => {
@@ -83,5 +94,5 @@ export const frontApiController = {
         ResSend(res, 410, '出错啦！');
       }
     })
-  }
+  },
 }
