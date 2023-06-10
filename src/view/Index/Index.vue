@@ -9,7 +9,7 @@
         <span>{{ cardInfo.name }}</span>
       </div>
       <div class="signature">
-        <span>{{ actionSignature }}</span>
+        <span>{{ cardInfo.signature }}</span>
       </div>
       <div class="technology">
         <span>技术栈：{{ cardInfo.technology }}</span>
@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang='ts'>
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useIndexStore } from '../../store';
 
@@ -48,25 +48,11 @@ const goGitHub = () => {
 }
 
 const cardInfo = ref(store.info);
-const actionSignature = ref('');
-const count = ref(0);
 
 const getInfo = async () => {
   cardInfo.value = await store.setInfo();
 }
 getInfo();
-
-onMounted(() => {
-  const iptInterval = setInterval(() => {
-    if (cardInfo.value.signature[count.value]) {
-      actionSignature.value += cardInfo.value.signature[count.value];
-      count.value++;
-    }
-    else {
-      clearInterval(iptInterval);
-    }
-  }, 500)
-})
 
 </script>
 
@@ -124,34 +110,6 @@ onMounted(() => {
     .signature {
       margin-bottom: 10px;
       width: 100%;
-
-      span {
-        position: relative;
-
-        &::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          right: 0;
-          width: 2px;
-          height: 100%;
-          background-color: white;
-          animation: flashing 1s linear infinite;
-        }
-
-        @keyframes flashing {
-
-          0%,
-          100% {
-            opacity: 1;
-          }
-
-          50% {
-            opacity: 0;
-          }
-        }
-
-      }
     }
 
     .technology {

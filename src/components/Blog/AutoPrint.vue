@@ -43,7 +43,7 @@ watch(word, () => {
       else {
         clearInterval(active);
       }
-    }, 300);
+    }, 150);
   }
 }, { deep: true })
 

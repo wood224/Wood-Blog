@@ -11,8 +11,8 @@
             <div class="title hover-action" :title="item.title" @click.stop="openNote(item.id)">{{ item.title }}</div>
             <div class="subtitle " :title="item.subtitle">{{ item.subtitle }}</div>
           </div>
-          <div class="category" @click.stop="openCategory(item.category.id)">
-            <i class="fa fa-bars hover-action">&nbsp;{{ item.category.name }}</i>
+          <div class="category hover-action" @click.stop="openCategory(item.category.id)">
+            <i class="fa fa-bars">&nbsp;{{ item.category.name }}</i>
           </div>
           <div class="date">
             <i class="fa fa-calendar">&nbsp;{{ item.createTime }}</i>

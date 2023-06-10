@@ -101,7 +101,6 @@ const getArchiveList = async (limit: number, offset: number) => {
     flag.value = true;
   }
 }
-getArchiveList(pageOptions.limit, pageOptions.offset);
 
 const scrollBottom = async () => {
   const scrollTop = document.documentElement.scrollTop;         //文档顶部到可视文档顶部的距离
@@ -115,6 +114,7 @@ const scrollBottom = async () => {
 }
 
 onActivated(() => {
+  getArchiveList(pageOptions.limit, pageOptions.offset);
   window.addEventListener('scroll', scrollBottom)
 })
 

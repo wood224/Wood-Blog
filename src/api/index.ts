@@ -61,3 +61,13 @@ export const getLinkListApi = (data: object) => {
 export const getTagListApi = () => {
   return request.get('/tagList');
 }
+
+//获取留言列表
+export const getCommentListApi = (data: object) => {
+  return request.get('/comment', { params: data });
+}
+
+//添加留言
+export const addCommentApi = (data: object) => {
+  return request.post('/comment', data);
+}

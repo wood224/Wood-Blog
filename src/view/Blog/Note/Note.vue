@@ -69,20 +69,22 @@ const getNoteInfo = async () => {
     note.value = data;
     document.title = note.value.title;
     nextTick(() => {
-      const anchors = previewRef.value.$el.querySelectorAll('h1,h2,h3,h4,h5,h6');
-      const titles = Array.from(anchors).filter((title: any) => !!title.innerText.trim());
-      if (!titles.length) {
-        titleList.value = [];
-        return;
-      }
+      setTimeout(() => {
+        const anchors = previewRef.value.$el.querySelectorAll('h1,h2,h3,h4,h5,h6');
+        const titles = Array.from(anchors).filter((title: any) => !!title.innerText.trim());
+        if (!titles.length) {
+          titleList.value = [];
+          return;
+        }
 
-      const hTags = Array.from(new Set(titles.map((title: any) => title.tagName))).sort();
-      titleList.value = titles.map((el: any) => ({
-        title: el.innerText,
-        lineIndex: el.getAttribute('data-line'),
-        indent: hTags.indexOf(el.tagName),
-        offsetTop: window.innerHeight + el.offsetTop + 200
-      }));
+        const hTags = Array.from(new Set(titles.map((title: any) => title.tagName))).sort();
+        titleList.value = titles.map((el: any) => ({
+          title: el.innerText,
+          lineIndex: el.getAttribute('data-line'),
+          indent: hTags.indexOf(el.tagName),
+          offsetTop: window.innerHeight + el.offsetTop + 200
+        }));
+      }, 1 * 1000);
     })
   })
 }
@@ -91,6 +93,8 @@ getNoteInfo();
 const anchorClick = (anchor: any) => {
   const { lineIndex } = anchor;
   const heading = previewRef.value.$el.querySelector(`[data-line="${lineIndex}"]`);
+  console.log(heading);
+
   if (heading) {
     window.scrollTo({ left: 0, top: window.scrollY + heading.getBoundingClientRect().top - 100, behavior: 'smooth' })
   }

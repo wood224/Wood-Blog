@@ -30,7 +30,6 @@ onMounted(() => {
   width: 70%;
   // height: calc(100% - 70px);
   min-height: 80vh;
-  overflow: hidden;
 }
 
 @media screen and (max-width:992px) {
