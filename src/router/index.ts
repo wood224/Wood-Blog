@@ -64,15 +64,6 @@ const routes = [
         component: () => import("@/view/Blog/Link/Link.vue"),
       },
       {
-        path: "comment",
-        name: "comment",
-        meta: {
-          title: "留言",
-          icon: "fa-commenting-o",
-        },
-        component: () => import("@/view/Blog/Comment/Comment.vue"),
-      },
-      {
         path: "note",
         name: "note",
         meta: {
