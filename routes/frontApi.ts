@@ -475,9 +475,4 @@ router.get('/tagList', frontApiController.getTagList);
  */
 router.get('/dailyWord', frontApiController.getDailyWord);
 
-
-router.get('/comment', frontApiController.getCommentList);
-
-
-router.post('/comment', frontApiController.addComment);
 export default router;

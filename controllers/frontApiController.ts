@@ -7,8 +7,6 @@ import { archiveController } from './archiveController';
 import { aboutController } from './aboutController';
 import { friendLinkController } from './friendLinkController';
 import { ResSend } from '../utils/ResSend';
-import { commentController } from './commentController';
-
 
 const request = require('request');
 
@@ -73,16 +71,6 @@ export const frontApiController = {
   //获取标签列表
   getTagList: async (req: Request, res: Response) => {
     await tagController.getTagList(req, res);
-  },
-
-  //获取留言列表
-  getCommentList: async (req: Request, res: Response) => {
-    await commentController.getCommentList(req, res);
-  },
-
-  //提交留言
-  addComment: async (req: Request, res: Response) => {
-    await commentController.addComment(req, res);
   },
 
   //每日一言
