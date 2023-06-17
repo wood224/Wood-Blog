@@ -12,10 +12,10 @@
                 <img :src="item.img" alt="暂无图片">
               </div>
               <div class="right">
-                <div class="name text-ellipsis">
+                <div class="name text-ellipsis" :title="item.name">
                   名称：{{ item.name }}
                 </div>
-                <div class="introduction text-ellipsis-two">
+                <div class="introduction text-ellipsis-two" :title="item.introduction">
                   简介：{{ item.introduction }}
                 </div>
               </div>
@@ -86,6 +86,7 @@ const handleCurrentChange = (value: number) => {
     }
 
     .left {
+      flex-shrink: 0;
       margin-right: 20px;
       width: 70px;
       height: 70px;
@@ -100,7 +101,8 @@ const handleCurrentChange = (value: number) => {
     }
 
     .right {
-      flex-shrink: 0;
+      width: 0;
+      flex: 1;
     }
   }
 
