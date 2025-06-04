@@ -3,3 +3,5 @@ dist/
 config/
 apidoc/
 public/uploads
+.idea/
+.vscode/
