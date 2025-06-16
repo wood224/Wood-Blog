@@ -106,8 +106,7 @@ const scrollBottom = async () => {
   const scrollTop = document.documentElement.scrollTop;         //文档顶部到可视文档顶部的距离
   const clientHeight = document.documentElement.clientHeight;   //文档可视区域内容高度
   const scrollHeight = document.documentElement.scrollHeight;   //文档总区域的高度
-
-  if (scrollTop + clientHeight >= scrollHeight && flag.value) {
+  if ((scrollTop + clientHeight) >= (scrollHeight - 10) && flag.value) {
     flag.value = false;
     await getArchiveList(pageOptions.limit, pageOptions.offset += pageOptions.limit);
   }
