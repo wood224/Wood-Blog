@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+const pathResolve = (dir) => resolve(__dirname, dir);
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -18,8 +19,12 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "@": resolve(__dirname, "src"),
+      "@": pathResolve("./src"),
     },
   },
-  base: "./"
+  server: {
+    host: '0.0.0.0',
+    port: 224,
+    open: true,
+  },
 })

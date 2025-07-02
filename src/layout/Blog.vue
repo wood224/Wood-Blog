@@ -1,7 +1,11 @@
 <template>
   <div class="blog-wrapper">
     <Header></Header>
-    <Main></Main>
+    <Cover></Cover>
+    <div class="main">
+      <Main></Main>
+    </div>
+    <el-backtop :right="100" :bottom="100" />
   </div>
 </template>
 
@@ -11,9 +15,13 @@ import { Header, Main } from './components/index'
 
 <style lang="scss">
 .blog-wrapper {
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(to right bottom, #9EFBD3, #57E9F2, #45D4FB) no-repeat;
+  position: relative;
+  min-height: 100vh;
   background-size: cover;
+
+  .main {
+    width: 100%;
+    // background-color: #e6f4fb;
+  }
 }
 </style>

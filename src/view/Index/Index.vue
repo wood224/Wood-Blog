@@ -1,7 +1,10 @@
 <template>
   <div class="index-wrapper">
+    <SnowNew></SnowNew>
     <div class="card">
-      <div class="avatar"></div>
+      <div class="avatar" v-if="cardInfo.avatar">
+        <img :src="BaseURL + cardInfo.avatar" alt="" />
+      </div>
       <div class="name">
         <span>{{ cardInfo.name }}</span>
       </div>
@@ -13,12 +16,12 @@
       </div>
       <div class="btn-list">
         <div class="blog">
-          <button @click="goBlog()">
+          <button @click="goBlog">
             博客
           </button>
         </div>
         <div class="github">
-          <button>
+          <button @click="goGitHub">
             <span>GitHub</span>
           </button>
         </div>
@@ -30,36 +33,48 @@
 <script setup lang='ts'>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useIndexStore } from '../../store';
 
-const cardInfo = ref({
-  name: 'wood224',
-  signature: '愿你长寿，我的朋友',
-  technology: 'Vue vite NodeJS Express TypeScript MySQL Canvas',
-})
+const BaseURL = import.meta.env.VITE_BASE_URL;
 
+const store = useIndexStore();
 const router = useRouter();
 const goBlog = () => {
   router.push('/blog');
 }
+
+const goGitHub = () => {
+  window.open('https://github.com/wood224');
+}
+
+const cardInfo = ref(store.info);
+
+const getInfo = async () => {
+  cardInfo.value = await store.setInfo();
+}
+getInfo();
+
 </script>
 
 <style scoped lang='scss'>
 .index-wrapper {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100vw;
   height: 100vh;
-  background: url(../../assets/img/bg3.jpg) no-repeat;
+  background: url(../../assets/img/Index/bg3.jpg) no-repeat;
   background-position: center;
   background-size: cover;
+  font-size: 16px;
 
   .card {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 10px 20px;
+    padding: 30px 10px 10px;
     width: 300px;
     height: 500px;
     background: rgba($color: #000000, $alpha: 0.5);
@@ -75,21 +90,32 @@ const goBlog = () => {
     .avatar {
       width: 150px;
       height: 150px;
-      border-radius: 50%;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+
+      }
     }
 
     .name {
       margin: 10px 0 5px;
+      width: 100%;
       font-size: 28px;
       font-weight: bold;
     }
 
     .signature {
       margin-bottom: 10px;
+      width: 100%;
     }
 
     .technology {
       margin: 10px 0;
+      width: 100%;
+      word-wrap: break-word;
     }
 
     .btn-list {
@@ -107,7 +133,7 @@ const goBlog = () => {
         font-weight: bold;
         transition: 0.25s;
         overflow: hidden;
-        color: var(--ty-color);
+        color: var(--ty-blue);
         cursor: pointer;
 
 
@@ -120,7 +146,7 @@ const goBlog = () => {
           width: 0;
           height: 100%;
           border-radius: inherit;
-          background-color: var(--ty-color);
+          background-color: var(--ty-blue);
           transition: 0.25s;
         }
 

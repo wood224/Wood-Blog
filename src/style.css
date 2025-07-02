@@ -1,5 +1,13 @@
 :root {
-  --ty-color: #66ccff;
+  --animate-duration: 0.8s !important;
+  --animate-delay: 5s !important;
+  --ty-blue: #66ccff;
+  --title-color: #000;
+  --title-size: 20px;
+  --title-font-weight: bold;
+  --subtitle-color: #7b7b7b;
+  --subtitle-size: 16px;
+  --cover-img: url(./assets/img/Blog/SnowMountain.jpg);
 }
 
 * {
@@ -9,6 +17,11 @@
   border: none;
 }
 
+html.dark {
+  /* 自定义深色封面图片 */
+  --cover-img: url(./assets/img/Blog/SnowMountainDark.jpg);
+}
+
 a {
   text-decoration: none;
   color: inherit;
@@ -16,4 +29,73 @@ a {
 
 li {
   list-style: none;
+}
+
+button {
+  background: none;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+input {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-size: inherit;
+  color: inherit;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.right-enter-active,
+.right-leave-active {
+  transition: transform 0.5s ease;
+}
+
+.right-enter-from {
+  transform: translateX(-100%);
+}
+
+.right-leave-to {
+  transform: translateX(100%);
+}
+
+.hover-action {
+  cursor: pointer;
+
+  &:hover {
+    color: var(--ty-blue) !important;
+  }
+}
+
+.wrapper-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.text-ellipsis {
+  display: inline-block;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.text-ellipsis-two {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

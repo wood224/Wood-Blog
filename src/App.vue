@@ -1,6 +1,10 @@
 <template>
   <div class="app-wrapper">
-    <router-view></router-view>
+    <router-view v-slot="{ Component }">
+      <transition name="fade" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
   </div>
 </template>
 
@@ -8,9 +12,4 @@
 
 </script>
 
-<style lang="scss">
-.app-wrapper {
-  width: 100vw;
-  height: 100vh;
-}
-</style>
+<style lang="scss"></style>

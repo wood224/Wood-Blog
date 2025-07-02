@@ -1,26 +1,55 @@
 <template>
   <div class="header-wrapper">
-    <div class="left">Wood's Blog</div>
+    <div class="left">
+      <img src="/WoodBlogLogo.svg" alt="">
+      Wood Blog
+    </div>
     <div class="right">
+      <DarkSwitch class="switch-dark"></DarkSwitch>
       <div class="btn">
         <div class="link-list">
           <template v-for="(item, index) in menuList" :key="index">
-            <router-link class="link" :to="item.path" v-if="item.meta">
+            <router-link class="link" :to="item.path" v-if="item.meta && item.meta.hidden !== true">
               <div class="icon" v-if="typeof (item.meta.icon) === 'string'">
                 <i class="fa" :class="item.meta.icon"></i>
               </div>
               <span>{{ item.meta.title }}</span>
             </router-link>
+            <el-divider v-if="item.meta!.rightLine" direction="vertical" />
           </template>
         </div>
+      </div>
+
+      <el-divider direction="vertical" />
+      <SearchIcon></SearchIcon>
+
+      <div class="nav">
+        <div class="nav-open" @click="drawer = true">
+          <i class="fa fa-ellipsis-v"></i>
+        </div>
+        <el-drawer v-model="drawer" title="导航" direction="ttb">
+          <div class="nav-list">
+            <template v-for="(item, index) in menuList" :key="index">
+              <router-link class="link" :to="item.path" v-if="item.meta && item.meta.hidden !== true"
+                @click="clickDrawer">
+                <div class="icon" v-if="typeof (item.meta.icon) === 'string'">
+                  <i class="fa" :class="item.meta.icon"></i>
+                </div>
+                <span>{{ item.meta.title }}</span>
+              </router-link>
+            </template>
+          </div>
+        </el-drawer>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { useRoute, useRouter } from 'vue-router'
+import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router'
+import DarkSwitch from './DarkSwitch.vue';
+import SearchIcon from './SearchIcon.vue';
 const router = useRouter();
 
 const menuList = computed(() => {
@@ -28,27 +57,51 @@ const menuList = computed(() => {
     return [router.options.routes[0], ...router.options.routes[1].children];
 });
 
+const drawer = ref(false);
+const clickDrawer = () => {
+  drawer.value = false;
+}
+
 </script>
 
 <style scoped lang="scss">
 .header-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 200px;
+  padding: 0 200px 0 100px;
+  width: 100%;
   height: 70px;
-  background-color: white;
+  background-color: var(--el-bg-color);
+  box-shadow: 0 0 10px black;
+  z-index: 99;
 
 
   .left {
-    font-family: 'STLiti';
+    display: flex;
+    align-items: center;
+    height: 100%;
     font-size: 50px;
+    font-family: 'STLiti';
+    cursor: default;
+
+    img {
+      height: 90%;
+      object-fit: contain;
+    }
   }
 
   .right {
     display: flex;
     align-items: center;
     height: 100%;
+
+    .switch-dark {
+      margin: 0 20px;
+    }
 
     .btn {
       display: flex;
@@ -75,7 +128,7 @@ const menuList = computed(() => {
           }
 
           &:hover {
-            color: var(--ty-color);
+            color: var(--ty-blue);
 
             &::after {
               bottom: 4px;
@@ -86,13 +139,48 @@ const menuList = computed(() => {
           &::after {
             content: '';
             position: absolute;
+            z-index: 100;
             left: 0;
             bottom: -4px;
             width: 100%;
             height: 3px;
             opacity: 0;
             transition: .2s;
-            background-color: var(--ty-color);
+            background-color: var(--ty-blue);
+          }
+        }
+      }
+    }
+
+    .nav {
+      display: none;
+      font-size: 30px;
+      height: 100%;
+      text-align: center;
+
+      .nav-open {
+        width: 50px;
+      }
+
+      &:active {
+        background-color: rgb(160, 160, 160);
+      }
+
+      .nav-list {
+        .link {
+          display: flex;
+          justify-content: center;
+          margin-bottom: 10px;
+          width: 100%;
+          font-size: 20px;
+
+          &+.link {
+            padding-top: 10px;
+            border-top: 1px solid gray;
+          }
+
+          .icon {
+            margin-right: 10px;
           }
         }
       }
@@ -100,16 +188,32 @@ const menuList = computed(() => {
   }
 }
 
-@media screen and (max-width:992px) {
+@media screen and (max-width:1200px) {
   .header-wrapper {
     padding: 0;
 
     .left {
-      font-size: 40px;
+      font-size: 30px;
     }
 
     .right {
-      display: none;
+      .btn {
+        display: none;
+      }
+
+      .nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+}
+
+@media screen and (max-width:768px) {
+  .header-wrapper {
+    .left {
+      font-size: 28px;
     }
   }
 }
