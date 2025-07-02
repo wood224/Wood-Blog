@@ -34,6 +34,7 @@ declare module '@vue/runtime-core' {
     ElText: typeof import('element-plus/es')['ElText']
     HoverRotateCard: typeof import('./src/components/Blog/HoverRotateCard.vue')['default']
     Info: typeof import('./src/components/Blog/Info.vue')['default']
+    Loading: typeof import('./src/components/Blog/Loading.vue')['default']
     NoteList: typeof import('./src/components/Blog/NoteList.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

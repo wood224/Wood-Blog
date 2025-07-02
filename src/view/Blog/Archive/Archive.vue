@@ -38,15 +38,9 @@
             </div>
           </div>
         </div>
-        <template v-if="noMore">
-          <div class="no-more">
-            没有更多了~
-          </div>
-        </template>
-        <template v-if="loading">
-          <div class="load" v-loading="loading">
-          </div>
-        </template>
+        <div ref="targetElement">
+          <Loading :more="more"></Loading>
+        </div>
       </el-card>
     </div>
   </div>
@@ -63,16 +57,15 @@ const pageOptions = reactive({
   limit: 6,
   offset: 0,
 });
-const loading = ref(false);
-const noMore = ref(false)
+const targetElement = ref<HTMLElement>();
+const ob = ref();
+const more = ref(true);
 const flag = ref(true);     //节流阀
 const getArchiveList = async (limit: number, offset: number) => {
-  loading.value = true;
   const { data } = await getArchiveListApi({ limit, offset });
-  loading.value = false;
   if (data.archiveList.length === 0) {  //当没有更多数据时
     flag.value = false;      //关闭节流阀
-    noMore.value = true;
+    more.value = false;
   } else {
     count.value = data.count;
 
@@ -102,23 +95,28 @@ const getArchiveList = async (limit: number, offset: number) => {
   }
 }
 
-const scrollBottom = async () => {
-  const scrollTop = document.documentElement.scrollTop;         //文档顶部到可视文档顶部的距离
-  const clientHeight = document.documentElement.clientHeight;   //文档可视区域内容高度
-  const scrollHeight = document.documentElement.scrollHeight;   //文档总区域的高度
-  if ((scrollTop + clientHeight) >= (scrollHeight - 10) && flag.value) {
-    flag.value = false;
-    await getArchiveList(pageOptions.limit, pageOptions.offset += pageOptions.limit);
-  }
-}
-
 onActivated(() => {
   getArchiveList(pageOptions.limit, pageOptions.offset);
-  window.addEventListener('scroll', scrollBottom)
+  if (targetElement.value && more.value) {
+    const observer = new IntersectionObserver(async entries => {
+      if (entries[0].isIntersecting) {
+        flag.value = false;
+        await getArchiveList(pageOptions.limit, pageOptions.offset += pageOptions.limit);
+      }
+    }, {
+      threshold: 0.5
+    });
+
+    observer.observe(targetElement.value);
+    ob.value = observer;
+  }
 })
 
 onDeactivated(() => {
-  window.removeEventListener('scroll', scrollBottom)
+  if (ob.value) {
+    ob.value.unobserve(targetElement.value);
+    ob.value.disconnect();
+  }
 })
 </script>
 
@@ -204,16 +202,6 @@ onDeactivated(() => {
           }
         }
       }
-    }
-
-    .no-more {
-      color: var(--el-text-color-secondary);
-      text-align: center;
-    }
-
-    .load {
-      width: 100%;
-      height: 50px;
     }
   }
 }
